@@ -1,0 +1,119 @@
+html,
+body {
+    height:100%;
+    font-size:12px;
+    width:100%;
+     -webkit-user-select: none;
+}
+
+html {
+    display:table;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+    background-color:#ECEFF6;
+    background-image:linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+    background-image:-webkit-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+    background-image:-ms-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #ECEFF6),
+        color-stop(0.51, #D8DEEA)
+    );
+    display:table-cell;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    text-transform:uppercase;
+    vertical-align:middle;
+}
+
+.app {
+    background-image:url(../img/__beatmagic.png);
+    background-repeat:no-repeat;
+    margin:0px auto;
+    width:275px;
+}
+
+.app2 {
+    background-image:url(../img/sharewith.jpg);
+    background-repeat:no-repeat;
+    margin:0px auto;
+    width:275px;
+}
+
+h1 {
+    font-size:2em;
+    font-weight:300;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.status {
+    background-color:#333333;
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:1em;
+    margin:0px auto;
+    padding:2px 10px;
+    text-align:center;
+    width:100%;
+    max-width:175px;
+}
+
+.record {
+    background-color:#4B946A;
+    vertical-align: middle;
+}
+
+.stoprecord {
+    background-color: rgba(255, 0, 0, 0.81);
+}
+
+.hide {
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+/* portrait */
+/* @media screen and (max-aspect-ratio: 1/1) */
+.app {
+    background-position:center top;
+    height:100px;              /* adds enough room for text */
+    padding:180px 0px 0px 0px; /* background height - shadow offset */
+}
+
+/* lanscape (when wide enough) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:445px) {
+    .app {
+        background-position:left center;
+        height:140px;       /* height + padding = background image size */
+        padding-left:170px; /* background width */
+        padding-top:60px;   /* center the text */
+    }
+}
+
+

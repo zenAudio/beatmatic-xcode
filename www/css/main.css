@@ -1,0 +1,266 @@
+html,
+body {
+  height: 100%;
+  font-size: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-user-select: none;
+}
+html {
+  display: table;
+}
+a {
+  text-decoration: none;
+}
+body {
+  background-color: #ECEFF6;
+  background-image: linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -webkit-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -ms-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eceff6), color-stop(0.51, #d8deea));
+  display: table-cell;
+  font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.app {
+  background-image: url(../img/__beatmagic.png);
+  background-repeat: no-repeat;
+  margin: 0px auto;
+  width: 275px;
+}
+.app2 {
+  background-image: url(../img/sharewith.jpg);
+  background-repeat: no-repeat;
+  margin: 0px auto;
+  width: 275px;
+}
+h1 {
+  font-size: 2em;
+  font-weight: 300;
+  margin: 0px;
+  overflow: visible;
+  padding: 0px;
+  text-align: center;
+}
+.status {
+  background-color: #333333;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  color: #FFFFFF;
+  font-size: 1em;
+  margin: 0px auto;
+  padding: 2px 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 175px;
+}
+.record {
+  background-color: #4B946A;
+  vertical-align: middle;
+}
+.stoprecord {
+  background-color: rgba(255, 0, 0, 0.81);
+}
+.hide {
+  display: none;
+}
+@keyframes fade {
+  from {
+    opacity: 1.0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1.0;
+  }
+}
+@-webkit-keyframes fade {
+  from {
+    opacity: 1.0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1.0;
+  }
+}
+.blink {
+  animation: fade 3000ms infinite;
+  -webkit-animation: fade 3000ms infinite;
+}
+/* portrait */
+/* @media screen and (max-aspect-ratio: 1/1) */
+.app {
+  background-position: center top;
+  height: 100px;
+  /* adds enough room for text */
+
+  padding: 180px 0px 0px 0px;
+  /* background height - shadow offset */
+
+}
+/* lanscape (when wide enough) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width: 445px) {
+  .app {
+    background-position: left center;
+    height: 140px;
+    /* height + padding = background image size */
+  
+    padding-left: 170px;
+    /* background width */
+  
+    padding-top: 60px;
+    /* center the text */
+  
+  }
+}
+.fulltable {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.x100 {
+  background-color: #5E73A2;
+  opacity: 0.7;
+}
+.highlighted {
+  opacity: 1;
+  box-shadow: 4px 4px 2px -3px rgba(0, 0, 0, 0.3) inset;
+}
+#content {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+#matrix {
+  width: 90%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+.dww li {
+  list-style: none;
+  margin: 0;
+  padding: 0 5px;
+  display: block;
+  text-align: center;
+  line-height: 40px;
+  font-size: 26px;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px black;
+  vertical-align: bottom;
+  border-bottom: 1px solid white;
+}
+.dww li:hover {
+  background-color: #E37F2A;
+}
+.dww ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  color: white;
+  font-family: arial, verdana, sans-serif;
+  font-size: 12px;
+  text-shadow: none;
+  -webkit-padding-start: 0px;
+}
+#next {
+  width: 10%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #3B5998;
+  float: right;
+  text-align: center;
+  vertical-align: middle;
+}
+#back {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 1px;
+}
+#swipeSampleLayoverXXX {
+  position: absolute;
+  display: none;
+  top: 15px;
+  left: 15px;
+  width: 200px;
+  background-color: #3B5998;
+  opacity: 0.6;
+}
+#swipeSampleLayover {
+  position: absolute;
+  display: none;
+  bottom: 5px;
+  left: 150px;
+  width: 150px;
+  color: black;
+  font-family: arial, verdana, sans-serif;
+  font-size: 24px;
+  text-shadow: none;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+#swipeVolumeLayover {
+  position: absolute;
+  display: none;
+  top: 5px;
+  left: 150px;
+  width: 150px;
+  color: black;
+  font-family: arial, verdana, sans-serif;
+  font-size: 24px;
+  text-shadow: none;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+#share {
+  vertical-align: middle;
+  position: relative;
+  top: 50%;
+  margin-top: -45px;
+}
+#hor-minimalist-a {
+  background-color: #ECEFF6;
+  background-image: linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -webkit-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -ms-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eceff6), color-stop(0.51, #d8deea));
+  border-collapse: collapse;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  font-size: 12px;
+  text-align: left;
+}
+#hor-minimalist-a th {
+  border-bottom: 2px solid #6678b1;
+  color: #039;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 10px 8px;
+}
+#hor-minimalist-a td {
+  color: #669;
+  padding: 9px 8px 0;
+}
+#hor-minimalist-a td:nth-child(1n+1) {
+  border-left: 1px solid #e2e2e2;
+}
+#hor-minimalist-a td:nth-child(4n+2) {
+  border-left: 3px solid white;
+}
+#hor-minimalist-a tbody tr:hover td {
+  color: #009;
+}
+#synth #dj #share {
+  display: none;
+}
