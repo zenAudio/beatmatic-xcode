@@ -63,7 +63,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
         NSLog(@"MPD: NATIVE: DiracPlayer: loading: url is: %@", url);
         NSError *error = nil;
         player = [[DiracFxAudioPlayer alloc] initWithContentsOfURL:url channels:1 error:&error];
-        [player setNumberOfLoops:-1];   // play looped
+        [player setNumberOfLoops:1];   // play looped
         //        [player play];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: CONTENT_LOAD_REQUESTED];
         [self writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
