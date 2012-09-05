@@ -1,7 +1,9 @@
-@tilebasewidth : 130;
+@tilebasewidth : 100;
 @tilepadding: 5;
 @tilemargin: 10;
 @tilesize: (@tilepadding*2) + @tilebasewidth + @tilemargin;
+.clear { clear:both; }
+@white:				#FFF;
 
 .tile {
 	-webkit-perspective: 0;
@@ -24,10 +26,24 @@
 	a:hover { text-decoration: none; }
 }
 
+.tilehead {
+	-webkit-perspective: 0;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: -webkit-transform 0.2s;
+	float: left;
+	margin-right: @tilemargin + 0px;
+	//margin-bottom: @tilemargin + 0px;
+	text-align:center;
+	padding: @tilepadding + 0px;
+	opacity:0.75;
+}
+
 
 .tile img { border :0;}
-.tile:hover { opacity:1;}
-.tiles { .clear; }
+.tile.active { opacity:1;}
+.tiles { .clear;
+	overflow: hidden
+ }
 .tilerow  { 
 	float:left; 	
 	-webkit-perspective: 0;
@@ -36,11 +52,15 @@
 } 
 .one {
 	width: @tilebasewidth + 0px;
-	height: @tilebasewidth + 0px;
+	height: @tilebasewidth - 44px;
+}
+.onehead {
+	width: @tilebasewidth + 0px;
+	//height: 10 px;
 }
 .two-h {
 	width: (@tilebasewidth + @tilemargin) *2 + 0px;
-	height: @tilebasewidth + 0px;
+	height: @tilebasewidth - 44px;
 }
 .two-v {
 	width: @tilebasewidth + 0px;

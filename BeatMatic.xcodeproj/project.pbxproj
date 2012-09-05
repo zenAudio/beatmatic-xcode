@@ -54,13 +54,6 @@
 			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = CordovaLib;
 		};
-		301BF550109A68C00062928A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = CordovaLib;
-		};
 		302D95EB14D23909003F00A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */;
@@ -326,7 +319,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				301BF551109A68C00062928A /* PBXTargetDependency */,
 			);
 			name = BeatMatic;
 			productName = BeatMatic;
@@ -453,14 +445,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		301BF551109A68C00062928A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CordovaLib;
-			targetProxy = 301BF550109A68C00062928A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		1F766FDC13BBADB100FB74C0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -507,8 +491,22 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeatMatic/BeatMatic-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/Common Files/src\"",
+					"\"$(SRCROOT)/Common Files/DiracAudioPlayer\"",
+					"\"$(SRCROOT)/Common Files/ExtAudioFile\"",
+					"\"$(SRCROOT)/Common Files\"/**",
+					"\"$(CORDOVALIB)/Classes\"",
+				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Downloads/--DIRAC3LE-- 2/Dirac3-Mobile/Common Files/src\"",
+				);
 				PRODUCT_NAME = BeatMatic;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -522,8 +520,21 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BeatMatic/BeatMatic-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+					"\"$(BUILT_PRODUCTS_DIR)\"",
+					"\"$(SRCROOT)/Common Files/src\"",
+					"\"$(SRCROOT)/Common Files/ExtAudioFile\"",
+					"\"$(SRCROOT)/Common Files/DiracAudioPlayer\"",
+					"\"$(SRCROOT)/Common Files\"/**",
+				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Downloads/--DIRAC3LE-- 2/Dirac3-Mobile/Common Files/src\"",
+				);
 				PRODUCT_NAME = BeatMatic;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

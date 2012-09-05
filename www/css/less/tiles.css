@@ -1,0 +1,91 @@
+.clear {
+  clear: both;
+}
+.tile {
+  -webkit-perspective: 0;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.2s;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 5px;
+  opacity: 0.75;
+}
+.tile h1,
+.tile h2,
+.tile h3,
+.tile h4,
+.tile h5,
+.tile h6 {
+  color: white;
+  -webkit-user-select: none;
+}
+.tile h2 {
+  font-size: 1.75em;
+  margin-top: -10px;
+  margin-left: 0px;
+}
+.tile a:hover {
+  text-decoration: none;
+}
+.tilehead {
+  -webkit-perspective: 0;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.2s;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+  padding: 5px;
+  opacity: 0.75;
+}
+.tile img {
+  border: 0;
+}
+.tile.active {
+  opacity: 1;
+}
+.tiles {
+  clear: both;
+  overflow: hidden;
+}
+.tilerow {
+  float: left;
+  -webkit-perspective: 0;
+  -webkit-transform-style: preserve-3d;
+  -webkit-user-select: none;
+}
+.one {
+  width: 100px;
+  height: 56px;
+}
+.onehead {
+  width: 100px;
+}
+.two-h {
+  width: 220px;
+  height: 56px;
+}
+.two-v {
+  width: 100px;
+  height: 220px;
+}
+.firstcol,
+.secondcol,
+.thirdcol,
+.fourthcol,
+.fifthcol {
+  position: absolute;
+}
+.secondcol {
+  margin-left: 120px;
+}
+.thirdcol {
+  margin-left: 240px;
+}
+.fourthcol {
+  margin-left: 360px;
+}
+.fifthcol {
+  margin-left: 480px;
+}

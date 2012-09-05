@@ -1,13 +1,21 @@
 window.BEATmatic = {}
 
 class ui
-	switch: (tab) ->
-		for tab in $("ui").children
-			if tab.name is tab
-				tab.show()
+	constructor: ->
+		$(".gotoMain").click =>
+			@switch "main"
+		
+		$(".gotoShare").click =>
+			@switch "share"
+		
+
+	switch: (tabid) ->
+		for tab in $("#ui").children()
+			jtab = $(tab)
+			if tab.id is tabid
+				jtab.show()
 			else
-				tab.hide()
+				jtab.hide()		
 		
-		
-$->
-	BEATmatic.ui = new ui
+$ ->
+	BEATmatic.ui = new ui()

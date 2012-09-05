@@ -8,10 +8,11 @@ body {
     padding: 0;
     border: 0;
      -webkit-user-select: none;
+     overflow: hidden
 }
 
 html {
-    display:table;
+    display: table;
 }
 
 a {
@@ -34,6 +35,17 @@ body {
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     text-transform:uppercase;
     vertical-align:middle;
+}
+
+.ui {
+    height:100%;
+    width: 100%;
+}
+
+#ui {
+	display:-webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
 }
 
 .app {
@@ -133,9 +145,15 @@ h1 {
   background-color: #5E73A2;
   opacity: 0.7;
 }
-.highlighted {
+
+.x100.highlighted  {
+  box-shadow: 4px 0px 50px 0px rgba(0, 0, 0, 0.2) inset;
   opacity: 1;
-  box-shadow: 4px 4px 2px -3px rgba(0, 0, 0, 0.3) inset;
+}
+
+.highlighted {
+  //opacity: 1;
+  //box-shadow: 4px 0px 50px 0px #5E73A2 inset; //rgba(0, 0, 0, 0.3)
 }
 #content {
   width: 100%;
@@ -178,7 +196,7 @@ h1 {
   text-shadow: none;
   -webkit-padding-start: 0px;
 }
-#next {
+#snext {
   width: 10%;
   height: 100%;
   margin: 0;
@@ -188,7 +206,7 @@ h1 {
   text-align: center;
   vertical-align: middle;
 }
-#back {
+#sback {
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -227,7 +245,7 @@ h1 {
   text-shadow: none;
   background-color: rgba(255, 255, 255, 0.6);
 }
-#share {
+#sshare {
   vertical-align: middle;
   position: relative;
   top: 50%;
@@ -264,8 +282,8 @@ h1 {
 #hor-minimalist-a tbody tr:hover td {
   color: #009;
 }
-//hidden by default
-#synth #dj #share {
+//hidden initially
+#synth, #main, #share {
 	display: none
 }
 

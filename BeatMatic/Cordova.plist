@@ -28,6 +28,10 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>SoundPlug</key>
+		<string>SoundPlug</string>
+		<key>DiracPlayer</key>
+		<string>DiracPlayer</string>
 		<key>Device</key>
 		<string>CDVDevice</string>
 		<key>Logger</key>

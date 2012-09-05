@@ -1,4 +1,4 @@
-class play
+class synth
 	loopTimers: {}
 	swipeSampleLayover: false
 	swipeVolumeLayover: false
@@ -9,22 +9,21 @@ class play
 	lastDistance: 0
 	
 	constructor: ->
-		#window.document.addEventListener "deviceready", @deviceready, false
-		@deviceready()
-
-	deviceready: =>
-		@setup()
 		
-		$("#next").click =>
-			@share()
+		$("#snext").click =>
+			#@stopLoop()
+			BEATmatic.ui.switch("dj")
 		
-		#originalBG = $("#swipeSampleLayover ul li").css("background-color")
-		#fadeColor = "#ddd"
+		$("sback").click =>
+			@stopLoop()
+			BEATmatic.ui.switch("main")
+			false
+			
 		
 	delay: (ms, func) ->
 		setTimeout func, ms
 		
-	setup: =>
+	setup: (data) =>
 		@data = {
 			"project": "House Beat 1",
 			"bpm": 130,
@@ -51,14 +50,12 @@ class play
 				]
 		}
 		
-		@recordResults = window.localStorage.getItem "recordResults"
-		@recordResults = "demo" unless @recordResults
+		#@recordResults = window.localStorage.getItem "recordResults"
+		#@recordResults = "demo" unless @recordResults
 		
-		if @recordResults != "demo"
-			console.log "parsing data"
-			@data = JSON.parse @recordResults
-		else
-			console.log "demo data"
+		if data != "demo"
+			#console.log "parsing data"
+			data = data#JSON.parse @recordResults
 			
 		
 
@@ -274,11 +271,6 @@ class play
 		col = col - 1
 		col = 16 if col is 0
 		$(".c#{col}").removeClass "highlighted"
-	
-	share: =>
-		@stopLoop()
-		window.localStorage.setItem "score", @data
-		window.location.href = 'share.html';
 		
 		
 		
@@ -291,11 +283,14 @@ class play
 		$(".highlighted").removeClass "highlighted"
 	
 	loopTracks: =>
-		@loop(0)
-		@loop(1)
-		@loop(2)
+		@loopTrack(0)
+		@loopTrack(1)
+		@loopTrack(2)
 	
-	loop: (track) =>
+	stopTrack: (track) =>
+		clearInterval @loopTimers[track]
+	
+	loopTrack: (track) =>
 		loopvar = 0
 		
 		ms = 15000 / @data.bpm
@@ -329,26 +324,9 @@ class play
 			my_media.play()
 		
 		else
-			new Audio(src).play();
+			#html5
+			#new Audio(src).play();
 		
-		# Update @my_media position every second
-		###
-		unless mediaTimer?
-			mediaTimer = setInterval(->
-				
-				# get @my_media position
-				
-				# success callback
-				@my_media.getCurrentPosition ((position) ->
-					setAudioPosition (position) + " sec"  if position > -1
-				
-				# error callback
-				), (e) ->
-					console.log "Error getting pos=" + e
-					setAudioPosition "Error: " + e
-	
-			, 1000)
-		###
 	
 	# onSuccess Callback
 	#
@@ -371,4 +349,7 @@ class play
 	#	document.getElementById("audio_position").innerHTML = position
 
 
-window.play = new play()
+#window.synth = new synth()
+
+$ ->
+	BEATmatic.synth = new synth()

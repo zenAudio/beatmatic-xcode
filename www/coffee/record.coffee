@@ -1,122 +1,42 @@
-class app
+class rec
 	ready: false
-	url: "http://192.168.2.105:5000/"#"http://localhost:5000/"
+	#url: "http://192.168.2.105:5000/"
+	url: "http://localhost:5000/"
 	
 	constructor: ->
 		window.document.addEventListener "deviceready", @deviceready, false
 		@setup = true
 		@ready = false
-
-		
-		toTable
 		
 		$("#toTable").click =>
-			window.localStorage.setItem "recordResults", "demo"
-			window.location.href = 'table.html';
-		
-		$("#tester").click =>
-		
-			#dataDir = @fileSystem.root.getDirectory("www", {create: true}).getDirectory("sounds", {create: true})
-			#console.log dataDir
-			console.log "tester"
-			my_media = new Media("sounds/tester.wav", nothing, nothing);
-			
-			#dataDir.getFile "tester.wav", {create: true}, (mediaFile) ->
-			console.log "starting upload"
-			console.log my_media
-			#mediaFile = @recordFile
-			ft = new FileTransfer()
-			path = my_media.fullPath
-			name = my_media.name
-			ft.upload path, @url, ((result) ->
-				data = decodeURIComponent result.response
-				window.localStorage.setItem "recordResults", data
-				window.location.href = 'table.html';
-				
-			), ((error) ->
-				console.log "Error uploading file " + path + ": " + error.code
-			),
-				fileName: name
-					
+			BEATmatic.synth.setup("demo")
+			BEATmatic.ui.switch("synth")
 		
 		$("#record").click =>
-			#console.log "record click2"
 			@recordAudio3()
-			#@recordSound()
 			
 		$("#processingrecord").click =>
-			$("#stoprecord").hide()
-			$("#processingrecord").hide()
-			$("#record").show()
+			@switchButtons "record"
 			@mediaRec.stopRecord()
 		
 		$("#stoprecord").click =>
-			console.log "stoprecord click"
-			$("#stoprecord").hide()
-			$("#processingrecord").show()
-			$("#record").hide()
+			@switchButtons "processingrecord"
 			@mediaRec.stopRecord()
-			#@recordSound()	
-		
-
-	#bind: ->
-	#	document.addEventListener "deviceready", @deviceready, false
-
+	
+	switchButtons: (buttonToShow) ->
+		for button in ["stoprecord", "processingrecord", "record"]
+			if button is buttonToShow
+				$("#"+button).show()
+			else
+				$("#"+button).hide()
+	
 	deviceready: =>
-		console.log "device is ready!!!"
 		window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
-		@ready = true
-		# note that this is an event handler so the scope is that of the event
-		# so we need to call app.report(), and not this.report()
-		@report "deviceready"
-		#@setupFile
-
-	report: (id) ->
-		console.log "report:" + id
-		
-		# hide the .pending <p> and show the .complete <p>
-		document.querySelector("#" + id + " .pending").className += " hide"
-		completeElem = document.querySelector("#" + id + " .complete")
+		document.querySelector("#deviceready .pending").className += " hide"
+		completeElem = document.querySelector("#deviceready .complete")
 		completeElem.className = completeElem.className.split("hide").join("")
-
-	# capture callback
-	recordSuccess: (mediaFiles) ->
-		console.log "record success"
 		
-		i = undefined
-		path = undefined
-		len = undefined
-		i = 0
-		len = mediaFiles.length
-	
-		while i < len
-			#path = mediaFiles[i].fullPath
-			@uploadFile mediaFiles[i]
-			i += 1
-	
-	
-	
-	
-	# do something interesting with the file
-	
-	# capture error callback
-	recordError: (error) ->
-		console.log "record failed"
 		
-		navigator.notification.alert "Error code: " + error.code, null, "Capture Error"
-
-	recordSound: ->
-
-		# start audio capture
-		navigator.device.capture.captureAudio @recordSuccess, @recordError,
-			duration: 5
-			limit: 1
-		#startRecordWithSettings
-		return
-	
-		options = { duration: 10 };
-	
-	
 	getFilePath: ->
 		#if detectAndroid()
 		if device.platform is "Android"
@@ -137,18 +57,13 @@ class app
 		
 	fileReady: (fileEntry) =>
 		@recordFile = fileEntry
-		#@mediaRec = new Media(@recordFile.fullPath, @nothing, @nothing)
-		#@mediaRec.startRecord()
-		#@mediaRec.stopRecord()
 
 	
 	nothing: ->
 		#console.log "nothing"
 		
 	recordAudio3: (fileEntry) =>
-		$("#record").hide()
-		$("#stoprecord").show()
-		$("#processingrecord").hide()
+		@switchButtons "stoprecord"
 	
 		#console.log fileEntry.fullPath
 		#@recordFile = fileEntry
@@ -194,11 +109,12 @@ class app
 		name = mediaFile.name
 		ft.upload path, @url, ((result) ->
 			data = decodeURIComponent result.response
-			window.localStorage.setItem "recordResults", data
-			window.location.href = 'table.html';
+			BEATmatic.synth.setup(JSON.parse data)
+			BEATmatic.ui.switch("synth")
 			
 		), ((error) ->
-			console.log "Error uploading file " + path + ": " + error.code
+			alert "Error uploading file to get processed. No Network?"
+			@switchButtons "record"
 		),
 			fileName: name
 	
@@ -211,32 +127,6 @@ class app
 	# 
 	setAudioPosition: (position) ->
 		document.getElementById("audio_position").innerHTML = position
-	#document.addEventListener "deviceready", onDeviceReady, false
-	
-	###	
-	getImage: ->
-		
-		# Retrieve image file location from specified source
-		navigator.camera.getPicture uploadPhoto, ((message) ->
-			alert "get picture failed"
-		),
-			quality: 50
-			destinationType: navigator.camera.DestinationType.FILE_URI
-			sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-	
-	uploadPhoto: (imageURI) ->
-		options = new FileUploadOptions()
-		options.fileKey = "file"
-		options.fileName = imageURI.substr(imageURI.lastIndexOf("/") + 1)
-		options.mimeType = "image/jpeg"
-		params = new Object()
-		params.value1 = "test"
-		params.value2 = "param"
-		options.params = params
-		options.chunkedMode = false
-		ft = new FileTransfer()
-		ft.upload imageURI, "http://yourdomain.com/upload.php", win, fail, options
-	###
 
-#$ ->
-window.app = new app()
+$ ->
+	BEATmatic.rec = new rec()

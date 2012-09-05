@@ -4,12 +4,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name = "format-detection" content = "telephone=no"/>
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello Cordova</title>
+        <link rel="stylesheet" type="text/css" href="css/less/colours.css" />
+        
+        <link rel="stylesheet" type="text/css" href="css/less/tiles.css" />
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
+        
+        
+        <title>BEATmatic</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Beat<i>Matic</i>™</h1>
+    <div id="ui" class="ui">
+        <div class="app ui" id="main">
+            <h1>BEAT<i>matic</i>™</h1>
             <div id="deviceready">
                 <p class="status pending blink">getting ready...</p>
                 <p id="record" class="status complete hide record"><img id="record" src="img/record.png" alt="record"/> Record</p>
@@ -21,9 +27,76 @@
                 <p id="tester" class="status complete hide">Demo Upload</p>
             </div>
         </div>
+        <div id="synth" class="ui">
+        
+        	<div id="content">
+        		<div id="matrix"></div>
+        		<div id="snext"><img id="sshare" src="img/share.png" alt="Share"/><a href="#" id="smain" class=""><img id="sback" src="img/back.png" alt="back"/></a></div>
+        		<div id="swipeVolumeLayover">BPM</div>
+        		<div id="swipeSampleLayover"></div>
+        	</div>
+        
+        </div>
+        <div id="dj" class="ui">
+            	<div class="tiles" style="width: 800px;">
+            		<div class="tilerow">
+            			<div class="tilehead onehead">Solos</div>
+            			<div class="tilehead onehead">Samples</div>
+            			<div class="tilehead onehead">Vocals</div>
+            			<div class="tilehead onehead">FX</div>
+            		</div>
+            	</div>
+                <div class="tiles" style="width: 800px;">
+        			<div class="tilerow">
+        				<div name="kickdrum" class="tile one bluebg djbtn active">Kickdrum</div>
+        				<div name="baseline" class="tile one limebg djbtn">Baselines</div>
+        				<div name="chor" class="tile one djbtn tealbg">Chor</div>
+        				<div name="highpass" class="tile one djbtn magentabg">Highpass</div>
+        				
+        			</div>
+        			
+        			<div class="tilerow">
+        				<div name="snare" class="djbtn tile one bluebg active">Snare</div>
+        				<div name="percussion" class="djbtn tile one limebg">Percussion</div>
+        				<div name="xxx" class="djbtn tile one tealbg">xxx</div>
+        				<div name="tapestop" class="djbtn tile one magentabg">TapeStop</div>
+        			</div>
+        
+        			<div class="tilerow">
+        				<div name="hihat" class="djbtn tile one bluebg active">HiHat</div>
+        				<div name="synths" class="djbtn tile one limebg">Synths</div>
+        				<div name="yyy" class="djbtn tile one tealbg">Alicia</div>
+        				<div name="kickdrum" class="djbtn tile one magentabg">Filter3</div>
+        			</div>
+        			<div class="tilerow">
+        				<div name="crazy" class="djbtn tile one bluebg">crazy shit</div>
+        				<div name="melodic" class="djbtn tile one limebg djbtn">Melodics</div>
+        				<div name="chor" class="djbtn tile one tealbg">Yours<h1>#2</h1></div>
+        				<div name="kickdrum" class="djbtn tile one magentabg">Filter4</div>
+        			</div>
+        			
+        		</div>
+            </div>
+        <div id="share" class="ui">
+        
+        	<a href="#" class="gotoMain">
+    	    <div class="app app2">
+    	        <h1 style="color: white;">BeatMatic™ Share</h1>
+    	        <div id="deviceready">
+    	            <p class="status blink">Share</p>
+    	        </div>
+    	    </div>
+    	    </a>
+        	    
+        </div>
+     </div>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.0.js"></script>
+        <script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
+        <script type="text/javascript" src="coffee/ui.js"></script>
         <script type="text/javascript" src="coffee/record.js"></script>
-        <script src="http://debug.phonegap.com/target/target-script-min.js#beatmatic"></script>
+        <script type="text/javascript" src="coffee/play.js"></script>
+        <script type="text/javascript" src="coffee/dj.js"></script>
+        <script src="xxxhttp://debug.phonegap.com/target/target-script-min.js#beatmatic"></script>
     </body>
 </html>
