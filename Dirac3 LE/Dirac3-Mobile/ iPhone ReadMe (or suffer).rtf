@@ -1,0 +1,30 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww18400\viewh12440\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+
+\f0\b\fs24 \cf0 \
+Note on including DIRAC into your iPhone project
+\b0 \
+\
+If you want to use DIRAC within your own iPhone project you need to change the extension of the source file(s) that contain the DIRAC calls from .m to .mm. If you don't do this you will get some cryptic link errors because gcc isn't linking against the C++ standard libraries and headers.\
+\
+Also, if you intend on targeting iOS 4.1 or higher (including iOS 5) we recommend you use the iOS4 variant of the library. If you do this make sure you also include the vecLib/Accelerate frameworks into your project.\
+\
+\
+
+\b Note on file format/CODEC support\
+
+\b0 \
+\pard\pardeftab720\ql\qnatural
+\cf0 Dirac itself does not have a notion of file formats and CODECs. It sees audio as an inifinite stream of float values. For the purpose of running the iPhone version we have included two classes for reading and writing sound files based on the Apple ExtAudioFile API. By default, these classes are configured to read/write files in uncompressed AIFF format, but they also support CAF files. You will have to make some modifications to the sources to access CAF files.\
+\
+For more information on the ExtAudioFile API we recommend the Apple CoreAudio mailing list at http://lists.apple.com/mailman/listinfo/coreaudio-api\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\ql\qnatural\pardirnatural
+\cf0 \
+--\
+\
+If you have any questions please contact me via email at smb@dspdimension.com\
+\
+}
