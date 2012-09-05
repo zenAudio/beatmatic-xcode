@@ -25,4 +25,4 @@ class DiracPlayer
 		console.log "MPD: called changePitch."
 		Cordova.exec(success, fail, "DiracPlayer", "changePitch", [pitch])
 
-window.DiracPlayer = DiracPlayer
+BEATmatic.player = DiracPlayer

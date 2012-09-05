@@ -128,5 +128,6 @@ class rec
 	setAudioPosition: (position) ->
 		document.getElementById("audio_position").innerHTML = position
 
+window.BEATmatic = {}
 $ ->
 	BEATmatic.rec = new rec()

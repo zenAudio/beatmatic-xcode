@@ -1,106 +1,8 @@
-class sequencer
-	coreLoop: false
-	BPM: 120
-	beat16: 1
-	beatTotal: 1
-	record: false
-	recording: {}
-	highlightPlayer: false
-	folder: "sounds/"
-	drumTracksToPlay: [0, 1, 2]
-	drumTracks: {}
-	sampleTacksToPlay: []
-	sampleTracks: {}
-	
-	#constructor: ->
-				
-	setup: (tracks) ->
-		@drumTracks = tracks
-		@BPM = @drumTracks.bpm
-		@startCoreLoop()
-		
-	beat: ->
-		#Play Drums
-		for track in @drumTracksToPlay
-			if @drumTracks.tracks[track].score[@beat16-1] >= 100
-				@playAudio @folder + "drums/" + @drumTracks.tracks[track].sample
-		
-		samplesPlayed = []
-			
-		for track in @sampleTacksToPlay
-			sample = @sampleTracks[track]
-			samplesPlayed.push sample
-			@playAdjustedAudio @folder + "samples/" + sample
-		
-		
-		BEATmatic.play.highlightColumn @beat16 if @highlightPlayer
-		
-		if record
-			recording[@beatTotal] =
-				"beat16": @beat16
-				"samples": samplesPlayed
-				"BPM": @BPM
-				"drums": @drumTracksToPlay
-		
-		@sampleTacksToPlay = {}	
-	
-	playAdjustedAudio: (src) ->
-		@playAudio(src)
-	
-	playAudio: (src) ->
-		if Media?
-			my_media = new Media(src)#, @onSuccess, @onError, @onStatus)
-			my_media.play()
-		else
-			#HTML5
-			new Audio(src).play();
-	
-	changeBPM: (newBPM) ->
-		@BPM = newBPM
-		console.log "changed BPM to #{newBPM}"
-		@stopCoreLoop()
-		@startCoreLoop()
-	
-	startCoreLoop: ->
-		ms = 15000 / @BPM
-		ms = ms.toFixed(0)
-		
-		@coreLoop = setInterval(=>
-			@beat()
-			@beat16++
-			@beatTotal++
-			@beat16 = 1 if @beat16 is 17
-		, ms)
-	
-	stopCoreLoop: ->
-		clearInterval @coreLoop
-		
-		if @highlightPlayer
-			$(".highlighted").removeClass "highlighted"
-
-	onError: (error) ->
-		alert "code: " + error.code + "\n" + "message: " + error.message + "\n"
-	
-	
-
-		
-	
-
-
-$ ->
-	BEATmatic.sequencer = new sequencer()
-
-
-
-
-
-
-	
-class play
+class synth
 	loopTimers: {}
 	swipeSampleLayover: false
 	swipeVolumeLayover: false
-	
+	folder: "sounds/"
 	lastSample: false
 	originalbpm: false
 	direction: false
@@ -111,55 +13,58 @@ class play
 		$("#snext").click =>
 			#@stopLoop()
 			BEATmatic.ui.switch("dj")
-			BEATmatic.sequencer.highlightPlayer = false
-			false
 		
 		$("sback").click =>
-			#@stopLoop()
-			BEATmatic.sequencer.stopCoreLoop()
+			@stopLoop()
 			BEATmatic.ui.switch("main")
-			BEATmatic.sequencer.highlightPlayer = false
 			false
 			
-		@setup("demo")
 		
+	delay: (ms, func) ->
+		setTimeout func, ms
 		
-	setup: (data) =>		
-		if data is "demo"
-			BEATmatic.sequencer.setup
-					"project": "House Beat 1",
-					"bpm": 130,
-					"tracks":
-						[
-								"name": "kick drum"
-								"sample": "kick01.wav"
-								"icon": "kickdrum.png"
-								"score": [100,0,0,0,  0,0,0,100,  100,0,0,0,  0,0,0,0]
-						#"SD":
-							,
-								"name": "snare drum"
-								"sample": "snare01.wav"
-								"icon": "snaredrum.png"
-								"score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
-						#"HH":
-							,
-								"name": "hi hat"
-								"sample": "hihat01.wav"
-								"icon": "hihat.png"
-								"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
-						]
-		else
-			BEATmatic.sequencer.setup data
+	setup: (data) =>
+		@data = {
+			"project": "House Beat 1",
+			"bpm": 130,
+			"tracks":
+				[
+					{
+						"name": "kick drum"
+						"sample": "kick01.wav"
+						"icon": "kickdrum.png"
+						"score": [100,0,0,0,  0,0,0,100,  100,0,0,0,  0,0,0,0]
+					},
+					{
+						"name": "snare drum"
+						"sample": "snare01.wav"
+						"icon": "snaredrum.png"
+						"score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
+					},
+					{
+						"name": "hi hat"
+						"sample": "hihat01.wav"
+						"icon": "hihat.png"
+						"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
+					}
+				]
+		}
+		
+		#@recordResults = window.localStorage.getItem "recordResults"
+		#@recordResults = "demo" unless @recordResults
+		
+		if data != "demo"
+			#console.log "parsing data"
+			data = data#JSON.parse @recordResults
+			
+		
 
 		@generateHTML()
-		BEATmatic.sequencer.highlightPlayer = true
-		#@loopTracks()
-	
-	
+		@loopTracks()
 	
 	generateHTML: =>
 		html = """<table id="hor-minimalist-a" class="fulltable" summary="Matrix">"""
-		for track, index in BEATmatic.sequencer.drumTracks.tracks
+		for track, index in @data.tracks
 			html += "<tr>"
 			html += """<td class=""><img width="50" height="50" src="img/#{track.icon}" alt="#{track.name}"/></td>"""
 			for score, index in track.score
@@ -178,16 +83,14 @@ class play
 				#console.log @data
 				score = e.target.cellIndex
 				track = e.target.parentNode.rowIndex
-				#BEATmatic.sequencer.drumTracksToPlay TODO
-				
 				cell = $($(".c#{score}")[track])
 				if cell.hasClass "x100"
 					cell.removeClass "x100"
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+					@data.tracks[track].score[score - 1] = 0
 				else
 					cell.addClass "x100"
 					
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+					@data.tracks[track].score[score - 1] = 100
 		
 			swipeStatus: (e, phase, direction, distance) =>
 				#swipeCount++
@@ -204,7 +107,7 @@ class play
 						
 					if @swipeVolumeLayover
 						$("#swipeVolumeLayover").hide()
-						@originalbpm = false
+						@originalbpm = @data.bpm
 						@swipeVolumeLayover = false
 					return
 				
@@ -282,7 +185,7 @@ class play
 					@lastDistance = distance
 					
 					track = e.target.parentNode.rowIndex
-					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
+					sample = @data.tracks[track].sample
 					i = sample.indexOf "0"
 					n = Number sample[i+1]
 					unless @samplebase
@@ -301,7 +204,7 @@ class play
 					newsample = @samplebase + 0 + n + sample[i+2...]
 					#return
 					@playAudio @folder + newsample
-					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
+					@data.tracks[track].sample = newsample
 					
 					$("#swipeSampleLayover").html(newsample)
 					#alert i = test.indexOf "0"
@@ -323,14 +226,13 @@ class play
 					
 					if direction is "left"
 						offset = offset * -1
-					
-					@originalbpm = BEATmatic.sequencer.BPM unless @originalbpm
-					
-					$("#swipeVolumeLayover").html "#{@originalbpm + offset} BPM"
-
-					BEATmatic.sequencer.changeBPM @originalbpm + offset
-					#@stopLoop()
-					#@loopTracks()
+						
+					$("#swipeVolumeLayover").html "#{@data.bpm + offset} BPM"
+					unless @originalbpm
+						@originalbpm = @data.bpm
+					@data.bpm = @originalbpm + offset
+					@stopLoop()
+					@loopTracks()
 					
 				
 				return
@@ -351,20 +253,103 @@ class play
 			cell = $($(".c#{score}")[track])
 			if cell.hasClass "x100"
 				cell.removeClass "x100"
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+				@data.tracks[track].score[score - 1] = 0
 			else
 				cell.addClass "x100"
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+				@data.tracks[track].score[score - 1] = 100
 
 		###
+		
+	score: (track, score) ->	
+		if @data.tracks[track].score[score-1] >= 100
+			@playAudio @folder + @data.tracks[track].sample
+
 			
 	
-	highlightColumn: (col) ->
+	highlightColumun: (col) ->
 		$(".c#{col}").addClass "highlighted"
 		col = col - 1
 		col = 16 if col is 0
 		$(".c#{col}").removeClass "highlighted"
+		
+		
+		
+	stopLoop: =>
+		for track, loopTimer of @loopTimers
+			#console.log loopTimer
+			clearInterval loopTimer
+			loopTimer = null
+		
+		$(".highlighted").removeClass "highlighted"
+	
+	loopTracks: =>
+		@loopTrack(0)
+		@loopTrack(1)
+		@loopTrack(2)
+	
+	stopTrack: (track) =>
+		clearInterval @loopTimers[track]
+	
+	loopTrack: (track) =>
+		loopvar = 0
+		
+		ms = 15000 / @data.bpm
+		ms = ms.toFixed(0)
+		#console.log "before timer #{loopvar}"
+		
+		@loopTimers[track] = setInterval(=>
+			loopvar = loopvar + 1
+			@highlightColumun loopvar
 			
+			@score track, loopvar			
+			if loopvar is 16
+				loopvar = 0
+				#@stopLoop()
+
+		, ms) #xxx ms per beat
+		
+
+	
+	# Play audio
+	#
+	playAudio: (src) ->
+		
+		if Media?
+			
+			#return unless Media
+			# Create Media object from src
+			my_media = new Media(src, @onSuccess, @onError, @onStatus)
+			
+			# Play audio
+			my_media.play()
+		
+		else
+			#html5
+			#new Audio(src).play();
+		
+	
+	# onSuccess Callback
+	#
+	onSuccess: ->
+		#console.log "playAudio():Audio Success"
+		
+	onStatus: (status) ->
+		#if status is 4
+		#	console.log "playAudio():Audio Status#{status}"
+		#	console.log @
+	
+	# onError Callback 
+	#
+	onError: (error) ->
+		alert "code: " + error.code + "\n" + "message: " + error.message + "\n"
+	
+	# Set audio position
+	# 
+	#setAudioPosition: (position) ->
+	#	document.getElementById("audio_position").innerHTML = position
+
+
+#window.synth = new synth()
 
 $ ->
-	BEATmatic.play = new play()
+	BEATmatic.synth = new synth()

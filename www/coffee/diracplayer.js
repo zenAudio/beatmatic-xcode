@@ -38,6 +38,6 @@
 
   })();
 
-  window.DiracPlayer = DiracPlayer;
+  BEATmatic.player = DiracPlayer;
 
 }).call(this);

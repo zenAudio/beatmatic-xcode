@@ -138,6 +138,8 @@
 
   })();
 
+  window.BEATmatic = {};
+
   $(function() {
     return BEATmatic.rec = new rec();
   });
