@@ -531,10 +531,10 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
-					"\"$(SRCROOT)/Common Files/src\"",
-					"\"$(SRCROOT)/Common Files/DiracAudioPlayer\"",
-					"\"$(SRCROOT)/Common Files/ExtAudioFile\"",
-					"\"$(SRCROOT)/Common Files\"/**",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/util\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/ExtAudioFile\"",
 					"\"$(CORDOVALIB)/Classes\"",
 				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
@@ -560,10 +560,11 @@
 					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
-					"\"$(SRCROOT)/Common Files/src\"",
-					"\"$(SRCROOT)/Common Files/ExtAudioFile\"",
-					"\"$(SRCROOT)/Common Files/DiracAudioPlayer\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/ExtAudioFile\"",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer\"",
 					"\"$(SRCROOT)/Common Files\"/**",
+					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/util\"",
 				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
