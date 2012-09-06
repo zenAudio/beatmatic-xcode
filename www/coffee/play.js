@@ -20,6 +20,8 @@
     play.prototype.lastDistance = 0;
 
     function play() {
+      this.enableSwipe = __bind(this.enableSwipe, this);
+
       this.generateHTML = __bind(this.generateHTML, this);
 
       this.setup = __bind(this.setup, this);
@@ -70,8 +72,7 @@
     };
 
     play.prototype.generateHTML = function() {
-      var html, index, score, track, _i, _j, _len, _len1, _ref, _ref1,
-        _this = this;
+      var html, index, score, track, _i, _j, _len, _len1, _ref, _ref1;
       html = "<table id=\"hor-minimalist-a\" class=\"fulltable\" summary=\"Matrix\">";
       _ref = BEATmatic.sequencer.drumTracks.tracks;
       for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
@@ -90,9 +91,14 @@
       }
       html += "</table>";
       $("#matrix").html(html);
+      return this.enableSwipe();
+    };
+
+    play.prototype.enableSwipe = function() {
+      var _this = this;
       return $("#hor-minimalist-a").swipe({
         click: function(e, target) {
-          var cell;
+          var cell, score, track;
           score = e.target.cellIndex;
           track = e.target.parentNode.rowIndex;
           cell = $($(".c" + score)[track]);
@@ -105,7 +111,7 @@
           }
         },
         swipeStatus: function(e, phase, direction, distance) {
-          var i, move, n, newsample, offset, sample;
+          var i, move, n, newsample, offset, sample, track;
           if (phase === "cancel" || phase === "end") {
             _this.direction = false;
             _this.lastDistance = 0;

@@ -4,41 +4,39 @@
 
   DiracPlayer = (function() {
 
-    function DiracPlayer(url) {
-      this.url = url;
-      console.log("MPD: initializing Dirac player with URL: " + this.url);
-    }
+    function DiracPlayer() {}
 
-    DiracPlayer.prototype.prepare = function(success, fail, resultType) {
-      console.log("MPD: in prepare: url: " + this.url);
-      return Cordova.exec(success, fail, "DiracPlayer", "load", [this.url]);
-    };
-
-    DiracPlayer.prototype.play = function(success, fail, resultType) {
-      console.log("MPD: called play.");
-      return Cordova.exec(success, fail, "DiracPlayer", "play", []);
-    };
-
-    DiracPlayer.prototype.stop = function(success, fail, resultType) {
-      console.log("MPD: called stop.");
-      return Cordova.exec(success, fail, "DiracPlayer", "stop", []);
-    };
-
-    DiracPlayer.prototype.changeDuration = function(duration, success, fail, resultType) {
-      console.log("MPD: called changeDuration.");
-      return Cordova.exec(success, fail, "DiracPlayer", "changeDuration", [duration]);
-    };
-
-    DiracPlayer.prototype.changePitch = function(pitch, success, fail, resultType) {
-      console.log("MPD: called changePitch.");
-      return Cordova.exec(success, fail, "DiracPlayer", "changePitch", [pitch]);
-    };
+    DiracPlayer.prototype.sampleName = false;
 
     return DiracPlayer;
 
   })();
 
+  ({
+    constructor: function() {
+      return console.log("MPD: initializing Dirac player with URL: " + this.url);
+    },
+    prepare: function(sampleName, url) {
+      this.sampleName = sampleName;
+      return Cordova.exec(success, fail, "DiracPlayer", "load", [sampleName, url]);
+    },
+    play: function() {
+      return Cordova.exec(this.nothing, this.nothing, "DiracPlayer", "play", [this.sampleName]);
+    },
+    stop: function() {
+      Cordova.exec(this.nothing, this.nothing, "DiracPlayer", "stop", [this.sampleName])({
+        changeDuration: function(duration) {}
+      });
+      return Cordova.exec(this.nothing, this.nothing, "DiracPlayer", "changeDuration", [this.sampleName, duration]);
+    },
+    changePitch: function(pitch) {
+      return Cordova.exec(this.nothing, this.nothing, "DiracPlayer", "changePitch", [this.sampleName, pitch]);
+    },
+    nothing: function() {}
+  });
+
   $(function() {
+    Cordova.exec(success, fail, "DiracPlayer", "init", []);
     return BEATmatic.DiracPlayer = DiracPlayer;
   });
 

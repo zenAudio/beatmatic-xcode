@@ -73,8 +73,9 @@ class play
 			
 		html += "</table>"
 		$("#matrix").html html
+		@enableSwipe()
 		
-		
+	enableSwipe: =>	
 		$("#hor-minimalist-a").swipe
 			click: (e, target) =>
 				score = e.target.cellIndex

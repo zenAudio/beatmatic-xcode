@@ -9,8 +9,18 @@
 #import <Cordova/CDVPlugin.h>
 #import <DiracFxAudioPlayer.h>
 
+//@interface DiracPlayerDelegate : UIViewController {
+//    NSString *sampleName;
+//    DiracPlayer *player;
+//}
+//
+//
+//@end
+//
 @interface DiracPlayer : CDVPlugin {
-    DiracFxAudioPlayer *player;
+    NSMutableDictionary *sampleNameToPlayer;
+    
+//    DiracFxAudioPlayer *player;
 }
 
 /*
@@ -37,6 +47,7 @@
  - (void) stop;
  */
 
+- (void) init: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) load: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;

@@ -12,6 +12,16 @@
 
 #import "DiracPlayer.h"
 
+//@implementation DiracPlayerDelegate
+//
+//- (void)diracPlayerDidFinishPlaying:(DiracAudioPlayerBase *)player successfully:(BOOL)flag
+//{
+//	NSLog(@"Dirac player instance (0x%lx) is done playing", (long)player);
+//    [player writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
+//}
+//
+//@end
+
 @implementation DiracPlayer
 
 NSString* ERROR_NOT_FOUND = @"file not found";
@@ -23,30 +33,60 @@ NSString* STOP_REQUESTED = @"STOP REQUESTED";
 NSString* UNLOAD_REQUESTED = @"UNLOAD REQUESTED";
 NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 
+- (void) init: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    NSLog(@"MPD: NATIVE: DiracPlayer: initializing.");
+    sampleNameToPlayer = [NSMutableDictionary alloc];
+}
+
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSLog(@"MPD: NATIVE: DiracPlayer: playing");
+    
+    NSString* callbackID = [arguments pop];
+    [callbackID retain];
+
+    NSString *sampleName = [arguments objectAtIndex:0];
+    [sampleName retain];
+    
+    DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
     if (player != nil) {
         [player play];
     } else {
         NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
     }
+    
+    [sampleName release];
+    [callbackID release];
 }
 
 - (void) stop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSLog(@"MPD: NATIVE: DiracPlayer: stop.");
+    
+    NSString* callbackID = [arguments pop];
+    [callbackID retain];
+
+    NSString *sampleName = [arguments objectAtIndex:0];
+    [sampleName retain];
+    
+    DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
     if (player != nil) {
         [player stop];
     } else {
         NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
     }
+    [sampleName release];
+    [callbackID release];
 }
 
 - (void) load: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     CDVPluginResult* pluginResult;
+    
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     
-    NSString *assetPath = [arguments objectAtIndex:0];
+    NSString *sampleName = [arguments objectAtIndex:0];
+    [sampleName retain];
+    
+    NSString *assetPath = [arguments objectAtIndex:1];
     [assetPath retain];
     
     NSString* basePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"www"];
@@ -62,9 +102,12 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
         NSURL *url = [NSURL fileURLWithPath: path];
         NSLog(@"MPD: NATIVE: DiracPlayer: loading: url is: %@", url);
         NSError *error = nil;
-        player = [[DiracFxAudioPlayer alloc] initWithContentsOfURL:url channels:1 error:&error];
+        DiracFxAudioPlayer *player = [[DiracFxAudioPlayer alloc] initWithContentsOfURL:url channels:1 error:&error];
         [player setNumberOfLoops:1];   // play looped
-        //        [player play];
+        [player ]
+        
+        [sampleNameToPlayer setObject:player forKey:sampleName];
+        
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: CONTENT_LOAD_REQUESTED];
         [self writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
     }
@@ -77,15 +120,22 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     [path release];
     [basePath release];
     [assetPath release];
+    [sampleName release];
     [callbackID release];
 }
 
 - (void) changePitch: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     CDVPluginResult* pluginResult;
+    
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     
-    NSNumber *pitch = [arguments objectAtIndex:0];
+    NSString *sampleName = [arguments objectAtIndex:0];
+    [sampleName retain];
+    
+    DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
+    
+    NSNumber *pitch = [arguments objectAtIndex:1];
     [pitch retain];
     
     NSLog(@"MPD: NATIVE: DiracPlayer: changePitch: %@", pitch);
@@ -97,14 +147,22 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     }
     
     [pitch release];
+    [sampleName release];
+    [callbackID release];
 }
 
 - (void) changeDuration: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     CDVPluginResult* pluginResult;
+    
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     
-    NSNumber *duration = [arguments objectAtIndex:0];
+    NSString *sampleName = [arguments objectAtIndex:0];
+    [sampleName retain];
+    
+    DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
+    
+    NSNumber *duration = [arguments objectAtIndex:1];
     [duration retain];
     
     NSLog(@"MPD: NATIVE: DiracPlayer: changeDuration: %@", duration);
@@ -116,6 +174,8 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     }
     
     [duration release];
+    [sampleName release];
+    [callbackID release];
 }
 
 

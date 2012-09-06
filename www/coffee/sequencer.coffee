@@ -73,7 +73,12 @@ class sequencer
 	changeBPM: (newBPM) ->
 		@BPM = newBPM
 		console.log "changed BPM to #{newBPM}"
-		@stopCoreLoop()
+		@pauseCoreLoop()
+		
+		#stretchSamples
+		for samplePlaying, player of @sampleTacksPlaying
+			player.changeDuration 120 / @BPM, nop, nop, nop
+			
 		@startCoreLoop()
 	
 	startCoreLoop: ->
@@ -86,6 +91,9 @@ class sequencer
 			@beatTotal++
 			@beat16 = 1 if @beat16 is 17
 		, ms)
+	
+	pauseCoreLoop: ->
+		clearInterval @coreLoop
 	
 	stopCoreLoop: ->
 		clearInterval @coreLoop

@@ -1,4 +1,12 @@
-class dj	
+class dj
+	swipeSampleLayover: false
+	swipeVolumeLayover: false
+	
+	lastSample: false
+	originalbpm: false
+	direction: false
+	lastDistance: 0
+	
 	constructor: ->
 		BEATmatic.sequencer.sampleTracks = 
 			baseline: "Synth_5.wav"
@@ -13,6 +21,7 @@ class dj
 			false
 		
 		@setupClickHandlers()
+		#@enableSwipe()
 
 	
 	setupClickHandlers: ->
@@ -95,6 +104,126 @@ class dj
 		#return  if i is -1
 		#BEATmatic.sequencer.sampleTacksToPlay.splice i, 1
 		false
+	
+	enableSwipe: =>	
+		$("#dj").swipe
+			click: (e, target) =>
+				true
+			###
+			click: (e, target) =>
+				score = e.target.cellIndex
+				track = e.target.parentNode.rowIndex
+				
+				cell = $($(".c#{score}")[track])
+				if cell.hasClass "x100"
+					cell.removeClass "x100"
+					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+				else
+					cell.addClass "x100"
+					
+					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+			###
+		
+			swipeStatus: (e, phase, direction, distance) =>
+				#swipeCount++
+				if phase is "cancel" or phase is "end"
+					@direction = false
+					@lastDistance = 0
+					
+					if @swipeSampleLayover
+						$("#swipeDJSampleLayover").hide()
+						@swipeSampleLayover = false
+						BEATmatic.sequencer.stopCoreLoop()
+						BEATmatic.sequencer.startCoreLoop()
+						
+					if @swipeVolumeLayover
+						$("#swipeDJVolumeLayover").hide()
+						@originalbpm = false
+						@swipeVolumeLayover = false
+					return
+				
+				if distance <= 5
+					return
+				###
+				if direction is "left" or direction is "right"
+					@direction = "leftright" unless @direction
+					return if "leftright" != @direction
+						
+					unless @swipeSampleLayover
+						#@stopLoop()
+						BEATmatic.sequencer.stopCoreLoop()
+						@swipeSampleLayover = true
+						
+						$("#swipeDJSampleLayover").show()
+						@samplebase = false
+
+					
+					unless @lastUpDownDirection is direction
+						@lastDistance = distance
+						@lastUpDownDirection = direction
+					
+					move = distance - @lastDistance
+					
+					
+					#mouse move above 10px or below -10
+					if (move < 10) and (move > -10)
+						#console.log "did not move enough"
+						#console.log move
+						return
+
+											
+					@lastDistance = distance
+					
+					track = e.target.parentNode.rowIndex
+					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
+					i = sample.indexOf "0"
+					n = Number sample[i+1]
+					unless @samplebase
+						@samplebase = sample[...i]
+					
+					
+					
+					if direction is "left"
+						n++ unless n >= 7
+						
+					
+					if direction is "right"
+						n-- unless n <= 1
+						
+					
+					newsample = @samplebase + 0 + n + sample[i+2...]
+					#return
+					BEATmatic.sequencer.playAudio BEATmatic.sequencer.folder + "drums/" +  newsample
+					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
+					
+					$("#swipeDJSampleLayover").html(newsample)
+				###	
+						
+				if direction is "up" or direction is "down"
+					@direction = "updown" unless @direction
+					return if "updown" != @direction
+					
+					unless @swipeVolumeLayover
+						$("#swipeDJVolumeLayover").show()
+						@swipeVolumeLayover = true
+					
+					offset = Math.round (distance / 2)
+					
+					if direction is "down"
+						offset = offset * -1
+					
+					@originalbpm = BEATmatic.sequencer.BPM unless @originalbpm
+					
+					$("#swipeDJVolumeLayover").html "#{@originalbpm + offset} BPM"
+
+					BEATmatic.sequencer.changeBPM @originalbpm + offset
+					
+				
+				return
+				
+			allowPageScroll: "none"
+			threshold: 50
+
 	
 
 $ ->

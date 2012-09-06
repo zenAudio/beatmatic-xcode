@@ -5,7 +5,21 @@
 
   dj = (function() {
 
+    dj.prototype.swipeSampleLayover = false;
+
+    dj.prototype.swipeVolumeLayover = false;
+
+    dj.prototype.lastSample = false;
+
+    dj.prototype.originalbpm = false;
+
+    dj.prototype.direction = false;
+
+    dj.prototype.lastDistance = 0;
+
     function dj() {
+      this.enableSwipe = __bind(this.enableSwipe, this);
+
       this.clickHandler = __bind(this.clickHandler, this);
       BEATmatic.sequencer.sampleTracks = {
         baseline: "Synth_5.wav",
@@ -128,6 +142,130 @@
     dj.prototype.sampleOff = function(sample, btn) {
       BEATmatic.sequencer.stopSample(sample);
       return false;
+    };
+
+    dj.prototype.enableSwipe = function() {
+      var _this = this;
+      return $("#dj").swipe({
+        click: function(e, target) {
+          return true;
+        },
+        /*
+        			click: (e, target) =>
+        				score = e.target.cellIndex
+        				track = e.target.parentNode.rowIndex
+        				
+        				cell = $($(".c#{score}")[track])
+        				if cell.hasClass "x100"
+        					cell.removeClass "x100"
+        					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+        				else
+        					cell.addClass "x100"
+        					
+        					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+        */
+
+        swipeStatus: function(e, phase, direction, distance) {
+          var offset;
+          if (phase === "cancel" || phase === "end") {
+            _this.direction = false;
+            _this.lastDistance = 0;
+            if (_this.swipeSampleLayover) {
+              $("#swipeDJSampleLayover").hide();
+              _this.swipeSampleLayover = false;
+              BEATmatic.sequencer.stopCoreLoop();
+              BEATmatic.sequencer.startCoreLoop();
+            }
+            if (_this.swipeVolumeLayover) {
+              $("#swipeDJVolumeLayover").hide();
+              _this.originalbpm = false;
+              _this.swipeVolumeLayover = false;
+            }
+            return;
+          }
+          if (distance <= 5) {
+            return;
+          }
+          /*
+          				if direction is "left" or direction is "right"
+          					@direction = "leftright" unless @direction
+          					return if "leftright" != @direction
+          						
+          					unless @swipeSampleLayover
+          						#@stopLoop()
+          						BEATmatic.sequencer.stopCoreLoop()
+          						@swipeSampleLayover = true
+          						
+          						$("#swipeDJSampleLayover").show()
+          						@samplebase = false
+          
+          					
+          					unless @lastUpDownDirection is direction
+          						@lastDistance = distance
+          						@lastUpDownDirection = direction
+          					
+          					move = distance - @lastDistance
+          					
+          					
+          					#mouse move above 10px or below -10
+          					if (move < 10) and (move > -10)
+          						#console.log "did not move enough"
+          						#console.log move
+          						return
+          
+          											
+          					@lastDistance = distance
+          					
+          					track = e.target.parentNode.rowIndex
+          					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
+          					i = sample.indexOf "0"
+          					n = Number sample[i+1]
+          					unless @samplebase
+          						@samplebase = sample[...i]
+          					
+          					
+          					
+          					if direction is "left"
+          						n++ unless n >= 7
+          						
+          					
+          					if direction is "right"
+          						n-- unless n <= 1
+          						
+          					
+          					newsample = @samplebase + 0 + n + sample[i+2...]
+          					#return
+          					BEATmatic.sequencer.playAudio BEATmatic.sequencer.folder + "drums/" +  newsample
+          					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
+          					
+          					$("#swipeDJSampleLayover").html(newsample)
+          */
+
+          if (direction === "up" || direction === "down") {
+            if (!_this.direction) {
+              _this.direction = "updown";
+            }
+            if ("updown" !== _this.direction) {
+              return;
+            }
+            if (!_this.swipeVolumeLayover) {
+              $("#swipeDJVolumeLayover").show();
+              _this.swipeVolumeLayover = true;
+            }
+            offset = Math.round(distance / 2);
+            if (direction === "down") {
+              offset = offset * -1;
+            }
+            if (!_this.originalbpm) {
+              _this.originalbpm = BEATmatic.sequencer.BPM;
+            }
+            $("#swipeDJVolumeLayover").html("" + (_this.originalbpm + offset) + " BPM");
+            BEATmatic.sequencer.changeBPM(_this.originalbpm + offset);
+          }
+        },
+        allowPageScroll: "none",
+        threshold: 50
+      });
     };
 
     return dj;

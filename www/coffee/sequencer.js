@@ -112,9 +112,15 @@
     };
 
     sequencer.prototype.changeBPM = function(newBPM) {
+      var player, samplePlaying, _ref;
       this.BPM = newBPM;
       console.log("changed BPM to " + newBPM);
-      this.stopCoreLoop();
+      this.pauseCoreLoop();
+      _ref = this.sampleTacksPlaying;
+      for (samplePlaying in _ref) {
+        player = _ref[samplePlaying];
+        player.changeDuration(120 / this.BPM, nop, nop, nop);
+      }
       return this.startCoreLoop();
     };
 
@@ -131,6 +137,10 @@
           return _this.beat16 = 1;
         }
       }, ms);
+    };
+
+    sequencer.prototype.pauseCoreLoop = function() {
+      return clearInterval(this.coreLoop);
     };
 
     sequencer.prototype.stopCoreLoop = function() {

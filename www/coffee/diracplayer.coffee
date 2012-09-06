@@ -1,29 +1,35 @@
-
 class DiracPlayer
+    sampleName: false
 	# This is basically like calling initWithContentsOfURL.
-	constructor: (@url) ->
+	constructor: () ->
 		console.log "MPD: initializing Dirac player with URL: " + @url
+		
 
-	prepare: (success, fail, resultType) ->
-		console.log "MPD: in prepare: url: " + @url
-		Cordova.exec(success, fail, "DiracPlayer", "load", [@url])
+	prepare: (sampleName, url) ->
+		#console.log "MPD: in prepare: url: " + @url
+		@sampleName = sampleName
+		Cordova.exec(success, fail, "DiracPlayer", "load", [sampleName, url])
 
-	play: (success, fail, resultType) ->
-		console.log "MPD: called play."
-		Cordova.exec(success, fail, "DiracPlayer", "play", [])
+	play: ->
+		#console.log "MPD: called play."
+		Cordova.exec(@nothing, @nothing, "DiracPlayer", "play", [@sampleName])
 
-	stop: (success, fail, resultType) ->
-		console.log "MPD: called stop."
-		Cordova.exec(success, fail, "DiracPlayer", "stop", [])
+	stop: ->
+		#console.log "MPD: called stop."
+		Cordova.exec(@nothing, @nothing, "DiracPlayer", "stop", [@sampleName])
 
-	changeDuration: (duration, success, fail, resultType) ->
-		console.log "MPD: called changeDuration."
-		Cordova.exec(success, fail, "DiracPlayer", "changeDuration", [duration])
+    changeDuration: (duration) ->
+		#console.log "MPD: called changeDuration."
+		Cordova.exec(@nothing, @nothing, "DiracPlayer", "changeDuration", [@sampleName, duration])
 
-	changePitch: (pitch, success, fail, resultType) ->
-		console.log "MPD: called changePitch."
-		Cordova.exec(success, fail, "DiracPlayer", "changePitch", [pitch])
+	changePitch: (pitch) ->
+		#console.log "MPD: called changePitch."
+		Cordova.exec(@nothing, @nothing, "DiracPlayer", "changePitch", [@sampleName, pitch])
+	
+	nothing: ->
+		#console.log "xxx"
 
-#BEATmatic.player = DiracPlayer
+#BEATmatic.player = DiracPlayerMgr
 $ ->
+	Cordova.exec(success, fail, "DiracPlayer", "init", []);
 	BEATmatic.DiracPlayer = DiracPlayer
