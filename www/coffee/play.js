@@ -5,7 +5,16 @@
 
   sequencer = (function() {
 
-    function sequencer() {}
+    function sequencer() {
+      this.stopSample = __bind(this.stopSample, this);
+
+      this.playSample = __bind(this.playSample, this);
+
+      this.muteDrum = __bind(this.muteDrum, this);
+
+      this.unMuteDrum = __bind(this.unMuteDrum, this);
+
+    }
 
     sequencer.prototype.coreLoop = false;
 
@@ -31,8 +40,12 @@
 
     sequencer.prototype.sampleTracks = {};
 
+    sequencer.prototype.sampleTacksPlaying = {};
+
     sequencer.prototype.setup = function(tracks) {
       this.drumTracks = tracks;
+      this.drumTracksToPlay = [0, 1, 2];
+      this.record = false;
       this.BPM = this.drumTracks.bpm;
       return this.startCoreLoop();
     };
@@ -52,7 +65,7 @@
         track = _ref1[_j];
         sample = this.sampleTracks[track];
         samplesPlayed.push(sample);
-        this.playAdjustedAudio(this.folder + "samples/" + sample);
+        this.playAdjustedAudio(track, sample);
       }
       if (this.highlightPlayer) {
         BEATmatic.play.highlightColumn(this.beat16);
@@ -65,11 +78,27 @@
           "drums": this.drumTracksToPlay
         };
       }
-      return this.sampleTacksToPlay = {};
+      return this.sampleTacksToPlay = [];
     };
 
-    sequencer.prototype.playAdjustedAudio = function(src) {
-      return this.playAudio(src);
+    sequencer.prototype.playAdjustedAudio = function(sample, src) {
+      var nop, player;
+      src = this.folder + "samples/" + src;
+      if (typeof Cordova !== "undefined" && Cordova !== null) {
+        this.sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src);
+        console.log(player);
+        nop = function() {
+          return console.log("nothing");
+        };
+        player.prepare(nop, nop, nop);
+        if (this.BPM !== 120) {
+          player.changeDuration(120 / this.BPM, nop, nop, nop);
+        }
+        player.play(nop, nop, nop);
+        return player;
+      } else {
+        return this.playAudio(src);
+      }
     };
 
     sequencer.prototype.playAudio = function(src) {
@@ -115,6 +144,46 @@
       return alert("code: " + error.code + "\n" + "message: " + error.message + "\n");
     };
 
+    sequencer.prototype.unMuteDrum = function(drumNumber) {
+      if ($.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay) === -1) {
+        return BEATmatic.sequencer.drumTracksToPlay.push(drumNumber);
+      }
+    };
+
+    sequencer.prototype.muteDrum = function(drumNumber) {
+      var i;
+      i = $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay);
+      if (i === -1) {
+        return;
+      }
+      return BEATmatic.sequencer.drumTracksToPlay.splice(i, 1);
+    };
+
+    sequencer.prototype.playSample = function(sample) {
+      console.log("adding sample " + sample);
+      return this.sampleTacksToPlay.push(sample);
+    };
+
+    sequencer.prototype.stopSample = function(sample) {
+      var i, player, samplePlaying, _ref, _results;
+      i = $.inArray(sample, BEATmatic.sequencer.sampleTacksToPlay);
+      if (i !== -1) {
+        this.sampleTacksToPlay.splice(i, 1);
+      }
+      _ref = this.sampleTacksPlaying;
+      _results = [];
+      for (samplePlaying in _ref) {
+        player = _ref[samplePlaying];
+        if (samplePlaying === sample) {
+          player.stop();
+          _results.push(delete this.sampleTacksPlaying[samplePlaying]);
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
     return sequencer;
 
   })();
@@ -150,13 +219,12 @@
         BEATmatic.sequencer.highlightPlayer = false;
         return false;
       });
-      $("sback").click(function() {
+      $("#sback").click(function() {
         BEATmatic.sequencer.stopCoreLoop();
         BEATmatic.ui["switch"]("main");
         BEATmatic.sequencer.highlightPlayer = false;
         return false;
       });
-      this.setup("demo");
     }
 
     play.prototype.setup = function(data) {
@@ -228,14 +296,13 @@
         swipeStatus: function(e, phase, direction, distance) {
           var i, move, n, newsample, offset, sample;
           if (phase === "cancel" || phase === "end") {
-            console.log("****END****");
             _this.direction = false;
             _this.lastDistance = 0;
             if (_this.swipeSampleLayover) {
               $("#swipeSampleLayover").hide();
               _this.swipeSampleLayover = false;
-              _this.stopLoop();
-              _this.loopTracks();
+              BEATmatic.sequencer.stopCoreLoop();
+              BEATmatic.sequencer.startCoreLoop();
             }
             if (_this.swipeVolumeLayover) {
               $("#swipeVolumeLayover").hide();
@@ -255,57 +322,17 @@
               return;
             }
             if (!_this.swipeSampleLayover) {
-              _this.stopLoop();
+              BEATmatic.sequencer.stopCoreLoop();
               _this.swipeSampleLayover = true;
-              /*
-              
-              						if e.pageX
-              							x = e.pageX
-              						else
-              							x = e.touches[0].pageX
-              						
-              						if e.pageY
-              							y = e.pageY
-              						else
-              							y = e.touches[0].pageY	
-              						
-              						totalHeight = $("body").height()
-              						layoverHeight = $("#swipeSampleLayover").height()
-              						offset = 0
-              						
-              						
-              						if y < layoverHeight/2
-              							#console.log "<"
-              							offset = layoverHeight/2 - y
-              							#x = layoverHeight/2
-              						
-              						#console.log "totalHeight - y < layoverHeight/2 : #{totalHeight - y} < #{layoverHeight/2} #{totalHeight - y < layoverHeight/2}"
-              						
-              						if totalHeight - y < layoverHeight/2
-              							#console.log ">"
-              							offset = totalHeight - y - layoverHeight/2
-              						
-              						
-              						#console.log offset
-              						$("#swipeSampleLayover").css "top", y + offset - layoverHeight/2
-              						#console.log e.touches
-              						#console.log e
-              						$("#swipeSampleLayover").css "left", x - 10
-              						#$("#swipeSampleLayover").css "left", 15
-              */
-
               $("#swipeSampleLayover").show();
               _this.samplebase = false;
             }
+            if (_this.lastUpDownDirection !== direction) {
+              _this.lastDistance = distance;
+              _this.lastUpDownDirection = direction;
+            }
             move = distance - _this.lastDistance;
-            console.log("***");
-            console.log(distance);
-            console.log(_this.lastDistance);
-            console.log(move);
-            console.log("***");
             if ((move < 10) && (move > -10)) {
-              console.log("did not move enough");
-              console.log(move);
               return;
             }
             _this.lastDistance = distance;
@@ -327,7 +354,7 @@
               }
             }
             newsample = _this.samplebase + 0 + n + sample.slice(i + 2);
-            _this.playAudio(_this.folder + newsample);
+            BEATmatic.sequencer.playAudio(BEATmatic.sequencer.folder + "drums/" + newsample);
             BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample;
             $("#swipeSampleLayover").html(newsample);
           }
@@ -356,24 +383,6 @@
         allowPageScroll: "none",
         threshold: 50
       });
-      /*
-      		
-      		$("#hor-minimalist-a").click (e) =>
-      			#console.log e
-      			#console.log e.target.parentNode.rowIndex
-      			#console.log e.target.cellIndex
-      			
-      			score = e.target.cellIndex
-      			track = e.target.parentNode.rowIndex
-      			cell = $($(".c#{score}")[track])
-      			if cell.hasClass "x100"
-      				cell.removeClass "x100"
-      				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
-      			else
-      				cell.addClass "x100"
-      				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
-      */
-
     };
 
     play.prototype.highlightColumn = function(col) {

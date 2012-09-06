@@ -236,7 +236,7 @@ h1 {
 }
 #sshare {
   vertical-align: middle;
-  position: relative;
+  position: absolute;
   top: 50%;
   margin-top: -45px;
 }
@@ -271,8 +271,8 @@ h1 {
 #hor-minimalist-a tbody tr:hover td {
   color: #009;
 }
+#synth,
 #dj,
-#main,
 #share {
   display: none;
 }

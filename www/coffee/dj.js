@@ -7,6 +7,17 @@
 
     function dj() {
       this.clickHandler = __bind(this.clickHandler, this);
+      BEATmatic.sequencer.sampleTracks = {
+        baseline: "Synth_5.wav",
+        percussion: "Percussion_2.wav",
+        synth: "Synth_12.wav",
+        melodic: "Melodic_5.wav"
+      };
+      $(".returnbtn").click(function() {
+        BEATmatic.sequencer.stopCoreLoop();
+        BEATmatic.ui["switch"]("main");
+        return false;
+      });
       this.setupClickHandlers();
     }
 
@@ -35,30 +46,70 @@
     };
 
     dj.prototype.clickHandler = function(e) {
-      var btn, btnname, _name, _name1, _name2;
+      var btn, btnbase, btnname, btnspecific, i, _name, _name1, _name2;
       btn = window.b1 = $(e.currentTarget);
       btnname = btn.attr("name");
-      if (typeof this[_name = btnname + "Toggle"] === "function") {
-        this[_name](btn);
+      i = btnname.indexOf(".");
+      btnbase = btnname.slice(0, i);
+      btnspecific = btnname.slice(i + 1);
+      if (typeof this[_name = btnbase + "Toggle"] === "function") {
+        this[_name](btnspecific, btn);
       }
       if (btn.hasClass("active")) {
-        if (typeof this[_name1 = btnname + "Off"] === "function" ? this[_name1](btn) : void 0) {
-          return;
+        if (typeof this[_name1 = btnbase + "Off"] === "function") {
+          this[_name1](btnspecific, btn);
         }
       } else {
-        if (typeof this[_name2 = btnname + "On"] === "function" ? this[_name2](btn) : void 0) {
-          return;
+        if (typeof this[_name2 = btnbase + "On"] === "function") {
+          this[_name2](btnspecific, btn);
         }
       }
       return this.toggleButtonState(btn);
     };
 
-    dj.prototype.kickdrumOn = function(btn) {
-      return console.log("happy bunny");
+    dj.prototype.drumsOn = function(drum, btn) {
+      switch (drum) {
+        case "kickdrum":
+          BEATmatic.sequencer.unMuteDrum(0);
+          break;
+        case "snare":
+          BEATmatic.sequencer.unMuteDrum(1);
+          break;
+        case "hihat":
+          BEATmatic.sequencer.unMuteDrum(2);
+          break;
+        default:
+          console.log("unknown drum");
+      }
+      return false;
     };
 
-    dj.prototype.kickdrumOff = function(btn) {
-      return console.log("sad bunny");
+    dj.prototype.drumsOff = function(drum, btn) {
+      switch (drum) {
+        case "kickdrum":
+          BEATmatic.sequencer.muteDrum(0);
+          break;
+        case "snare":
+          BEATmatic.sequencer.muteDrum(1);
+          break;
+        case "hihat":
+          BEATmatic.sequencer.muteDrum(2);
+          break;
+        default:
+          console.log("unknown drum");
+      }
+      return false;
+    };
+
+    dj.prototype.sampleOn = function(sample, btn) {
+      console.log("sampleOn");
+      BEATmatic.sequencer.playSample(sample);
+      return false;
+    };
+
+    dj.prototype.sampleOff = function(sample, btn) {
+      BEATmatic.sequencer.stopSample(sample);
+      return false;
     };
 
     return dj;

@@ -7,9 +7,13 @@
 
     rec.prototype.ready = false;
 
-    rec.prototype.url = "http://localhost:5000/";
+    rec.prototype.url = "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/";
 
     function rec() {
+      this.uploadError = __bind(this.uploadError, this);
+
+      this.uploadSuccess = __bind(this.uploadSuccess, this);
+
       this.uploadFile = __bind(this.uploadFile, this);
 
       this.onSuccess = __bind(this.onSuccess, this);
@@ -27,7 +31,7 @@
       this.setup = true;
       this.ready = false;
       $("#toTable").click(function() {
-        BEATmatic.synth.setup("demo");
+        BEATmatic.play.setup("demo");
         return BEATmatic.ui["switch"]("synth");
       });
       $("#record").click(function() {
@@ -90,15 +94,20 @@
     rec.prototype.nothing = function() {};
 
     rec.prototype.recordAudio3 = function(fileEntry) {
-      var recInterval, recTime;
       this.switchButtons("stoprecord");
       this.mediaRec = new Media(this.recordFile.fullPath, this.onSuccess, this.onError);
-      this.mediaRec.startRecord();
-      recTime = 0;
-      return recInterval = setInterval(function() {
-        recTime = recTime + 1;
-        return setAudioPosition(recTime + " sec");
-      }, 1000);
+      return this.mediaRec.startRecord();
+      /*
+      		recTime = 0
+      		recInterval = setInterval(->
+      			recTime = recTime + 1
+      			setAudioPosition recTime + " sec"
+      			#if recTime >= 10
+      			#	clearInterval recInterval
+      			#	@mediaRec.stopRecord()
+      		, 1000)#http://localhost:5000/
+      */
+
     };
 
     rec.prototype.onSuccess = function() {
@@ -113,17 +122,22 @@
       ft = new FileTransfer();
       path = mediaFile.fullPath;
       name = mediaFile.name;
-      return ft.upload(path, this.url, (function(result) {
-        var data;
-        data = decodeURIComponent(result.response);
-        BEATmatic.synth.setup(JSON.parse(data));
-        return BEATmatic.ui["switch"]("synth");
-      }), (function(error) {
-        alert("Error uploading file to get processed. No Network?");
-        return this.switchButtons("record");
-      }), {
+      return ft.upload(path, this.url, this.uploadSuccess, this.uploadError, {
         fileName: name
       });
+    };
+
+    rec.prototype.uploadSuccess = function() {
+      var data;
+      data = decodeURIComponent(result.response);
+      BEATmatic.play.setup(JSON.parse(data));
+      return BEATmatic.ui["switch"]("synth");
+    };
+
+    rec.prototype.uploadError = function(error) {
+      this.switchButtons("record");
+      console.log(error);
+      return alert("Error uploading file to get processed. No Network?");
     };
 
     rec.prototype.onError = function(error) {

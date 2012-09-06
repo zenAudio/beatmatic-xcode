@@ -1,7 +1,8 @@
 class rec
 	ready: false
 	#url: "http://192.168.2.105:5000/"
-	url: "http://localhost:5000/"
+	#url: "http://localhost:5000/"
+	url: "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/"
 	
 	constructor: ->
 		window.document.addEventListener "deviceready", @deviceready, false
@@ -9,7 +10,7 @@ class rec
 		@ready = false
 		
 		$("#toTable").click =>
-			BEATmatic.synth.setup("demo")
+			BEATmatic.play.setup("demo")
 			BEATmatic.ui.switch("synth")
 		
 		$("#record").click =>
@@ -72,7 +73,7 @@ class rec
 		
 		# Record audio
 		@mediaRec.startRecord()
-		
+		###
 		recTime = 0
 		recInterval = setInterval(->
 			recTime = recTime + 1
@@ -81,16 +82,8 @@ class rec
 			#	clearInterval recInterval
 			#	@mediaRec.stopRecord()
 		, 1000)#http://localhost:5000/
+		###
 		
-		
-	#	recordAudio2: =>
-		#console.log "recordAudio2"
-		
-		#console.log @getFilePath()
-		#@src = "test.wav"#@getFilePath() + "myrecording.wav"
-		#console.log "trying to recording to #{@src}"
-		#@fileSystem.root.getFile(@src, {create: true}, @recordAudio3, @nothing)
-		#@recordAudio3()
 	
 	# onSuccess Callback
 	#
@@ -107,17 +100,17 @@ class rec
 		ft = new FileTransfer()
 		path = mediaFile.fullPath
 		name = mediaFile.name
-		ft.upload path, @url, ((result) ->
-			data = decodeURIComponent result.response
-			BEATmatic.synth.setup(JSON.parse data)
-			BEATmatic.ui.switch("synth")
-			
-		), ((error) ->
-			alert "Error uploading file to get processed. No Network?"
-			@switchButtons "record"
-		),
-			fileName: name
+		ft.upload path, @url, @uploadSuccess, @uploadError, {fileName: name}
+	uploadSuccess: =>
+		data = decodeURIComponent result.response
+		BEATmatic.play.setup(JSON.parse data)
+		BEATmatic.ui.switch("synth")
 	
+	uploadError: (error) =>
+		@switchButtons "record"
+		console.log error
+		alert "Error uploading file to get processed. No Network?"
+		
 	# onError Callback 
 	#
 	onError: (error) ->

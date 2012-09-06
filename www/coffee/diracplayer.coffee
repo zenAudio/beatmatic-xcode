@@ -1,6 +1,5 @@
 
 class DiracPlayer
-
 	# This is basically like calling initWithContentsOfURL.
 	constructor: (@url) ->
 		console.log "MPD: initializing Dirac player with URL: " + @url
@@ -25,4 +24,6 @@ class DiracPlayer
 		console.log "MPD: called changePitch."
 		Cordova.exec(success, fail, "DiracPlayer", "changePitch", [pitch])
 
-BEATmatic.player = DiracPlayer
+#BEATmatic.player = DiracPlayer
+$ ->
+	BEATmatic.DiracPlayer = DiracPlayer

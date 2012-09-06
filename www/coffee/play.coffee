@@ -11,11 +11,14 @@ class sequencer
 	drumTracks: {}
 	sampleTacksToPlay: []
 	sampleTracks: {}
+	sampleTacksPlaying: {}
 	
 	#constructor: ->
 				
 	setup: (tracks) ->
 		@drumTracks = tracks
+		@drumTracksToPlay = [0, 1, 2]
+		@record = false
 		@BPM = @drumTracks.bpm
 		@startCoreLoop()
 		
@@ -30,7 +33,7 @@ class sequencer
 		for track in @sampleTacksToPlay
 			sample = @sampleTracks[track]
 			samplesPlayed.push sample
-			@playAdjustedAudio @folder + "samples/" + sample
+			@playAdjustedAudio track, sample
 		
 		
 		BEATmatic.play.highlightColumn @beat16 if @highlightPlayer
@@ -42,11 +45,25 @@ class sequencer
 				"BPM": @BPM
 				"drums": @drumTracksToPlay
 		
-		@sampleTacksToPlay = {}	
-	
-	playAdjustedAudio: (src) ->
-		@playAudio(src)
-	
+		@sampleTacksToPlay = []
+		
+	playAdjustedAudio: (sample, src) ->
+		src = @folder + "samples/" + src
+		#console.log "playAdjustedAudio #{sample}, #{src}"
+		if Cordova?
+			@sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src)
+			console.log player
+			nop = ->
+				console.log "nothing"
+			
+			player.prepare(nop, nop, nop);
+			#player.changePitch(5, nop, nop, nop);
+			player.changeDuration 120 / @BPM, nop, nop, nop unless @BPM is 120
+			player.play(nop, nop, nop)
+			player
+		else
+			@playAudio src
+		
 	playAudio: (src) ->
 		if Media?
 			my_media = new Media(src)#, @onSuccess, @onError, @onStatus)
@@ -80,6 +97,42 @@ class sequencer
 
 	onError: (error) ->
 		alert "code: " + error.code + "\n" + "message: " + error.message + "\n"
+		
+	
+	unMuteDrum: (drumNumber) =>
+		if $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay) is -1
+			BEATmatic.sequencer.drumTracksToPlay.push drumNumber
+	
+	muteDrum: (drumNumber) =>
+		i = $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay)
+		return  if i is -1
+		BEATmatic.sequencer.drumTracksToPlay.splice i, 1
+		
+	playSample: (sample) =>
+		console.log "adding sample #{sample}"
+		@sampleTacksToPlay.push sample
+		#@sampleTacksPlaying[sample]
+	
+	stopSample: (sample) =>
+		i = $.inArray(sample, BEATmatic.sequencer.sampleTacksToPlay)
+		unless i is -1
+			@sampleTacksToPlay.splice i, 1
+		
+		
+		#if @sampleTacksPlaying[samplePlaying]?
+		#	@sampleTacksPlaying[samplePlaying].stop()
+		#	delete @sampleTacksPlaying[samplePlaying]
+		#return	
+		
+		#console.log @sampleTacksPlaying
+		for samplePlaying, player of @sampleTacksPlaying
+			if samplePlaying is sample
+				player.stop()
+				delete @sampleTacksPlaying[samplePlaying]
+				#player = null
+		#stop
+		#@sampleTacksPlaying[sample]
+		
 	
 	
 
@@ -114,14 +167,14 @@ class play
 			BEATmatic.sequencer.highlightPlayer = false
 			false
 		
-		$("sback").click =>
+		$("#sback").click =>
 			#@stopLoop()
 			BEATmatic.sequencer.stopCoreLoop()
 			BEATmatic.ui.switch("main")
 			BEATmatic.sequencer.highlightPlayer = false
 			false
 			
-		@setup("demo")
+		#@setup("demo")
 		
 		
 	setup: (data) =>		
@@ -175,10 +228,8 @@ class play
 		
 		$("#hor-minimalist-a").swipe
 			click: (e, target) =>
-				#console.log @data
 				score = e.target.cellIndex
 				track = e.target.parentNode.rowIndex
-				#BEATmatic.sequencer.drumTracksToPlay TODO
 				
 				cell = $($(".c#{score}")[track])
 				if cell.hasClass "x100"
@@ -192,15 +243,14 @@ class play
 			swipeStatus: (e, phase, direction, distance) =>
 				#swipeCount++
 				if phase is "cancel" or phase is "end"
-					console.log "****END****"
 					@direction = false
 					@lastDistance = 0
 					
 					if @swipeSampleLayover
 						$("#swipeSampleLayover").hide()
 						@swipeSampleLayover = false
-						@stopLoop()
-						@loopTracks()
+						BEATmatic.sequencer.stopCoreLoop()
+						BEATmatic.sequencer.startCoreLoop()
 						
 					if @swipeVolumeLayover
 						$("#swipeVolumeLayover").hide()
@@ -212,70 +262,31 @@ class play
 					return
 
 				
+				
 				if direction is "up" or direction is "down"
 					@direction = "updown" unless @direction
 					return if "updown" != @direction
 					
 					unless @swipeSampleLayover
-						#console.log "*** Show Samples"
-						#console.log "*** Show Samples!!!"
-						@stopLoop()
+						#@stopLoop()
+						BEATmatic.sequencer.stopCoreLoop()
 						@swipeSampleLayover = true
-						###
-
-						if e.pageX
-							x = e.pageX
-						else
-							x = e.touches[0].pageX
 						
-						if e.pageY
-							y = e.pageY
-						else
-							y = e.touches[0].pageY	
-						
-						totalHeight = $("body").height()
-						layoverHeight = $("#swipeSampleLayover").height()
-						offset = 0
-						
-						
-						if y < layoverHeight/2
-							#console.log "<"
-							offset = layoverHeight/2 - y
-							#x = layoverHeight/2
-						
-						#console.log "totalHeight - y < layoverHeight/2 : #{totalHeight - y} < #{layoverHeight/2} #{totalHeight - y < layoverHeight/2}"
-						
-						if totalHeight - y < layoverHeight/2
-							#console.log ">"
-							offset = totalHeight - y - layoverHeight/2
-						
-						
-						#console.log offset
-						$("#swipeSampleLayover").css "top", y + offset - layoverHeight/2
-						#console.log e.touches
-						#console.log e
-						$("#swipeSampleLayover").css "left", x - 10
-						#$("#swipeSampleLayover").css "left", 15
-						###
 						$("#swipeSampleLayover").show()
 						@samplebase = false
-						
+
 					
+					unless @lastUpDownDirection is direction
+						@lastDistance = distance
+						@lastUpDownDirection = direction
 					
-					#have at least 5px differnece from last time
-					
-					move =  distance - @lastDistance
-					console.log "***"
-					console.log distance
-					console.log @lastDistance
-					console.log move
-					console.log "***"
+					move = distance - @lastDistance
 					
 					
 					#mouse move above 10px or below -10
 					if (move < 10) and (move > -10)
-						console.log "did not move enough"
-						console.log move
+						#console.log "did not move enough"
+						#console.log move
 						return
 
 											
@@ -300,15 +311,10 @@ class play
 					
 					newsample = @samplebase + 0 + n + sample[i+2...]
 					#return
-					@playAudio @folder + newsample
+					BEATmatic.sequencer.playAudio BEATmatic.sequencer.folder + "drums/" +  newsample
 					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
 					
 					$("#swipeSampleLayover").html(newsample)
-					#alert i = test.indexOf "0"
-					
-					#test[...i] + test[i+2...]
-					
-					#volume
 					
 						
 				if direction is "left" or direction is "right"
@@ -329,34 +335,14 @@ class play
 					$("#swipeVolumeLayover").html "#{@originalbpm + offset} BPM"
 
 					BEATmatic.sequencer.changeBPM @originalbpm + offset
-					#@stopLoop()
-					#@loopTracks()
 					
 				
 				return
 				
-				#$(this).html "You swiped " + swipeCount + " times"
 			allowPageScroll: "none"
 			threshold: 50
 		
-		###
-		
-		$("#hor-minimalist-a").click (e) =>
-			#console.log e
-			#console.log e.target.parentNode.rowIndex
-			#console.log e.target.cellIndex
-			
-			score = e.target.cellIndex
-			track = e.target.parentNode.rowIndex
-			cell = $($(".c#{score}")[track])
-			if cell.hasClass "x100"
-				cell.removeClass "x100"
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
-			else
-				cell.addClass "x100"
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
 
-		###
 			
 	
 	highlightColumn: (col) ->
