@@ -49,7 +49,7 @@ class sequencer
 		src = @folder + "samples/" + src
 		#console.log "playAdjustedAudio #{sample}, #{src}"
 		if Cordova?
-			@sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src)
+			@sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(sample, src)
 			console.log player
 			nop = ->
 				console.log "nothing"

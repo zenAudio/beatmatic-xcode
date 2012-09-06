@@ -85,7 +85,7 @@
       var nop, player;
       src = this.folder + "samples/" + src;
       if (typeof Cordova !== "undefined" && Cordova !== null) {
-        this.sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src);
+        this.sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(sample, src);
         console.log(player);
         nop = function() {
           return console.log("nothing");

@@ -108,6 +108,7 @@ class rec
 		name = mediaFile.name
 <<<<<<< HEAD
 		ft.upload path, @url, @uploadSuccess, @uploadError, {fileName: name}
+		
 	uploadSuccess: =>
 		data = decodeURIComponent result.response
 		BEATmatic.play.setup(JSON.parse data)
