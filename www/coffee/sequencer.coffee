@@ -55,7 +55,7 @@ class sequencer
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 			console.log player
 			nop = ->
-				console.log "nothing"
+				console.log "MPD: YOU ARE THE GREATEST."
 			player.changeDuration 120/@BPM unless @BPM is 120
 			player.play nop
 			player

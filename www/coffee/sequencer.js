@@ -92,7 +92,7 @@
         this.sampleTacksPlaying[sample] = player = this.diracMgr.newPlayer(sample, src);
         console.log(player);
         nop = function() {
-          return console.log("nothing");
+          return console.log("MPD: YOU ARE THE GREATEST.");
         };
         if (this.BPM !== 120) {
           player.changeDuration(120 / this.BPM);

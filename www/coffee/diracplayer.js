@@ -10,12 +10,10 @@
     }
 
     DiracPlayer.prototype.play = function(playEndedCallback) {
-      console.log("MPD: called play: " + this.voice);
-      return Cordova.exec(this.nop, this.nop, "DiracPlayer", "play", [this.voice, playEndedCallback]);
+      return Cordova.exec(playEndedCallback, playEndedCallback, "DiracPlayer", "play", [this.voice]);
     };
 
     DiracPlayer.prototype.stop = function() {
-      console.log("MPD: called stop: " + this.voice);
       return Cordova.exec(this.nop, this.nop, "DiracPlayer", "stop", [this.voice]);
     };
 
@@ -42,7 +40,6 @@
     function DiracPlayerMgr() {
       console.log("MPD: creating dirac player manager.");
       Cordova.exec(this.nop, this.nop, "DiracPlayer", "diracInit", []);
-      console.log("MPD: done creating dirac player manager.");
     }
 
     DiracPlayerMgr.prototype.newPlayer = function(voice, sampleUrl) {
@@ -50,7 +47,6 @@
       console.log("MPD: creating new dirac player for " + voice + " and " + sampleUrl);
       result = new DiracPlayer(voice);
       Cordova.exec(this.nop, this.nop, "DiracPlayer", "load", [voice, sampleUrl]);
-      console.log("MPD: done creating new dirac player for " + voice + " and " + sampleUrl);
       return result;
     };
 

@@ -19,6 +19,8 @@
 //
 @interface DiracPlayer : CDVPlugin {
     NSMutableDictionary *sampleNameToPlayer;
+    NSMutableDictionary *playerToSampleName;
+    NSMutableDictionary *playerToCallbackId;
     
 //    DiracFxAudioPlayer *player;
 }
@@ -54,5 +56,6 @@
 //- (void) unload: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) changePitch: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) changeDuration: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) diracPlayerDidFinishPlaying:(DiracAudioPlayerBase *)player successfully:(BOOL)flag;
 
 @end

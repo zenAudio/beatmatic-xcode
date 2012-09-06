@@ -33,9 +33,25 @@ NSString* STOP_REQUESTED = @"STOP REQUESTED";
 NSString* UNLOAD_REQUESTED = @"UNLOAD REQUESTED";
 NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 
+- (void)diracPlayerDidFinishPlaying:(DiracAudioPlayerBase *)player successfully:(BOOL)flag
+{
+	NSLog(@"MPD: NATIVE: Dirac player instance (0x%lx) is done playing: %@", (long)player,
+          [playerToSampleName objectForKey:[NSNumber numberWithUnsignedInt:[player hash]]]);
+    NSString* callbackId = [playerToCallbackId objectForKey:[NSNumber numberWithUnsignedInt:[player hash]]];
+    CDVPluginResult* pluginResult;
+    if (flag) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+    [self writeJavascript: [pluginResult toSuccessCallbackString:callbackId]];
+}
+
 - (void) diracInit: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSLog(@"MPD: NATIVE: DiracPlayer: initializing.");
     sampleNameToPlayer = [[NSMutableDictionary alloc] init];
+    playerToSampleName = [[NSMutableDictionary alloc] init];
+    playerToCallbackId = [[NSMutableDictionary alloc] init];
 }
 
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
@@ -49,8 +65,9 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     
     DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
     if (player != nil) {
+        [playerToCallbackId setObject:callbackID forKey:[NSNumber numberWithUnsignedInt:[player hash]]];
         [player play];
-    } else {
+     } else {
         NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
     }
     
@@ -103,10 +120,10 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
         NSLog(@"MPD: NATIVE: DiracPlayer: loading: url is: %@", url);
         NSError *error = nil;
         DiracFxAudioPlayer *player = [[DiracFxAudioPlayer alloc] initWithContentsOfURL:url channels:1 error:&error];
+        [player setDelegate:self];
         [player setNumberOfLoops:1];   // play looped
         [sampleNameToPlayer setObject:player forKey:sampleName];
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: CONTENT_LOAD_REQUESTED];
-        [self writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
+        [playerToSampleName setObject:sampleName forKey:[NSNumber numberWithUnsignedInt:[player hash]]];
     }
     else
     {
@@ -122,8 +139,6 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 }
 
 - (void) changePitch: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-    CDVPluginResult* pluginResult;
-    
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     
@@ -149,8 +164,6 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 }
 
 - (void) changeDuration: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-    CDVPluginResult* pluginResult;
-    
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     

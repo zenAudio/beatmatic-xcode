@@ -4,11 +4,11 @@ class DiracPlayer
 		console.log "MPD: initializing Dirac player for voice: " + @voice
 
 	play: (playEndedCallback) ->
-		console.log "MPD: called play: " + @voice
-		Cordova.exec(@nop, @nop, "DiracPlayer", "play", [@voice, playEndedCallback])
+		#console.log "MPD: called play: " + @voice
+		Cordova.exec(playEndedCallback, playEndedCallback, "DiracPlayer", "play", [@voice])
 
 	stop: ->
-		console.log "MPD: called stop: " + @voice
+		#console.log "MPD: called stop: " + @voice
 		Cordova.exec(@nop, @nop, "DiracPlayer", "stop", [@voice])
 
 	changeDuration: (duration) ->
@@ -29,13 +29,11 @@ class DiracPlayerMgr
 	constructor: () ->
 		console.log "MPD: creating dirac player manager."
 		Cordova.exec(@nop, @nop, "DiracPlayer", "diracInit", [])
-		console.log "MPD: done creating dirac player manager."
 
 	newPlayer: (voice, sampleUrl) ->
 		console.log "MPD: creating new dirac player for " + voice + " and " + sampleUrl
 		result = new DiracPlayer(voice)
 		Cordova.exec(@nop, @nop, "DiracPlayer", "load", [voice, sampleUrl])
-		console.log "MPD: done creating new dirac player for " + voice + " and " + sampleUrl
 		result
 
 $ ->
