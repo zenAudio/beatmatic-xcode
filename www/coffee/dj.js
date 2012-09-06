@@ -37,6 +37,25 @@
       return button.click(this.clickHandler);
     };
 
+    dj.prototype.resetButtons = function() {
+      var btn, btnbase, btnname, i, _i, _len, _ref, _results;
+      _ref = $(".djbtn");
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        btn = _ref[_i];
+        btn = $(btn);
+        btnname = btn.attr("name");
+        i = btnname.indexOf(".");
+        btnbase = btnname.slice(0, i);
+        if (btnbase === "drums") {
+          _results.push(btn.addClass("active"));
+        } else {
+          _results.push(btn.removeClass("active"));
+        }
+      }
+      return _results;
+    };
+
     dj.prototype.toggleButtonState = function(button) {
       if (button.hasClass("active")) {
         return button.removeClass("active");
@@ -102,7 +121,6 @@
     };
 
     dj.prototype.sampleOn = function(sample, btn) {
-      console.log("sampleOn");
       BEATmatic.sequencer.playSample(sample);
       return false;
     };

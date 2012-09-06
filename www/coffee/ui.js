@@ -17,19 +17,20 @@
     }
 
     ui.prototype["switch"] = function(tabid) {
-      var jtab, tab, _i, _len, _ref, _results;
+      var jtab, tab, _i, _len, _ref;
       _ref = $("#ui").children();
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         tab = _ref[_i];
         jtab = $(tab);
         if (tab.id === tabid) {
-          _results.push(jtab.show());
+          jtab.show();
         } else {
-          _results.push(jtab.hide());
+          jtab.hide();
         }
       }
-      return _results;
+      if (tab === "dj") {
+        return BEATmatic.sequencer.resetButtons();
+      }
     };
 
     return ui;

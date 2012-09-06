@@ -24,6 +24,18 @@ class dj
 		button = $ button
 		#console.log button
 		button.click @clickHandler
+		
+	resetButtons: ->
+		for btn in $(".djbtn")
+			btn = $ btn
+			btnname = btn.attr("name")
+			i = btnname.indexOf "."
+			btnbase = btnname[...i]
+			
+			if btnbase is "drums"
+				btn.addClass "active"
+			else
+				btn.removeClass "active"
 			
 	toggleButtonState: (button) ->
 		if button.hasClass "active"
@@ -58,13 +70,7 @@ class dj
 			when "snare" then BEATmatic.sequencer.unMuteDrum 1
 			when "hihat" then BEATmatic.sequencer.unMuteDrum 2
 			else console.log "unknown drum"
-		false
-			
-		#console.log "happy bunny"
-		#BEATmatic.sequencer
-		#sampleTacksToPlay: []
-		#sampleTracks: {}
-	
+		false	
 	
 	
 	drumsOff: (drum, btn) ->
@@ -78,7 +84,7 @@ class dj
 	
 		
 	sampleOn: (sample, btn) ->
-		console.log "sampleOn"
+		#console.log "sampleOn"
 		BEATmatic.sequencer.playSample sample
 		#BEATmatic.sequencer.sampleTacksToPlay.push sample
 		false
