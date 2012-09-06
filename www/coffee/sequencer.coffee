@@ -10,7 +10,24 @@ class sequencer
 	drumTracksToPlay: [0, 1, 2]
 	drumTracks: {}
 	sampleTacksToPlay: []
-	sampleTracks: {}
+	sampleTracks: 
+		baseline: 
+			wav: "Synth_5.wav"
+			callbacks: []
+			loop: true
+		percussion: 
+			wav: "Percussion_2.wav"
+			callbacks: []
+			loop: true
+		synth: 
+			wav: "Synth_12.wav"
+			callbacks: []
+			loop: true
+		melodic: 
+			wav: "Melodic_5.wav"
+			callbacks: []
+			loop: true
+			
 	sampleTacksPlaying: {}
 				
 	setup: (tracks) ->
@@ -32,8 +49,9 @@ class sequencer
 			
 		for track in @sampleTacksToPlay
 			sample = @sampleTracks[track]
+			
 			samplesPlayed.push sample
-			@playAdjustedAudio track, sample
+			@playAdjustedAudio track, sample.wav, sample.loop, sample.callbacks
 		
 		
 		BEATmatic.play.highlightColumn @beat16 if @highlightPlayer
@@ -46,18 +64,28 @@ class sequencer
 				"drums": @drumTracksToPlay
 		
 		@sampleTacksToPlay = []
+	
+	calcOffsetForPlaying: ->
+		nextBeat = @beat16+1
+		nextForth = Math.ceil(nextBeat / 4) * 4
+		return (nextBeat - nextForth) * (15000 / @BPM)
+			
 		
-	playAdjustedAudio: (sample, src) ->
+	playAdjustedAudio: (sample, src, shouldLoop, callbacks) ->
 		fname = src
 		src = @folder + "samples/" + fname
 		console.log "playAdjustedAudio #{sample}, #{src}"
 		if Cordova?
+			
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
-			console.log player
-			nop = ->
-				console.log "MPD: YOU ARE THE GREATEST."
-			player.changeDuration 120/@BPM unless @BPM is 120
-			player.play nop
+
+			player.matchBPM @BPM
+			player.play @calcOffsetForPlaying, =>
+				for callback in callbacks
+					callback(sample, src, player)
+					if shouldLoop
+						@sampleTacksToPlay.push sample
+					
 			player
 		else
 			@playAudio src
@@ -77,14 +105,14 @@ class sequencer
 		
 		#stretchSamples
 		for samplePlaying, player of @sampleTacksPlaying
-			player.changeDuration 120 / @BPM, nop, nop, nop
+			player.matchBPM @BPM
 			
 		@startCoreLoop()
 	
 	startCoreLoop: ->
 		ms = 15000 / @BPM
 		ms = ms.toFixed(0)
-		
+
 		@coreLoop = setInterval(=>
 			@beat()
 			@beat16++
@@ -113,14 +141,19 @@ class sequencer
 	unMuteDrum: (drumNumber) =>
 		if $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay) is -1
 			BEATmatic.sequencer.drumTracksToPlay.push drumNumber
+
 	
 	muteDrum: (drumNumber) =>
 		i = $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay)
 		return  if i is -1
 		BEATmatic.sequencer.drumTracksToPlay.splice i, 1
 		
-	playSample: (sample) =>
+	playSample: (sample, callback = false) =>
 		@sampleTacksToPlay.push sample
+		
+		if callback
+			@sampleTracks[sample].callbacks.push callback
+
 	
 	stopSample: (sample) =>
 		i = $.inArray(sample, BEATmatic.sequencer.sampleTacksToPlay)
@@ -131,6 +164,7 @@ class sequencer
 			if samplePlaying is sample
 				player.stop()
 				delete @sampleTacksPlaying[samplePlaying]
+				@sampleTracks[samplePlaying].callbacks = []
 
 	record: ->
 		#Find the right time to start recording, reset the bars

@@ -8,11 +8,7 @@ class dj
 	lastDistance: 0
 	
 	constructor: ->
-		BEATmatic.sequencer.sampleTracks = 
-			baseline: "Synth_5.wav"
-			percussion: "Percussion_2.wav"
-			synth: "Synth_12.wav"
-			melodic: "Melodic_5.wav"
+		#BEATmatic.sequencer.
 		
 		
 		$(".returnbtn").click ->

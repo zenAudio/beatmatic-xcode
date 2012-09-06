@@ -18,7 +18,10 @@ class DiracPlayer
 	changePitch: (pitch) ->
 		console.log "MPD: called changePitch: " + @voice
 		Cordova.exec(@nop, @nop, "DiracPlayer", "changePitch", [@voice, pitch])
-
+	
+	matchBPM: (bpm) ->
+		@changeDuration 120/bpm unless bpm is 120
+	
 	nop: ->
 		# it's a noop.
 	
