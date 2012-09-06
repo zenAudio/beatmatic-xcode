@@ -7,7 +7,11 @@
 
     rec.prototype.ready = false;
 
+<<<<<<< HEAD
     rec.prototype.url = "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/";
+=======
+    rec.prototype.url = "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com:5000/";
+>>>>>>> Added stuff to test.
 
     function rec() {
       this.uploadError = __bind(this.uploadError, this);
@@ -122,7 +126,20 @@
       ft = new FileTransfer();
       path = mediaFile.fullPath;
       name = mediaFile.name;
+<<<<<<< HEAD
       return ft.upload(path, this.url, this.uploadSuccess, this.uploadError, {
+=======
+      console.log("Sending file to " + this.url);
+      return ft.upload(path, this.url, (function(result) {
+        var data;
+        data = decodeURIComponent(result.response);
+        BEATmatic.synth.setup(JSON.parse(data));
+        return BEATmatic.ui["switch"]("synth");
+      }), (function(error) {
+        alert("Error uploading file to server. No Network?");
+        return this.switchButtons("record");
+      }), {
+>>>>>>> Added stuff to test.
         fileName: name
       });
     };

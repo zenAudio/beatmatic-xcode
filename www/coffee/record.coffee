@@ -1,8 +1,14 @@
 class rec
 	ready: false
+<<<<<<< HEAD
 	#url: "http://192.168.2.105:5000/"
 	#url: "http://localhost:5000/"
 	url: "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/"
+=======
+	#url: "http://192.168.2.109:5000/"
+	#url: "http://localhost:5000/"
+	url: "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com:5000/"
+>>>>>>> Added stuff to test.
 	
 	constructor: ->
 		window.document.addEventListener "deviceready", @deviceready, false
@@ -100,11 +106,25 @@ class rec
 		ft = new FileTransfer()
 		path = mediaFile.fullPath
 		name = mediaFile.name
+<<<<<<< HEAD
 		ft.upload path, @url, @uploadSuccess, @uploadError, {fileName: name}
 	uploadSuccess: =>
 		data = decodeURIComponent result.response
 		BEATmatic.play.setup(JSON.parse data)
 		BEATmatic.ui.switch("synth")
+=======
+		console.log("Sending file to " + @url)
+		ft.upload path, @url, ((result) ->
+			data = decodeURIComponent result.response
+			BEATmatic.synth.setup(JSON.parse data)
+			BEATmatic.ui.switch("synth")
+			
+		), ((error) ->
+			alert("Error uploading file to server. No Network?")
+			@switchButtons "record"
+		),
+			fileName: name
+>>>>>>> Added stuff to test.
 	
 	uploadError: (error) =>
 		@switchButtons "record"
