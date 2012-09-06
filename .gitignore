@@ -3,5 +3,5 @@
 
 www/.DS_Store
 
-BeatMatic.xcodeproj/project.xcworkspace/xcuserdata/tom.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate
 *.swp
