@@ -1,35 +1,43 @@
+
 class DiracPlayer
-    sampleName: false
-	# This is basically like calling initWithContentsOfURL.
-	constructor: () ->
-		console.log "MPD: initializing Dirac player with URL: " + @url
-		
+	constructor: (@voice) ->
+		console.log "MPD: initializing Dirac player for voice: " + @voice
 
-	prepare: (sampleName, url) ->
-		#console.log "MPD: in prepare: url: " + @url
-		@sampleName = sampleName
-		Cordova.exec(success, fail, "DiracPlayer", "load", [sampleName, url])
-
-	play: ->
-		#console.log "MPD: called play."
-		Cordova.exec(@nothing, @nothing, "DiracPlayer", "play", [@sampleName])
+	play: (playEndedCallback) ->
+		console.log "MPD: called play: " + @voice
+		Cordova.exec(@nop, @nop, "DiracPlayer", "play", [@voice, playEndedCallback])
 
 	stop: ->
-		#console.log "MPD: called stop."
-		Cordova.exec(@nothing, @nothing, "DiracPlayer", "stop", [@sampleName])
+		console.log "MPD: called stop: " + @voice
+		Cordova.exec(@nop, @nop, "DiracPlayer", "stop", [@voice])
 
-    changeDuration: (duration) ->
-		#console.log "MPD: called changeDuration."
-		Cordova.exec(@nothing, @nothing, "DiracPlayer", "changeDuration", [@sampleName, duration])
+	changeDuration: (duration) ->
+		console.log "MPD: called changeDuration: " + @voice
+		Cordova.exec(@nop, @nop, "DiracPlayer", "changeDuration", [@voice, duration])
 
 	changePitch: (pitch) ->
-		#console.log "MPD: called changePitch."
-		Cordova.exec(@nothing, @nothing, "DiracPlayer", "changePitch", [@sampleName, pitch])
-	
-	nothing: ->
-		#console.log "xxx"
+		console.log "MPD: called changePitch: " + @voice
+		Cordova.exec(@nop, @nop, "DiracPlayer", "changePitch", [@voice, pitch])
 
-#BEATmatic.player = DiracPlayerMgr
+	nop: ->
+		# it's a noop.
+	
+class DiracPlayerMgr
+	nop: ->
+		# it's a noop.
+
+	constructor: () ->
+		console.log "MPD: creating dirac player manager."
+		Cordova.exec(@nop, @nop, "DiracPlayer", "diracInit", [])
+		console.log "MPD: done creating dirac player manager."
+
+	newPlayer: (voice, sampleUrl) ->
+		console.log "MPD: creating new dirac player for " + voice + " and " + sampleUrl
+		result = new DiracPlayer(voice)
+		Cordova.exec(@nop, @nop, "DiracPlayer", "load", [voice, sampleUrl])
+		console.log "MPD: done creating new dirac player for " + voice + " and " + sampleUrl
+		result
+
 $ ->
-	Cordova.exec(success, fail, "DiracPlayer", "init", []);
+	BEATmatic.DiracPlayerMgr = DiracPlayerMgr
 	BEATmatic.DiracPlayer = DiracPlayer

@@ -33,9 +33,9 @@ NSString* STOP_REQUESTED = @"STOP REQUESTED";
 NSString* UNLOAD_REQUESTED = @"UNLOAD REQUESTED";
 NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 
-- (void) init: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+- (void) diracInit: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSLog(@"MPD: NATIVE: DiracPlayer: initializing.");
-    sampleNameToPlayer = [NSMutableDictionary alloc];
+    sampleNameToPlayer = [[NSMutableDictionary alloc] init];
 }
 
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
@@ -104,10 +104,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
         NSError *error = nil;
         DiracFxAudioPlayer *player = [[DiracFxAudioPlayer alloc] initWithContentsOfURL:url channels:1 error:&error];
         [player setNumberOfLoops:1];   // play looped
-        [player ]
-        
         [sampleNameToPlayer setObject:player forKey:sampleName];
-        
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: CONTENT_LOAD_REQUESTED];
         [self writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
     }

@@ -95,31 +95,12 @@
         <script type="text/javascript" src="js/jquery-1.8.0.js"></script>
         <script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="coffee/ui.js"></script>
-        <script type="text/javascript" src="coffee/diracplayer.js"></script>
+        -<script type="text/javascript" src="coffee/diracplayer.js"></script>
         <script type="text/javascript" src="coffee/sequencer.js"></script>
         
         <script type="text/javascript" src="coffee/record.js"></script>
         <script type="text/javascript" src="coffee/play.js"></script>
         <script type="text/javascript" src="coffee/dj.js"></script>
         <script src="http://debug.phonegap.com/target/target-script-min.js#beatmatic"></script>
-<<<<<<< HEAD
-=======
-        <script type="text/javascript">
-            window.BEATmatic = {}
-            function nop () {
-                console.log("MPD: ID got called.");
-            }
-            function testDirac() {
-                try {
-                    var player = new DiracPlayer("sounds/bells.wav");
-                    player.prepare(nop, nop, nop);
-                    player.changePitch(5, nop, nop, nop);
-                    player.play(nop, nop, nop);
-                } catch (e) {
-                    console.error(e.message);
-                }
-            }
-        </script>
->>>>>>> Added stuff to test.
     </body>
 </html>

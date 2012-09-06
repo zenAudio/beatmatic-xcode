@@ -47,11 +47,11 @@
  - (void) stop;
  */
 
-- (void) init: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) diracInit: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) load: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
-- (void) unload: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+//- (void) unload: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) changePitch: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) changeDuration: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 

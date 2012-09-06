@@ -43,11 +43,13 @@
     sequencer.prototype.sampleTacksPlaying = {};
 
     sequencer.prototype.setup = function(tracks) {
+      console.log("MPD: SETTING UP SEQUENCER!");
       this.drumTracks = tracks;
       this.drumTracksToPlay = [0, 1, 2];
       this.recording = false;
       this.BPM = this.drumTracks.bpm;
-      return this.startCoreLoop();
+      this.startCoreLoop();
+      return this.diracMgr = new BEATmatic.DiracPlayerMgr;
     };
 
     sequencer.prototype.beat = function() {
@@ -82,19 +84,20 @@
     };
 
     sequencer.prototype.playAdjustedAudio = function(sample, src) {
-      var nop, player;
-      src = this.folder + "samples/" + src;
+      var fname, nop, player;
+      fname = src;
+      src = this.folder + "samples/" + fname;
+      console.log("playAdjustedAudio " + sample + ", " + src);
       if (typeof Cordova !== "undefined" && Cordova !== null) {
-        this.sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src);
+        this.sampleTacksPlaying[sample] = player = this.diracMgr.newPlayer(sample, src);
         console.log(player);
         nop = function() {
           return console.log("nothing");
         };
-        player.prepare(nop, nop, nop);
         if (this.BPM !== 120) {
-          player.changeDuration(120 / this.BPM, nop, nop, nop);
+          player.changeDuration(120 / this.BPM);
         }
-        player.play(nop, nop, nop);
+        player.play(nop);
         return player;
       } else {
         return this.playAudio(src);

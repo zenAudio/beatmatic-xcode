@@ -15,7 +15,7 @@ class ui
 			if tab.id is tabid
 				jtab.show()
 			else
-				jtab.hide()		
+				jtab.hide()
 		
 		if tab is "dj"
 			BEATmatic.sequencer.resetButtons()

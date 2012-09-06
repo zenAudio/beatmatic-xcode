@@ -14,11 +14,13 @@ class sequencer
 	sampleTacksPlaying: {}
 				
 	setup: (tracks) ->
+		console.log("MPD: SETTING UP SEQUENCER!")
 		@drumTracks = tracks
 		@drumTracksToPlay = [0, 1, 2]
 		@recording = false
 		@BPM = @drumTracks.bpm
 		@startCoreLoop()
+		@diracMgr = new BEATmatic.DiracPlayerMgr
 		
 	beat: ->
 		#Play Drums
@@ -46,18 +48,16 @@ class sequencer
 		@sampleTacksToPlay = []
 		
 	playAdjustedAudio: (sample, src) ->
-		src = @folder + "samples/" + src
-		#console.log "playAdjustedAudio #{sample}, #{src}"
+		fname = src
+		src = @folder + "samples/" + fname
+		console.log "playAdjustedAudio #{sample}, #{src}"
 		if Cordova?
-			@sampleTacksPlaying[sample] = player = new BEATmatic.DiracPlayer(src)
+			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 			console.log player
 			nop = ->
 				console.log "nothing"
-			
-			player.prepare(nop, nop, nop);
-			#player.changePitch(5, nop, nop, nop);
-			player.changeDuration 120 / @BPM, nop, nop, nop unless @BPM is 120
-			player.play(nop, nop, nop)
+			player.changeDuration 120/@BPM unless @BPM is 120
+			player.play nop
 			player
 		else
 			@playAudio src
@@ -68,7 +68,7 @@ class sequencer
 			my_media.play()
 		else
 			#HTML5
-			new Audio(src).play();
+			new Audio(src).play()
 	
 	changeBPM: (newBPM) ->
 		@BPM = newBPM
