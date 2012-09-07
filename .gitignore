@@ -3,3 +3,10 @@ www/.DS_Store
 *.xcuserstate
 *.swp
 BeatMatic.xcodeproj/project.xcworkspace/xcuserdata/mpercossi.xcuserdatad/UserInterfaceState.xcuserstate
+www/BeatMatic.esproj/user.tom.espressostorage
+TemplateIcon.icns
+TemplateInfo.plist
+project.pbxproj
+contents.xcworkspacedata
+BeatMatic.xcscheme
+xcschememanagement.plist
