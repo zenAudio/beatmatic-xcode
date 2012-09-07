@@ -16,8 +16,8 @@ class dj
 			BEATmatic.ui.switch("main")
 			false
 		
-		@setupClickHandlers()
-		#@enableSwipe()
+		#@setupClickHandlers()
+		@enableSwipe()
 
 	
 	setupClickHandlers: ->
@@ -50,7 +50,10 @@ class dj
 			
 	clickHandler: (e) =>
 		#console.log "clickHandler"
-		btn =  window.b1 = $ e.currentTarget
+		console.log e.currentTarget
+		console.log e.target
+		btn =  window.b1 = $ e.target
+		return unless $(e.target).hasClass "djbtn"
 		btnname = btn.attr("name")
 		i = btnname.indexOf "."
 		btnbase = btnname[...i]
@@ -105,12 +108,18 @@ class dj
 	
 	enableSwipe: =>	
 		$("#dj").swipe
+			#click: (e, target) =>
+			#	true
+			
 			click: (e, target) =>
-				true
-			###
-			click: (e, target) =>
+				console.log window.e1 = e.target
+				console.log window.e2 = target
+				BEATmatic.dj.clickHandler(e)
+				return
 				score = e.target.cellIndex
 				track = e.target.parentNode.rowIndex
+				
+				".djbtn"
 				
 				cell = $($(".c#{score}")[track])
 				if cell.hasClass "x100"
@@ -120,7 +129,7 @@ class dj
 					cell.addClass "x100"
 					
 					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
-			###
+			
 		
 			swipeStatus: (e, phase, direction, distance) =>
 				#swipeCount++

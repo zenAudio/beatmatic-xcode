@@ -2,7 +2,7 @@ class rec
 	ready: false
 	#url: "http://192.168.2.105:5000/"
 	#url: "http://localhost:5000/"
-	url: "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/?id="+device.uuid
+	url: "http://ec2-46-51-129-29.eu-west-1.compute.amazonaws.com/?id="+device?.uuid
 	
 	constructor: ->
 		window.document.addEventListener "deviceready", @deviceready, false
