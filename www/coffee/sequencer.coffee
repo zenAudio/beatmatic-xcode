@@ -39,7 +39,7 @@ class sequencer
 		@startCoreLoop()
 		@diracMgr = new BEATmatic.DiracPlayerMgr
 		
-	beat: ->
+	tick: ->
 		#Play Drums
 		for track in @drumTracksToPlay
 			if @drumTracks.tracks[track].score[@beat16-1] >= 100
@@ -68,7 +68,7 @@ class sequencer
 	calcOffsetForPlaying: ->
 		nextBeat = @beat16+1
 		nextForth = Math.ceil(nextBeat / 4) * 4
-		return (nextBeat - nextForth) * (15000 / @BPM)
+		return Math.round( (nextForth - nextBeat) * (15000 / @BPM) )
 			
 		
 	playAdjustedAudio: (sample, src, shouldLoop, callbacks) ->
@@ -80,7 +80,7 @@ class sequencer
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 
 			player.matchBPM @BPM
-			player.play @calcOffsetForPlaying, =>
+			player.play @calcOffsetForPlaying(), =>
 				console.log "finished playing, calling callbacks"
 				for callback in callbacks
 					
@@ -116,7 +116,7 @@ class sequencer
 		ms = ms.toFixed(0)
 
 		@coreLoop = setInterval(=>
-			@beat()
+			@tick()
 			@beat16++
 			@beatTotal++
 			@beat16 = 1 if @beat16 is 17

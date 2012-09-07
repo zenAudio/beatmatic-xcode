@@ -72,7 +72,7 @@
       return this.diracMgr = new BEATmatic.DiracPlayerMgr;
     };
 
-    sequencer.prototype.beat = function() {
+    sequencer.prototype.tick = function() {
       var sample, samplesPlayed, track, _i, _j, _len, _len1, _ref, _ref1;
       _ref = this.drumTracksToPlay;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -107,7 +107,7 @@
       var nextBeat, nextForth;
       nextBeat = this.beat16 + 1;
       nextForth = Math.ceil(nextBeat / 4) * 4;
-      return (nextBeat - nextForth) * (15000 / this.BPM);
+      return Math.round((nextForth - nextBeat) * (15000 / this.BPM));
     };
 
     sequencer.prototype.playAdjustedAudio = function(sample, src, shouldLoop, callbacks) {
@@ -119,7 +119,7 @@
       if (typeof Cordova !== "undefined" && Cordova !== null) {
         this.sampleTacksPlaying[sample] = player = this.diracMgr.newPlayer(sample, src);
         player.matchBPM(this.BPM);
-        player.play(this.calcOffsetForPlaying, function() {
+        player.play(this.calcOffsetForPlaying(), function() {
           var callback, _i, _len, _results;
           console.log("finished playing, calling callbacks");
           _results = [];
@@ -169,7 +169,7 @@
       ms = 15000 / this.BPM;
       ms = ms.toFixed(0);
       return this.coreLoop = setInterval(function() {
-        _this.beat();
+        _this.tick();
         _this.beat16++;
         _this.beatTotal++;
         if (_this.beat16 === 17) {

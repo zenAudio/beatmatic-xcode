@@ -9,8 +9,9 @@
       console.log("MPD: initializing Dirac player for voice: " + this.voice);
     }
 
-    DiracPlayer.prototype.play = function(playEndedCallback) {
-      return Cordova.exec(playEndedCallback, playEndedCallback, "DiracPlayer", "play", [this.voice]);
+    DiracPlayer.prototype.play = function(startMs, playEndedCallback) {
+      console.log("MPD: called play: " + startMs + ", " + playEndedCallback);
+      return Cordova.exec(playEndedCallback, playEndedCallback, "DiracPlayer", "play", [this.voice, startMs]);
     };
 
     DiracPlayer.prototype.stop = function() {

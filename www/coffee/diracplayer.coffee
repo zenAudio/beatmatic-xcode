@@ -3,7 +3,7 @@ class DiracPlayer
 		console.log "MPD: initializing Dirac player for voice: " + @voice
 
 	play: (startMs, playEndedCallback) ->
-		#console.log "MPD: called play: " + @voice
+		console.log "MPD: called play: #{startMs}, #{playEndedCallback}"
 		Cordova.exec(playEndedCallback, playEndedCallback, "DiracPlayer", "play", [@voice, startMs])
 
 	stop: ->
