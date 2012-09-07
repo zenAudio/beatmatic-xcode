@@ -22,7 +22,7 @@ class sequencer
 		synth: 
 			wav: "Synth_12.wav"
 			callbacks: []
-			loop: true
+			loop: false
 		melodic: 
 			wav: "Melodic_5.wav"
 			callbacks: []
@@ -82,11 +82,11 @@ class sequencer
 			player.matchBPM @BPM
 			player.play @calcOffsetForPlaying(), =>
 				console.log "finished playing, calling callbacks"
+				if shouldLoop
+					@sampleTacksToPlay.push sample
+					return
 				for callback in callbacks
-					
 					callback(sample, src, player)
-					if shouldLoop
-						@sampleTacksToPlay.push sample
 					
 			player
 		else
@@ -166,6 +166,8 @@ class sequencer
 			if samplePlaying is sample
 				player.stop()
 				delete @sampleTacksPlaying[samplePlaying]
+				#for callback in @sampleTracks[samplePlaying].callbacks
+				#	callback(samplePlaying, player)
 				@sampleTracks[samplePlaying].callbacks = []
 
 	record: ->
