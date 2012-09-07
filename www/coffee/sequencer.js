@@ -38,12 +38,32 @@
 
     sequencer.prototype.sampleTacksToPlay = [];
 
-    sequencer.prototype.sampleTracks = {};
+    sequencer.prototype.sampleTracks = {
+      baseline: {
+        wav: "Synth_5.wav",
+        callbacks: [],
+        loop: true
+      },
+      percussion: {
+        wav: "Percussion_2.wav",
+        callbacks: [],
+        loop: true
+      },
+      synth: {
+        wav: "Synth_12.wav",
+        callbacks: [],
+        loop: true
+      },
+      melodic: {
+        wav: "Melodic_5.wav",
+        callbacks: [],
+        loop: true
+      }
+    };
 
     sequencer.prototype.sampleTacksPlaying = {};
 
     sequencer.prototype.setup = function(tracks) {
-      console.log("MPD: SETTING UP SEQUENCER!");
       this.drumTracks = tracks;
       this.drumTracksToPlay = [0, 1, 2];
       this.recording = false;
@@ -67,7 +87,7 @@
         track = _ref1[_j];
         sample = this.sampleTracks[track];
         samplesPlayed.push(sample);
-        this.playAdjustedAudio(track, sample);
+        this.playAdjustedAudio(track, sample.wav, sample.loop, sample.callbacks);
       }
       if (this.highlightPlayer) {
         BEATmatic.play.highlightColumn(this.beat16);
@@ -83,21 +103,37 @@
       return this.sampleTacksToPlay = [];
     };
 
-    sequencer.prototype.playAdjustedAudio = function(sample, src) {
-      var fname, nop, player;
+    sequencer.prototype.calcOffsetForPlaying = function() {
+      var nextBeat, nextForth;
+      nextBeat = this.beat16 + 1;
+      nextForth = Math.ceil(nextBeat / 4) * 4;
+      return (nextBeat - nextForth) * (15000 / this.BPM);
+    };
+
+    sequencer.prototype.playAdjustedAudio = function(sample, src, shouldLoop, callbacks) {
+      var fname, player,
+        _this = this;
       fname = src;
       src = this.folder + "samples/" + fname;
-      console.log("playAdjustedAudio " + sample + ", " + src);
+      console.log("playAdjustedAudio sample:" + sample + ", wav:" + src + ", loop?:" + shouldLoop + ", callbacks: " + callbacks);
       if (typeof Cordova !== "undefined" && Cordova !== null) {
         this.sampleTacksPlaying[sample] = player = this.diracMgr.newPlayer(sample, src);
-        console.log(player);
-        nop = function() {
-          return console.log("MPD: YOU ARE THE GREATEST.");
-        };
-        if (this.BPM !== 120) {
-          player.changeDuration(120 / this.BPM);
-        }
-        player.play(nop);
+        player.matchBPM(this.BPM);
+        player.play(this.calcOffsetForPlaying, function() {
+          var callback, _i, _len, _results;
+          console.log("finished playing, calling callbacks");
+          _results = [];
+          for (_i = 0, _len = callbacks.length; _i < _len; _i++) {
+            callback = callbacks[_i];
+            callback(sample, src, player);
+            if (shouldLoop) {
+              _results.push(_this.sampleTacksToPlay.push(sample));
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
+        });
         return player;
       } else {
         return this.playAudio(src);
@@ -122,7 +158,7 @@
       _ref = this.sampleTacksPlaying;
       for (samplePlaying in _ref) {
         player = _ref[samplePlaying];
-        player.changeDuration(120 / this.BPM, nop, nop, nop);
+        player.matchBPM(this.BPM);
       }
       return this.startCoreLoop();
     };
@@ -165,27 +201,33 @@
     };
 
     sequencer.prototype.unMuteDrum = function(drumNumber) {
-      if ($.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay) === -1) {
-        return BEATmatic.sequencer.drumTracksToPlay.push(drumNumber);
+      if ($.inArray(drumNumber, this.drumTracksToPlay) === -1) {
+        return this.drumTracksToPlay.push(drumNumber);
       }
     };
 
     sequencer.prototype.muteDrum = function(drumNumber) {
       var i;
-      i = $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay);
+      i = $.inArray(drumNumber, this.drumTracksToPlay);
       if (i === -1) {
         return;
       }
-      return BEATmatic.sequencer.drumTracksToPlay.splice(i, 1);
+      return this.drumTracksToPlay.splice(i, 1);
     };
 
-    sequencer.prototype.playSample = function(sample) {
-      return this.sampleTacksToPlay.push(sample);
+    sequencer.prototype.playSample = function(sample, callback) {
+      if (callback == null) {
+        callback = false;
+      }
+      this.sampleTacksToPlay.push(sample);
+      if (callback) {
+        return this.sampleTracks[sample].callbacks.push(callback);
+      }
     };
 
     sequencer.prototype.stopSample = function(sample) {
       var i, player, samplePlaying, _ref, _results;
-      i = $.inArray(sample, BEATmatic.sequencer.sampleTacksToPlay);
+      i = $.inArray(sample, this.sampleTacksToPlay);
       if (i !== -1) {
         this.sampleTacksToPlay.splice(i, 1);
       }
@@ -195,7 +237,8 @@
         player = _ref[samplePlaying];
         if (samplePlaying === sample) {
           player.stop();
-          _results.push(delete this.sampleTacksPlaying[samplePlaying]);
+          delete this.sampleTacksPlaying[samplePlaying];
+          _results.push(this.sampleTracks[samplePlaying].callbacks = []);
         } else {
           _results.push(void 0);
         }

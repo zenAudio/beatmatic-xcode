@@ -21,12 +21,6 @@
       this.enableSwipe = __bind(this.enableSwipe, this);
 
       this.clickHandler = __bind(this.clickHandler, this);
-      BEATmatic.sequencer.sampleTracks = {
-        baseline: "Synth_5.wav",
-        percussion: "Percussion_2.wav",
-        synth: "Synth_12.wav",
-        melodic: "Melodic_5.wav"
-      };
       $(".returnbtn").click(function() {
         BEATmatic.sequencer.stopCoreLoop();
         BEATmatic.ui["switch"]("main");
@@ -135,7 +129,11 @@
     };
 
     dj.prototype.sampleOn = function(sample, btn) {
+      var _this = this;
       BEATmatic.sequencer.playSample(sample);
+      BEATmatic.sequencer.sampleTracks[sample].callbacks.push(function() {
+        return btn.removeClass("active");
+      });
       return false;
     };
 

@@ -27,6 +27,12 @@
       return Cordova.exec(this.nop, this.nop, "DiracPlayer", "changePitch", [this.voice, pitch]);
     };
 
+    DiracPlayer.prototype.matchBPM = function(bpm) {
+      if (bpm !== 120) {
+        return this.changeDuration(120 / bpm);
+      }
+    };
+
     DiracPlayer.prototype.nop = function() {};
 
     return DiracPlayer;
@@ -39,7 +45,9 @@
 
     function DiracPlayerMgr() {
       console.log("MPD: creating dirac player manager.");
-      Cordova.exec(this.nop, this.nop, "DiracPlayer", "diracInit", []);
+      if (typeof Cordova !== "undefined" && Cordova !== null) {
+        Cordova.exec(this.nop, this.nop, "DiracPlayer", "diracInit", []);
+      }
     }
 
     DiracPlayerMgr.prototype.newPlayer = function(voice, sampleUrl) {

@@ -31,7 +31,7 @@ class sequencer
 	sampleTacksPlaying: {}
 				
 	setup: (tracks) ->
-		console.log("MPD: SETTING UP SEQUENCER!")
+		#console.log("MPD: SETTING UP SEQUENCER!")
 		@drumTracks = tracks
 		@drumTracksToPlay = [0, 1, 2]
 		@recording = false
@@ -74,14 +74,16 @@ class sequencer
 	playAdjustedAudio: (sample, src, shouldLoop, callbacks) ->
 		fname = src
 		src = @folder + "samples/" + fname
-		console.log "playAdjustedAudio #{sample}, #{src}"
+		console.log "playAdjustedAudio sample:#{sample}, wav:#{src}, loop?:#{shouldLoop}, callbacks: #{callbacks}"
 		if Cordova?
 			
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 
 			player.matchBPM @BPM
 			player.play @calcOffsetForPlaying, =>
+				console.log "finished playing, calling callbacks"
 				for callback in callbacks
+					
 					callback(sample, src, player)
 					if shouldLoop
 						@sampleTacksToPlay.push sample
@@ -139,14 +141,14 @@ class sequencer
 		
 	
 	unMuteDrum: (drumNumber) =>
-		if $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay) is -1
-			BEATmatic.sequencer.drumTracksToPlay.push drumNumber
+		if $.inArray(drumNumber, @drumTracksToPlay) is -1
+			@drumTracksToPlay.push drumNumber
 
 	
 	muteDrum: (drumNumber) =>
-		i = $.inArray(drumNumber, BEATmatic.sequencer.drumTracksToPlay)
+		i = $.inArray(drumNumber, @drumTracksToPlay)
 		return  if i is -1
-		BEATmatic.sequencer.drumTracksToPlay.splice i, 1
+		@drumTracksToPlay.splice i, 1
 		
 	playSample: (sample, callback = false) =>
 		@sampleTacksToPlay.push sample
@@ -156,7 +158,7 @@ class sequencer
 
 	
 	stopSample: (sample) =>
-		i = $.inArray(sample, BEATmatic.sequencer.sampleTacksToPlay)
+		i = $.inArray(sample, @sampleTacksToPlay)
 		unless i is -1
 			@sampleTacksToPlay.splice i, 1
 

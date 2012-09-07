@@ -1,4 +1,3 @@
-
 class DiracPlayer
 	constructor: (@voice) ->
 		console.log "MPD: initializing Dirac player for voice: " + @voice
@@ -31,7 +30,7 @@ class DiracPlayerMgr
 
 	constructor: () ->
 		console.log "MPD: creating dirac player manager."
-		Cordova.exec(@nop, @nop, "DiracPlayer", "diracInit", [])
+		Cordova?.exec(@nop, @nop, "DiracPlayer", "diracInit", [])
 
 	newPlayer: (voice, sampleUrl) ->
 		console.log "MPD: creating new dirac player for " + voice + " and " + sampleUrl

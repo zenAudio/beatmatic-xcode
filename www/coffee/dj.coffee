@@ -92,6 +92,8 @@ class dj
 		#console.log "sampleOn"
 		BEATmatic.sequencer.playSample sample
 		#BEATmatic.sequencer.sampleTacksToPlay.push sample
+		BEATmatic.sequencer.sampleTracks[sample].callbacks.push =>
+			btn.removeClass "active"
 		false
 	
 	sampleOff: (sample, btn) ->
