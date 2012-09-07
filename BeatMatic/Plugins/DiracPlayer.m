@@ -63,14 +63,20 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     NSString *sampleName = [arguments objectAtIndex:0];
     [sampleName retain];
     
+    NSNumber *startMs = [arguments objectAtIndex:1];
+    [startMs retain];
+    double time = [startMs doubleValue] / 1000.0;
+    
     DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
     if (player != nil) {
         [playerToCallbackId setObject:callbackID forKey:[NSNumber numberWithUnsignedInt:[player hash]]];
+        [player setCurrentTime:time];
         [player play];
      } else {
         NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
     }
     
+    [startMs release];
     [sampleName release];
     [callbackID release];
 }
