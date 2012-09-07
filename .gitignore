@@ -6,3 +6,9 @@ www/.DS_Store
 *.xcuserstate
 *.swp
 www/BeatMatic.esproj/user.tom.espressostorage
+TemplateIcon.icns
+TemplateInfo.plist
+project.pbxproj
+contents.xcworkspacedata
+BeatMatic.xcscheme
+xcschememanagement.plist
