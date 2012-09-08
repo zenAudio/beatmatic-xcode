@@ -4,6 +4,7 @@ class dj
 	
 	lastSample: false
 	originalbpm: false
+	originalTarget: false
 	direction: false
 	lastDistance: 0
 	
@@ -19,7 +20,7 @@ class dj
 		#@setupClickHandlers()
 		@enableSwipe()
 
-	
+	###
 	setupClickHandlers: ->
 		#console.log "setupClickHandlers"
 		for button in $(".djbtn")#.each
@@ -29,6 +30,7 @@ class dj
 		button = $ button
 		#console.log button
 		button.click @clickHandler
+	###
 		
 	resetButtons: ->
 		for btn in $(".djbtn")
@@ -47,13 +49,13 @@ class dj
 			button.removeClass "active"
 		else
 			button.addClass "active"
+	
+	#buttonFromEvent: (e) ->
+		
 			
 	clickHandler: (e) =>
-		#console.log "clickHandler"
-		console.log e.currentTarget
-		console.log e.target
-		btn =  window.b1 = $ e.target
-		return unless $(e.target).hasClass "djbtn"
+		btn = $ e.target
+		return unless btn.hasClass "djbtn"
 		btnname = btn.attr("name")
 		i = btnname.indexOf "."
 		btnbase = btnname[...i]
@@ -69,6 +71,32 @@ class dj
 			@[btnbase + "On"]?(btnspecific, btn)
 			
 		@toggleButtonState btn
+		
+	changeSample: (e, target, negative) =>
+		console.log "changeSample called #{negative}"
+		btn = $ target
+		unless btn.hasClass "djbtn"
+			if btn.parent().hasClass "djbtn"
+				btn = btn.parent()
+			else
+				return
+		
+		#console.log btn.childElementCount
+		return unless btn.children().length is 1
+		
+		btnname = btn.attr("name")
+		i = btnname.indexOf "."
+		btnbase = btnname[...i]
+		btnspecific = btnname[i+1...]
+		
+		currentButtonTextNumber = Number(btn.find("h1").text()[1])
+		console.log currentButtonTextNumber
+		
+		if negative
+			btn.find("h1").text "#" + (currentButtonTextNumber - 1)
+		else
+			btn.find("h1").text "#" + (currentButtonTextNumber + 1)
+		
 	
 	
 	
@@ -112,23 +140,7 @@ class dj
 			#	true
 			
 			click: (e, target) =>
-				console.log window.e1 = e.target
-				console.log window.e2 = target
 				BEATmatic.dj.clickHandler(e)
-				return
-				score = e.target.cellIndex
-				track = e.target.parentNode.rowIndex
-				
-				".djbtn"
-				
-				cell = $($(".c#{score}")[track])
-				if cell.hasClass "x100"
-					cell.removeClass "x100"
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
-				else
-					cell.addClass "x100"
-					
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
 			
 		
 			swipeStatus: (e, phase, direction, distance) =>
@@ -140,8 +152,9 @@ class dj
 					if @swipeSampleLayover
 						$("#swipeDJSampleLayover").hide()
 						@swipeSampleLayover = false
-						BEATmatic.sequencer.stopCoreLoop()
-						BEATmatic.sequencer.startCoreLoop()
+						@originalTarget = false
+						#BEATmatic.sequencer.stopCoreLoop()
+						#BEATmatic.sequencer.startCoreLoop()
 						
 					if @swipeVolumeLayover
 						$("#swipeDJVolumeLayover").hide()
@@ -149,38 +162,54 @@ class dj
 						@swipeVolumeLayover = false
 					return
 				
-				if distance <= 5
-					return
-				###
+				return if distance <= 5
+				#console.log distance
+				
 				if direction is "left" or direction is "right"
+					
+					
+					return if distance <= 5
+						
+					
 					@direction = "leftright" unless @direction
 					return if "leftright" != @direction
-						
+					
+					
 					unless @swipeSampleLayover
-						#@stopLoop()
-						BEATmatic.sequencer.stopCoreLoop()
 						@swipeSampleLayover = true
-						
 						$("#swipeDJSampleLayover").show()
 						@samplebase = false
-
 					
-					unless @lastUpDownDirection is direction
+					@originalTarget = e.target unless @originalTarget
+					
+					#console.log @originalTarget.childElementCount
+						
+					#return unless @originalTarget.childElementCount is 1
+					
+					BEATmatic.dj.changeSample e, @originalTarget, (distance < 0)
+					###	
+					if direction is "left"
+						
+					
+					if direction is "right"
+
+					unless @lastLeftRightDirection is direction
 						@lastDistance = distance
-						@lastUpDownDirection = direction
+						@lastLeftRightDirection = direction
 					
 					move = distance - @lastDistance
 					
 					
 					#mouse move above 10px or below -10
-					if (move < 10) and (move > -10)
+					if (move <= 10) and (move > -10)
 						#console.log "did not move enough"
 						#console.log move
 						return
-
-											
+							
 					@lastDistance = distance
 					
+					BEATmatic.dj.changeSample e, (distance < 0)
+					return
 					track = e.target.parentNode.rowIndex
 					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
 					i = sample.indexOf "0"
@@ -204,7 +233,7 @@ class dj
 					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
 					
 					$("#swipeDJSampleLayover").html(newsample)
-				###	
+					###
 						
 				if direction is "up" or direction is "down"
 					@direction = "updown" unless @direction

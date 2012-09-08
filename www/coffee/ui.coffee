@@ -18,6 +18,6 @@ class ui
 				jtab.hide()
 		
 		if tab is "dj"
-			BEATmatic.sequencer.resetButtons()
+			BEATmatic.dj.resetButtons()
 $ ->
 	BEATmatic.ui = new ui()
