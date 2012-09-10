@@ -16,7 +16,7 @@
 				"score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
 			},
 			{
-				"name": "high hat"
+				"name": "hi-hat"
 				"sample": "hihat01.wav"
 				"icon": "highhat.png"
 				"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]

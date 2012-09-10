@@ -10,20 +10,20 @@ class sequencer
 	drumTracksToPlay: [0, 1, 2]
 	drumTracks: {}
 	sampleTacksToPlay: []
-	sampleTracks: 
-		baseline: 
+	sampleTracks:
+		baseline:
 			wav: "Synth_5.wav"
 			callbacks: []
 			loop: true
-		percussion: 
+		percussion:
 			wav: "Percussion_2.wav"
 			callbacks: []
 			loop: true
-		synth: 
+		synth:
 			wav: "Synth_12.wav"
 			callbacks: []
 			loop: false
-		melodic: 
+		melodic:
 			wav: "Melodic_5.wav"
 			callbacks: []
 			loop: true

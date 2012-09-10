@@ -12,16 +12,6 @@
 
 #import "DiracPlayer.h"
 
-//@implementation DiracPlayerDelegate
-//
-//- (void)diracPlayerDidFinishPlaying:(DiracAudioPlayerBase *)player successfully:(BOOL)flag
-//{
-//	NSLog(@"Dirac player instance (0x%lx) is done playing", (long)player);
-//    [player writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
-//}
-//
-//@end
-
 @implementation DiracPlayer
 
 NSString* ERROR_NOT_FOUND = @"file not found";
@@ -62,10 +52,12 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
 
     NSString *sampleName = [arguments objectAtIndex:0];
     [sampleName retain];
-    
+        
     NSNumber *startMs = [arguments objectAtIndex:1];
     [startMs retain];
     double time = [startMs doubleValue] / 1000.0;
+    
+    NSLog(@"MPD: NATIVE: Asked for delay of: %4.2lf seconds", time);
     
     DiracFxAudioPlayer *player = [sampleNameToPlayer objectForKey:sampleName];
     if (player != nil) {
@@ -73,7 +65,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
         [player setCurrentTime:time];
         [player play];
      } else {
-        NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
+        NSLog(@"MPD: ERROR: DiracPlayer: play: player is null for: %@", sampleName);
     }
     
     [startMs release];
@@ -94,7 +86,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     if (player != nil) {
         [player stop];
     } else {
-        NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
+        NSLog(@"MPD: ERROR: DiracPlayer: stop: player is null for sample: %@", sampleName);
     }
     [sampleName release];
     [callbackID release];
@@ -161,7 +153,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     if (player != nil) {
         [player changePitch:powf(2.f, ((float) [pitch intValue]) / 12.f)];
     } else {
-        NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
+        NSLog(@"MPD: ERROR: DiracPlayer: changePitch: player is null for sample: %@", sampleName);
     }
     
     [pitch release];
@@ -186,7 +178,7 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     if (player != nil) {
         [player changeDuration:[duration floatValue]];
     } else {
-        NSLog(@"MPD: ERROR: DiracPlayer: player is null.");
+        NSLog(@"MPD: ERROR: DiracPlayer: changeDuration: player is null for sample: %@", sampleName);
     }
     
     [duration release];
