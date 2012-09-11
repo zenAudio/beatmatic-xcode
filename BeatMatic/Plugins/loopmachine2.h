@@ -15,7 +15,7 @@ class AudioEngineImpl;
 
 class LoopMachine : public AudioSource {
 public:
-    static const int FADE_TIME_MS=15;
+    static const int FADE_TIME_MS=100;
     static const int MAX_NUM_LOOPS = 16;
     static const int LOOP_INACTIVE = -1;
     static const int NO_SUCH_GROUP = -2;
@@ -65,6 +65,8 @@ private:
     int audioState[MAX_NUM_GROUPS];             // the actual loops playing in the audio thread, these are triggered only on tick frames.
     int prevAudioState[MAX_NUM_GROUPS];
     HashMap<String, int> groupNameToIx;
+    
+    bool wasPlaying;
     
     AudioSourceChannelInfo frameBuffer;
     

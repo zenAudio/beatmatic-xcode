@@ -18,7 +18,8 @@
             <input type="submit" onclick="audition('hi-hat')" value="Hi-Hat" />
             <input type="submit" onclick="play()" value="Play" />
             <input type="submit" onclick="stop()" value="Stop" />
-            <input type="submit" onclick="toggleLoop('synth', 3)" value="Synth 1" />
+            <input type="submit" onclick="toggleLoop('synth', 0)" value="Synth 1" />
+            <input type="submit" onclick="toggleLoop('synth', 1)" value="Synth 2" />
             <input type="submit" onclick="toggleLoop('melodic', 6)" value="Melodic 6" />
             <input type="submit" onclick="toggleLoop('melodic', 7)" value="Melodic 7" />
         </div>
@@ -45,7 +46,7 @@
                                           "tracks": [
                                                      {
                                                      "name": "kick drum",
-                                                     "score": [100,0,0,0,  0,0,0,0,  100,0,0,0,  0,0,100,0]
+                                                     "score": [100,0,0,0,  100,0,0,0,  100,0,0,0,  100,0,100,0]
                                                      },
                                                      {
                                                      "name": "snare drum",

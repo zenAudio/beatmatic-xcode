@@ -9,7 +9,7 @@
 #include "loopmachine2.h"
 #include "AudioEngineImpl.h"
 
-LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserveIx(-1), commitIx(-1), drainIx(0), expectedBufferSize(0) {
+LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserveIx(-1), commitIx(-1), drainIx(0), expectedBufferSize(0), wasPlaying(false) {
     for (int i = 0; i < MAX_NUM_GROUPS; i++) {
         userState[i] = LOOP_INACTIVE;
         audioState[i] = LOOP_INACTIVE;
@@ -370,7 +370,7 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
         
         if (frameStartTicks < fadeStartTicks && frameEndTicks >= fadeStartTicks)
             drainRingBuffer();
-//        std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: reality check! " << groupIxToAudioSource.size() << std::endl;
+//        std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: reality check! " << ((int)nextTick/4) << std::endl;
         for (int groupIx = 0; groupIx < groupIxToAudioSource.size(); groupIx++) {
             
             int state = audioState[groupIx];
@@ -382,16 +382,17 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
 //                std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: muting group " << groupIx << std::endl;
                 // for this loop group, we are fading out: going from an active loop to silence.
                 processFadeOut(groupIx, prevState, frameStartTicks, frameEndTicks, fadeStartTicks, fadeEndTicks, bufferToFill);
-            } else if (state != LOOP_INACTIVE && prevState == LOOP_INACTIVE) {
-                
+            } else if (!wasPlaying || (state != LOOP_INACTIVE && prevState == LOOP_INACTIVE)) {
                 int bar = (int) (fadeStartTicks/16.0);
                 float barStartTicks = bar*16;
                 
                 float dTicks = fadeStartTicks - barStartTicks;
                 int dSamples = audioEngine.ticksToSamples(dTicks);
-                
-                auto src = (*groupIxToAudioSource[groupIx])[state];
-                src->setNextReadPosition(dSamples % src->getTotalLength());
+
+                if (frameStartTicks == 0 || frameStartTicks <= fadeStartTicks) {
+                    auto src = (*groupIxToAudioSource[groupIx])[state];
+                    src->setNextReadPosition(dSamples % src->getTotalLength());
+                }
 //                std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: starting group " << groupIx << ", sample " << state << std::endl;
                 // for this loop group, we are fading in: going from silence to signal.
                 processFadeIn(groupIx, state, frameStartTicks, frameEndTicks, fadeStartTicks, fadeEndTicks, bufferToFill);
@@ -406,22 +407,36 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
                 float dTicks = fadeStartTicks - barStartTicks;
                 int dSamples = audioEngine.ticksToSamples(dTicks);
                 
-                auto src = (*groupIxToAudioSource[groupIx])[state];
-                src->setNextReadPosition(dSamples % src->getTotalLength());
+                if (frameStartTicks == 0 || frameStartTicks <= fadeStartTicks) {
+                    auto src = (*groupIxToAudioSource[groupIx])[state];
+                    src->setNextReadPosition(dSamples % src->getTotalLength());
+                }
+                
                 processFadeIn(groupIx, state, frameStartTicks, frameEndTicks, fadeStartTicks, fadeEndTicks, bufferToFill);
             } else {
                 // we're playing the same thing as in the last period.
-//                std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: process block " << groupIx << ", sample " << state << std::endl;
-                processBlock(groupIx, state, 0, bufferToFill.numSamples, bufferToFill);
+//              std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: process block " << groupIx << ", sample " << state << std::endl;
+                if (!wasPlaying) {
+                    auto src = (*groupIxToAudioSource[groupIx])[state];
+                    src->setNextReadPosition(0);
+                }
+               processBlock(groupIx, state, 0, bufferToFill.numSamples, bufferToFill);
             }
         }
         
-        if (frameStartTicks < fadeEndTicks && frameEndTicks >= fadeEndTicks)
+        if (frameStartTicks < fadeEndTicks && frameEndTicks >= fadeEndTicks) {
             std::memcpy(prevAudioState, audioState, sizeof(audioState));
+            wasPlaying = true;
+        }
         
         bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
         bufferToFill.buffer->applyGain(1, 0, bufferToFill.numSamples, 0.5);
+        
+//        wasPlaying = true;
     }
+    
+    if (wasPlaying && !audioEngine.isPlaying())
+        wasPlaying = false;
 }
 
 void LoopMachine::addLoop(String groupName, File loopFile) {

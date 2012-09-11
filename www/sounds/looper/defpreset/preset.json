@@ -18,10 +18,10 @@
 		},
 		{
 			"group": "synth",
-			"loops": [ "Synth_1.wav", "Synth_2.wav", "Synth_3.wav", "Synth_4.wav", "Synth_5.wav", "Synth_6.wav", 
+			"loops": ["Synth_18.wav",  "Synth_17.wav", "Synth_1.wav", "Synth_2.wav", "Synth_3.wav", "Synth_4.wav", "Synth_5.wav", "Synth_6.wav",
 				"Synth_7.wav", "Synth_8.wav", "Synth_9.wav", "Synth_10.wav",
 				"Synth_11.wav", "Synth_12.wav", "Synth_13.wav", 
-				"Synth_14.wav", "Synth_15.wav", "Synth_16.wav", 
+				"Synth_14.wav",
 			],
 		}
 	]
