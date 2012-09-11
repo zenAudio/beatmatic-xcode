@@ -3,9 +3,9 @@ class AudioEngine
 	constructor: () ->
 		console.log "MPD: JS: AudioEngine: initialising audio engine wrapper object"
 
-	init: (drumPreset) ->
-		console.log "MPD: JS: AudioEngine: Initialising audio engine with preset file #{drumPreset}"
-		Cordova.exec(@nop, @nop, "AudioEngine", "initialise", [drumPreset])
+	init: (drumMachinePreset, looperPreset) ->
+		console.log "MPD: JS: AudioEngine: Initialising audio engine with presets #{drumMachinePreset}, and #{looperPreset}"
+		Cordova.exec(@nop, @nop, "AudioEngine", "initialise", [drumMachinePreset, looperPreset])
 
 	playTestTone: () ->
 		console.log "MPD: JS: AudioEngine: playing test tone."
@@ -18,6 +18,10 @@ class AudioEngine
 	setDrumPattern: (drumPattern) ->
 		console.log "MPD: JS: AudioEngine: setting drum pattern to #{drumPattern}"
 		Cordova.exec(@nop, @nop, "AudioEngine", "setDrumPattern", [drumPattern])
+
+	toggleLoop: (group, ix) ->
+		console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"
+		Cordova.exec(@nop, @nop, "AudioEngine", "toggleLoop", [group, ix])
 
 	play: () ->
 		console.log "MPD: JS: AudioEngine:play"

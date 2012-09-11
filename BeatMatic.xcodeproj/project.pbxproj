@@ -53,6 +53,10 @@
 		5567A3A615F7A130000072C0 /* Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A3A515F7A130000072C0 /* Utilities.mm */; };
 		558AAC3B15F79D8D005D43BA /* DiracPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 558AAC3A15F79D8D005D43BA /* DiracPlayer.m */; };
 		558AAC4615F79FC0005D43BA /* libDIRAC_iOS4-fat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558AAC4515F79FC0005D43BA /* libDIRAC_iOS4-fat.a */; };
+		55974C9D15FDFAE800EDD8CD /* drummachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974C9B15FDFAE800EDD8CD /* drummachine.cpp */; };
+		55974CA015FDFB4600EDD8CD /* loopmachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974C9E15FDFB4600EDD8CD /* loopmachine.cpp */; };
+		55974CA315FDFF5700EDD8CD /* mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974CA115FDFF5700EDD8CD /* mixer.cpp */; };
+		55974CA915FE4D8900EDD8CD /* loopmachine2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974CA715FE4D8900EDD8CD /* loopmachine2.cpp */; };
 		5597FA5F15FBCB2E006C404C /* AudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5597FA5E15FBCB2E006C404C /* AudioEngine.mm */; };
 		55C40C7215FC0E8400063503 /* juce_module_info in Resources */ = {isa = PBXBuildFile; fileRef = 55C40A6515FC0E8300063503 /* juce_module_info */; };
 		55C40C8615FC0E8400063503 /* juce_module_info in Resources */ = {isa = PBXBuildFile; fileRef = 55C40A9415FC0E8300063503 /* juce_module_info */; };
@@ -152,6 +156,14 @@
 		558AAC3915F79D8D005D43BA /* DiracPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiracPlayer.h; sourceTree = "<group>"; };
 		558AAC3A15F79D8D005D43BA /* DiracPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiracPlayer.m; sourceTree = "<group>"; };
 		558AAC4515F79FC0005D43BA /* libDIRAC_iOS4-fat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libDIRAC_iOS4-fat.a"; path = "Dirac3 LE/Dirac3-Mobile/Common Files/src/libDIRAC_iOS4-fat.a"; sourceTree = "<group>"; };
+		55974C9B15FDFAE800EDD8CD /* drummachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = drummachine.cpp; sourceTree = "<group>"; };
+		55974C9C15FDFAE800EDD8CD /* drummachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = drummachine.h; sourceTree = "<group>"; };
+		55974C9E15FDFB4600EDD8CD /* loopmachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loopmachine.cpp; sourceTree = "<group>"; };
+		55974C9F15FDFB4600EDD8CD /* loopmachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loopmachine.h; sourceTree = "<group>"; };
+		55974CA115FDFF5700EDD8CD /* mixer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mixer.cpp; sourceTree = "<group>"; };
+		55974CA215FDFF5700EDD8CD /* mixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mixer.h; sourceTree = "<group>"; };
+		55974CA715FE4D8900EDD8CD /* loopmachine2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loopmachine2.cpp; sourceTree = "<group>"; };
+		55974CA815FE4D8900EDD8CD /* loopmachine2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loopmachine2.h; sourceTree = "<group>"; };
 		5597FA5D15FBCB2E006C404C /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEngine.h; sourceTree = "<group>"; };
 		5597FA5E15FBCB2E006C404C /* AudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioEngine.mm; sourceTree = "<group>"; };
 		55C40A5915FC0E8300063503 /* juce_AudioDataConverters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = juce_AudioDataConverters.cpp; sourceTree = "<group>"; };
@@ -791,11 +803,19 @@
 			children = (
 				55C40D5515FC9C8B00063503 /* AudioEngineImpl.cpp */,
 				55C40D5615FC9C8B00063503 /* AudioEngineImpl.h */,
+				55974CA715FE4D8900EDD8CD /* loopmachine2.cpp */,
+				55974CA815FE4D8900EDD8CD /* loopmachine2.h */,
 				558AAC3915F79D8D005D43BA /* DiracPlayer.h */,
 				558AAC3A15F79D8D005D43BA /* DiracPlayer.m */,
 				5597FA5D15FBCB2E006C404C /* AudioEngine.h */,
 				5597FA5E15FBCB2E006C404C /* AudioEngine.mm */,
 				55C40D5815FCFF7700063503 /* juce.h */,
+				55974C9B15FDFAE800EDD8CD /* drummachine.cpp */,
+				55974C9C15FDFAE800EDD8CD /* drummachine.h */,
+				55974C9E15FDFB4600EDD8CD /* loopmachine.cpp */,
+				55974C9F15FDFB4600EDD8CD /* loopmachine.h */,
+				55974CA115FDFF5700EDD8CD /* mixer.cpp */,
+				55974CA215FDFF5700EDD8CD /* mixer.h */,
 			);
 			name = Plugins;
 			path = BeatMatic/Plugins;
@@ -1949,6 +1969,10 @@
 				558AAC3B15F79D8D005D43BA /* DiracPlayer.m in Sources */,
 				5597FA5F15FBCB2E006C404C /* AudioEngine.mm in Sources */,
 				55C40D5715FC9C8B00063503 /* AudioEngineImpl.cpp in Sources */,
+				55974C9D15FDFAE800EDD8CD /* drummachine.cpp in Sources */,
+				55974CA015FDFB4600EDD8CD /* loopmachine.cpp in Sources */,
+				55974CA315FDFF5700EDD8CD /* mixer.cpp in Sources */,
+				55974CA915FE4D8900EDD8CD /* loopmachine2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

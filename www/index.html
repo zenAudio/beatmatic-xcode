@@ -18,6 +18,9 @@
             <input type="submit" onclick="audition('hi-hat')" value="Hi-Hat" />
             <input type="submit" onclick="play()" value="Play" />
             <input type="submit" onclick="stop()" value="Stop" />
+            <input type="submit" onclick="toggleLoop('synth', 3)" value="Synth 1" />
+            <input type="submit" onclick="toggleLoop('melodic', 6)" value="Melodic 6" />
+            <input type="submit" onclick="toggleLoop('melodic', 7)" value="Melodic 7" />
         </div>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.0.js"></script>
@@ -35,14 +38,14 @@
             
             function onDeviceReady() {
                 console.log("MPD:HTML:onDeviceReady");
-                BEATmatic.audioEngine.init("sounds/drums/preset.json");
+                BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json");
                 console.log("MPD:HTML:onDeviceReady: initialized drum preset.");
                 var json = JSON.stringify({
-                                          "bpm": 200,
+                                          "bpm": 120,
                                           "tracks": [
                                                      {
                                                      "name": "kick drum",
-                                                     "score": [100,0,0,0,  0,0,0,100,  100,0,0,0,  0,0,0,0]
+                                                     "score": [100,0,0,0,  0,0,0,0,  100,0,0,0,  0,0,100,0]
                                                      },
                                                      {
                                                      "name": "snare drum",
@@ -86,6 +89,14 @@
                 try {
                     console.log("MPD: HTML: pressed stop");
                     BEATmatic.audioEngine.stop();
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+            function toggleLoop(group, ix) {
+                try {
+                    console.log("MPD: HTML: pressed toggle loop " + group + ", " + ix);
+                    BEATmatic.audioEngine.toggleLoop(group, ix);
                 } catch (e) {
                     console.log(e.message);
                 }
