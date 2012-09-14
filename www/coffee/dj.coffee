@@ -31,6 +31,12 @@ class dj
 		#console.log button
 		button.click @clickHandler
 	###
+	
+	playVideo: ->
+		DJvideo = $("#DJvideo")[0]
+		#$("#DJvideo").prop 'muted', true
+		DJvideo.playbackRate = 1.2
+		DJvideo.play()
 		
 	resetButtons: ->
 		for btn in $(".djbtn")
