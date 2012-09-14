@@ -267,8 +267,8 @@ h1 {
 #hor-minimalist-a tbody tr:hover td {
   color: #009;
 }
+#synth,
 #test,
-#main,
 #dj,
 #share {
   display: none;
