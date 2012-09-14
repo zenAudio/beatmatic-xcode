@@ -36,7 +36,7 @@ public:
     MidiMessageCollector& getMidiCollector();
     void noteOn(int note, float velocity);
     void noteOff(int note, float velocity);
-
+    
 private:
     void setDrumSound(String soundName, File soundFile);
     

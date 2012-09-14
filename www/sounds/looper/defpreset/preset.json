@@ -5,7 +5,7 @@
 	"groups": [
 		{
 			"group": "melodic",
-			"loops": [ "bells.wav", "Melodic_1.wav", "Melodic_2.wav", "Melodic_3.wav",
+			"loops": [ "bells.wav", "Melodic_8.wav", "Melodic_1.wav", "Melodic_2.wav", "Melodic_3.wav",
 					"Melodic_4.wav", "Melodic_5.wav", "Melodic_6.wav", "Melodic_7.wav"]
 		},
 		{

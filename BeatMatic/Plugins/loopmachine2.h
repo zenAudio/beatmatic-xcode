@@ -11,11 +11,14 @@
 
 #include "juce.h"
 
+#include "audiotransport.h"
+#include "Dirac.h"
+
 class AudioEngineImpl;
 
 class LoopMachine : public AudioSource {
 public:
-    static const int FADE_TIME_MS=100;
+    static const int FADE_TIME_MS=50;
     static const int MAX_NUM_LOOPS = 16;
     static const int LOOP_INACTIVE = -1;
     static const int NO_SUCH_GROUP = -2;
@@ -23,6 +26,7 @@ public:
     static const int MAX_NUM_GROUPS = 16;
     static const int RINGBUF_SIZE_M1 = RINGBUF_SIZE - 1;
     static const int NUM_OUTPUT_CHANNELS = 2; // stereo output.
+    static const int DIRAC_AUDIO_BUF_SIZE = 16384;
     
 public:
     LoopMachine(AudioEngineImpl& engine);
@@ -37,7 +41,9 @@ public:
     
     void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate);
     void releaseResources();
+    
     void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
+    void getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& bufferToFill);
     
 private:
     void printState(String name, int state[]);
@@ -57,8 +63,20 @@ private:
                         float frameEndTicks, float fadeStartTicks, float fadeEndTicks,
                         const AudioSourceChannelInfo& bufferToFill);
     void processBlock(int groupIx, int loopIx, int destOffset, int numSamples,
-                      const AudioSourceChannelInfo& bufferToFill);    
+                      const AudioSourceChannelInfo& bufferToFill);
+
 private:
+    void * dirac;
+    AudioSampleBuffer diracInputBuffer;
+    AudioSampleBuffer diracOutputBuffer;
+    AudioSampleBuffer diracMonoBuffer;  // for LE version
+    int diracOffset;
+    int latency;
+    
+    float prevBpm;
+        
+    AudioTransport fixedBpmTransport;
+    
     int expectedBufferSize;
     Array<Array<AudioFormatReaderSource *> *> groupIxToAudioSource;
     int userState[MAX_NUM_GROUPS];              // the loops playing as seen by the user, these react to changes first!

@@ -45,6 +45,8 @@
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5500619415F7A0AE003A2E7E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619215F7A0AE003A2E7E /* Accelerate.framework */; };
 		5500619515F7A0AE003A2E7E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619315F7A0AE003A2E7E /* CoreAudio.framework */; };
+		553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 553F60B316028B0300A59E7E /* audioplayer.cpp */; };
+		5543660F16012272000AA306 /* recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5543660D16012271000AA306 /* recorder.cpp */; };
 		5567A39E15F7A0F9000072C0 /* DiracAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39B15F7A0F9000072C0 /* DiracAudioPlayer.mm */; };
 		5567A39F15F7A0F9000072C0 /* DiracAudioPlayerBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39C15F7A0F9000072C0 /* DiracAudioPlayerBase.mm */; };
 		5567A3A015F7A0F9000072C0 /* DiracFxAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39D15F7A0F9000072C0 /* DiracFxAudioPlayer.mm */; };
@@ -57,6 +59,7 @@
 		55974CA015FDFB4600EDD8CD /* loopmachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974C9E15FDFB4600EDD8CD /* loopmachine.cpp */; };
 		55974CA315FDFF5700EDD8CD /* mixer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974CA115FDFF5700EDD8CD /* mixer.cpp */; };
 		55974CA915FE4D8900EDD8CD /* loopmachine2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974CA715FE4D8900EDD8CD /* loopmachine2.cpp */; };
+		55974CBC160069B900EDD8CD /* audiotransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55974CBA160069B800EDD8CD /* audiotransport.cpp */; };
 		5597FA5F15FBCB2E006C404C /* AudioEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5597FA5E15FBCB2E006C404C /* AudioEngine.mm */; };
 		55C40C7215FC0E8400063503 /* juce_module_info in Resources */ = {isa = PBXBuildFile; fileRef = 55C40A6515FC0E8300063503 /* juce_module_info */; };
 		55C40C8615FC0E8400063503 /* juce_module_info in Resources */ = {isa = PBXBuildFile; fileRef = 55C40A9415FC0E8300063503 /* juce_module_info */; };
@@ -147,6 +150,11 @@
 		32CA4F630368D1EE00C91783 /* BeatMatic-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BeatMatic-Prefix.pch"; sourceTree = "<group>"; };
 		5500619215F7A0AE003A2E7E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		5500619315F7A0AE003A2E7E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		553F60B316028B0300A59E7E /* audioplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioplayer.cpp; sourceTree = "<group>"; };
+		553F60B416028B0300A59E7E /* audioplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioplayer.h; sourceTree = "<group>"; };
+		5543660D16012271000AA306 /* recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = recorder.cpp; sourceTree = "<group>"; };
+		5543660E16012271000AA306 /* recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = recorder.h; sourceTree = "<group>"; };
+		55436614160129BC000AA306 /* objctrampoline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objctrampoline.h; sourceTree = "<group>"; };
 		5567A39B15F7A0F9000072C0 /* DiracAudioPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracAudioPlayer.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracAudioPlayer.mm"; sourceTree = "<group>"; };
 		5567A39C15F7A0F9000072C0 /* DiracAudioPlayerBase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracAudioPlayerBase.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracAudioPlayerBase.mm"; sourceTree = "<group>"; };
 		5567A39D15F7A0F9000072C0 /* DiracFxAudioPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracFxAudioPlayer.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracFxAudioPlayer.mm"; sourceTree = "<group>"; };
@@ -164,6 +172,8 @@
 		55974CA215FDFF5700EDD8CD /* mixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mixer.h; sourceTree = "<group>"; };
 		55974CA715FE4D8900EDD8CD /* loopmachine2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = loopmachine2.cpp; sourceTree = "<group>"; };
 		55974CA815FE4D8900EDD8CD /* loopmachine2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loopmachine2.h; sourceTree = "<group>"; };
+		55974CBA160069B800EDD8CD /* audiotransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audiotransport.cpp; sourceTree = "<group>"; };
+		55974CBB160069B800EDD8CD /* audiotransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audiotransport.h; sourceTree = "<group>"; };
 		5597FA5D15FBCB2E006C404C /* AudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEngine.h; sourceTree = "<group>"; };
 		5597FA5E15FBCB2E006C404C /* AudioEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioEngine.mm; sourceTree = "<group>"; };
 		55C40A5915FC0E8300063503 /* juce_AudioDataConverters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = juce_AudioDataConverters.cpp; sourceTree = "<group>"; };
@@ -816,6 +826,13 @@
 				55974C9F15FDFB4600EDD8CD /* loopmachine.h */,
 				55974CA115FDFF5700EDD8CD /* mixer.cpp */,
 				55974CA215FDFF5700EDD8CD /* mixer.h */,
+				55974CBA160069B800EDD8CD /* audiotransport.cpp */,
+				55974CBB160069B800EDD8CD /* audiotransport.h */,
+				5543660D16012271000AA306 /* recorder.cpp */,
+				5543660E16012271000AA306 /* recorder.h */,
+				55436614160129BC000AA306 /* objctrampoline.h */,
+				553F60B316028B0300A59E7E /* audioplayer.cpp */,
+				553F60B416028B0300A59E7E /* audioplayer.h */,
 			);
 			name = Plugins;
 			path = BeatMatic/Plugins;
@@ -1973,6 +1990,9 @@
 				55974CA015FDFB4600EDD8CD /* loopmachine.cpp in Sources */,
 				55974CA315FDFF5700EDD8CD /* mixer.cpp in Sources */,
 				55974CA915FE4D8900EDD8CD /* loopmachine2.cpp in Sources */,
+				55974CBC160069B900EDD8CD /* audiotransport.cpp in Sources */,
+				5543660F16012272000AA306 /* recorder.cpp in Sources */,
+				553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

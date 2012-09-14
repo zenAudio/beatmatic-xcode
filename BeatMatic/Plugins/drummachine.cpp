@@ -48,11 +48,13 @@ void DrumMachine::releaseResources() {
 }
 
 void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) {
-    if (audioEngine.isPlaying()) {
-        int frameStartSamples = audioEngine.getFrameStartSamples();
+//    std::cout << "drum machine!!" << std::endl;
+    auto& transport = audioEngine.getTransport();
+    if (transport.isPlaying()) {
+        int frameStartSamples = transport.getFrameStartSamples();
         
-        float frameStartTicks = audioEngine.getFrameStartTicks();
-        float frameEndTicks = audioEngine.getFrameEndTicks();
+        float frameStartTicks = transport.getFrameStartTicks();
+        float frameEndTicks = transport.getFrameEndTicks();
         
         if ((int) frameStartTicks < (int) frameEndTicks) {
             int tick = (int) frameEndTicks;
@@ -62,7 +64,7 @@ void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
                 if (pattern[voice][ntick] > 0) {
                     // we need to queue the appropriate note in the drum machine's synth.
                     MidiMessage msg = MidiMessage::noteOn(1, voice, (float) 1.0);
-                    int offset = audioEngine.ticksToSamples(tick) - frameStartSamples;
+                    int offset = transport.ticksToSamples(tick) - frameStartSamples;
                     msg.setTimeStamp(offset);
                     midiCollector.addMessageToQueue(msg);
                 }
@@ -128,7 +130,7 @@ void DrumMachine::setDrumPattern(const char *const patternJson) {
     }
     
     float bpm = obj.getProperty("bpm");
-    audioEngine.setBpm(bpm);
+    audioEngine.getTransport().setBpm(bpm);
     std::cout << "MPD: CPP: DrumMachine::setDrumPattern: set bpm to " << bpm << std::endl;
 }
 

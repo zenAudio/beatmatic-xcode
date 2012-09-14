@@ -27,6 +27,22 @@ class AudioEngine
 		console.log "MPD: JS: AudioEngine:play"
 		Cordova.exec(@nop, @nop, "AudioEngine", "play", [])
 
+	playSample: (filename, finishedPlayingCb) ->
+		console.log "MPD: JS: AudioEngine:playSample"
+		Cordova.exec(finishedPlayingCb, finishedPlayingCb, "AudioEngine", "playSample", [filename])
+
+	stopSample: (filename) ->
+		console.log "MPD: JS: AudioEngine:stopSample"
+		Cordova.exec(@nop, @nop, "AudioEngine", "stopSample", [])
+
+	setBpm: (bpm) ->
+		console.log "MPD: JS: AudioEngine:setBpm"
+		Cordova.exec(@nop, @nop, "AudioEngine", "setBpm", [bpm])
+
+	getBpm: () ->
+		console.log "MPD: JS: AudioEngine:getBpm"
+		Cordova.exec(@nop, @nop, "AudioEngine", "getBpm", [])
+
 	stop: () ->
 		console.log "MPD: JS: AudioEngine:stop"
 		Cordova.exec(@nop, @nop, "AudioEngine", "stop", [])
@@ -34,6 +50,14 @@ class AudioEngine
 	setCursorCallback: (callbackFn) ->
 		console.log "MPD: JS: AudioEngine:setCursorCallback"
 		Cordova.exec(callbackFn, callbackFn, "AudioEngine", "setCursorCallback", [])
+
+	recordAudioStart: (filename) ->
+		console.log "MPD: JS: AudioEngine:recordAudioStart"
+		Cordova.exec(@nop, @nop, "AudioEngine", "recordAudioStart", [filename])
+
+	recordAudioStop: (recordFinishedCb) ->
+		console.log "MPD: JS: AudioEngine:recordAudioStop"
+		Cordova.exec(recordFinishedCb, recordFinishedCb, "AudioEngine", "recordAudioStop", [])
 
 	nop: () ->
 		# no op

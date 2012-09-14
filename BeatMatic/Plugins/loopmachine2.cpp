@@ -9,7 +9,12 @@
 #include "loopmachine2.h"
 #include "AudioEngineImpl.h"
 
-LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserveIx(-1), commitIx(-1), drainIx(0), expectedBufferSize(0), wasPlaying(false) {
+LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserveIx(-1),
+    commitIx(-1), drainIx(0), expectedBufferSize(0), wasPlaying(false), dirac(nullptr),
+    diracInputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
+    diracOutputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
+    diracMonoBuffer(1, DIRAC_AUDIO_BUF_SIZE)
+{
     for (int i = 0; i < MAX_NUM_GROUPS; i++) {
         userState[i] = LOOP_INACTIVE;
         audioState[i] = LOOP_INACTIVE;
@@ -35,8 +40,11 @@ void LoopMachine::setPreset(const char* const presetFilename) {
     auto& obj = *preset.getDynamicObject();
     
     std::cout << "MPD: CPP: LoopMachine::setPreset: preset name: " << obj.getProperty("preset").toString()
-    << "; created by: " << obj.getProperty("preset").toString() << std::endl;
+    << "; created by: " << obj.getProperty("createdBy").toString() << ", orig bpm: "
+    << obj.getProperty("origBpm").toString() << std::endl;
     
+    fixedBpmTransport.setBpm(obj.getProperty("origBpm"));
+
     var groups = obj.getProperty("groups");
     
     for (int i = 0; i < groups.size(); i++) {
@@ -56,7 +64,7 @@ void LoopMachine::setPreset(const char* const presetFilename) {
         }
     }
     
-    prepareToPlay(expectedBufferSize, audioEngine.getSampleRate());
+    prepareToPlay(expectedBufferSize, audioEngine.getTransport().getSampleRate());
 }
 
 void LoopMachine::printState(String name, int state[]) {
@@ -125,6 +133,16 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
             (*groupIxToAudioSource[i])[j]->prepareToPlay(samplesPerBlockExpected, sampleRate);
         }
     }
+    if (!dirac) {
+        std::cout << "MPD: CPP: LoopMachine::prepareToPlay:creating dirac FX object" << std::endl;
+
+        dirac = DiracFxCreate(kDiracQualityGood, fixedBpmTransport.getSampleRate(), 1);
+        latency = DiracFxLatencyFrames(fixedBpmTransport.getSampleRate());
+        audioEngine.getTransport().setLatency(latency);
+
+    }
+    
+    prevBpm = audioEngine.getTransport().getBpm();
 }
 
 void LoopMachine::releaseResources() {
@@ -162,7 +180,7 @@ void LoopMachine::processFadeIn(int groupIx, int loopIx, float frameStartTicks,
 //       std::cout << "MPD: CPP: LoopMachine::processFadeIn: case 1" << std::endl;
         // this frame is large and completely contains the fadeout period.
         // in other words, start segment is normal, and then it fades out within this interval
-        int offset = audioEngine.ticksToSamples(fadeStartTicks-frameStartTicks);
+        int offset = fixedBpmTransport.ticksToSamples(fadeStartTicks-frameStartTicks);
 
         // pre-f
         // NOP: we'd be outputting only zeros.
@@ -170,7 +188,7 @@ void LoopMachine::processFadeIn(int groupIx, int loopIx, float frameStartTicks,
         // f
         float startGain = 0;
         float endGain = 1;
-        int len = audioEngine.ticksToSamples(fadeEndTicks-fadeStartTicks);
+        int len = fixedBpmTransport.ticksToSamples(fadeEndTicks-fadeStartTicks);
         processFade(groupIx, loopIx, startGain, endGain, offset, len, bufferToFill);
         
         // post-f - audio is now at full volume!
@@ -193,7 +211,7 @@ void LoopMachine::processFadeIn(int groupIx, int loopIx, float frameStartTicks,
         //  |     |        | \___________
         //      f start   f end
         
-        int offset = audioEngine.ticksToSamples(fadeStartTicks-frameStartTicks);
+        int offset = fixedBpmTransport.ticksToSamples(fadeStartTicks-frameStartTicks);
         
         float startGain = 0;
         float endGain = (frameEndTicks-fadeStartTicks)/(fadeEndTicks-fadeStartTicks);
@@ -209,7 +227,7 @@ void LoopMachine::processFadeIn(int groupIx, int loopIx, float frameStartTicks,
         
         
         
-        int numSamples = audioEngine.ticksToSamples(fadeEndTicks-frameStartTicks);
+        int numSamples = fixedBpmTransport.ticksToSamples(fadeEndTicks-frameStartTicks);
         float startGain = (frameStartTicks-fadeStartTicks)/(fadeEndTicks-fadeStartTicks);
         float endGain = 1;
         
@@ -251,7 +269,7 @@ void LoopMachine::processFadeOut(int groupIx, int loopIx, float frameStartTicks,
         //  |          \            |
         //  |           \___________|
         //    pre-f    f     post-f
-        int numSamples = audioEngine.ticksToSamples(fadeStartTicks-frameStartTicks);
+        int numSamples = fixedBpmTransport.ticksToSamples(fadeStartTicks-frameStartTicks);
         
         // pre-f
         processBlock(groupIx, loopIx, 0, numSamples, bufferToFill);
@@ -260,7 +278,7 @@ void LoopMachine::processFadeOut(int groupIx, int loopIx, float frameStartTicks,
         float startGain = 1;
         float endGain = 0;
         
-        int len = audioEngine.ticksToSamples(fadeEndTicks-fadeStartTicks);
+        int len = fixedBpmTransport.ticksToSamples(fadeEndTicks-fadeStartTicks);
         processFade(groupIx, loopIx, startGain, endGain, numSamples, len, bufferToFill);
         
         // post-f
@@ -282,7 +300,7 @@ void LoopMachine::processFadeOut(int groupIx, int loopIx, float frameStartTicks,
         //  |     |        | \___________
         //      f start   f end
         
-        int numSamples = audioEngine.ticksToSamples(fadeStartTicks-frameStartTicks);
+        int numSamples = fixedBpmTransport.ticksToSamples(fadeStartTicks-frameStartTicks);
         processBlock(groupIx, loopIx, 0, numSamples, bufferToFill);
         
         float startGain = 1;
@@ -297,7 +315,7 @@ void LoopMachine::processFadeOut(int groupIx, int loopIx, float frameStartTicks,
         
         
         
-        int numSamples = audioEngine.ticksToSamples(fadeEndTicks-frameStartTicks);
+        int numSamples = fixedBpmTransport.ticksToSamples(fadeEndTicks-frameStartTicks);
         float startGain = (fadeEndTicks-frameStartTicks)/(fadeEndTicks-fadeStartTicks);
         float endGain = 0;
         
@@ -355,15 +373,113 @@ void LoopMachine::processBlock(int groupIx, int loopIx, int destOffset, int numS
     }
 }
 
-void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) {
+
+void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
+    bool resync = false;
+    
+    float bpm = audioEngine.getTransport().getBpm();
+    
+    double timeFactor = fixedBpmTransport.getBpm() / bpm;
+    double pitchFactor = 1.0;
+    int numSamplesProcessed = diracOffset;
+    double newLatency = (double)latency*timeFactor;
+    audioEngine.getTransport().setLatency(latency);
+
+    
+    //    if (bpm != prevBpm) {
+//  //      DiracSetProperty(kDiracPropertyTimeFactor, timeFactor, dirac);
+//        resync = true;
+//        double oldLatency = audioEngine.getTransport().getLatency();
+//        double newLatency = (double)latency*timeFactor;
+//        double corr = newLatency/oldLatency - 1.0;
+//        double fac = 0;
+//        std::cout << "MPD:corr: " << corr << ", latency=" << newLatency << ", adj=" << (newLatency + fac*corr) << std::endl;
+//        audioEngine.getTransport().setLatency(newLatency + fac*corr);
+//
+////        int t = audioEngine.getTransport().getFrameStartTicks() / timeFactor;
+////        int samples = fixedBpmTransport.ticksToSamples(t);
+////        fixedBpmTransport.setTransport(samples);
+//        
+//        diracOffset = 0;
+//    }
+    
+//    if (bpm != prevBpm) {
+//    }
+//    
+    float *outputBuffer[NUM_OUTPUT_CHANNELS];
+    
+    while (numSamplesProcessed < bufferToFill.numSamples) {
+        AudioSourceChannelInfo chanInfo(&diracInputBuffer, 0, bufferToFill.numSamples);
+        getNextAudioBlockFixedBpm(chanInfo);
+        for (int channel = 0; channel < NUM_OUTPUT_CHANNELS; channel++) {
+            outputBuffer[channel] = diracOutputBuffer.getSampleData(channel, numSamplesProcessed);
+        }
+        
+//        // pretend like we're applying dirac
+//        numSamplesProcessed += bufferToFill.numSamples;
+//        diracOutputBuffer.copyFrom(0, 0, diracInputBuffer, 0, 0, bufferToFill.numSamples);
+        
+//        diracMonoBuffer.setDataToReferTo(outputBuffer, 1, bufferToFill.numSamples);
+        numSamplesProcessed += DiracFxProcessFloat(timeFactor, pitchFactor, diracInputBuffer.getArrayOfChannels(), outputBuffer,
+                                                   bufferToFill.numSamples, dirac);
+//        std::cout << "MPD: CPP: LoopMachine::getNextAudioBlock: numSamplesProcessed[dirac]=" << numSamplesProcessed << std::endl;
+        if (numSamplesProcessed == 0)
+            throw AudioEngineException("FUCK ME");
+    }
+    
+    diracOutputBuffer.applyGain(0, 0, bufferToFill.numSamples, 0.5);
+    
+    for (int channel = 0; channel < NUM_OUTPUT_CHANNELS; channel++) {
+        bufferToFill.buffer->copyFrom(channel, 0, diracOutputBuffer, 0, 0, bufferToFill.numSamples);
+        // once dirac pro is at hand, need to do this:
+//        std::memcpy(diracOutputBuffer.getSampleData(0), diracOutputBuffer.getSampleData(0, bufferToFill.numSamples), diracOffset*sizeof(float));
+    }
+    
+    diracOffset = numSamplesProcessed-bufferToFill.numSamples;
+    // NB. only while using dirac LE, since it is mono.
+    std::memcpy(diracOutputBuffer.getSampleData(0), diracOutputBuffer.getSampleData(0, bufferToFill.numSamples), diracOffset*sizeof(float));
+}
+
+void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& bufferToFill) {
+    if (fixedBpmTransport.isPlaying() != audioEngine.getTransport().isPlaying()) {
+        if (audioEngine.getTransport().isPlaying())
+            fixedBpmTransport.play();
+        else
+            fixedBpmTransport.stop();
+    }
+    
+//    float bpm = audioEngine.getTransport().getBpm();
+//    if (prevBpm != bpm) {
+//        double timeFactor = fixedBpmTransport.getBpm() / bpm;
+//        int t = audioEngine.getTransport().getFrameStartTicks() / timeFactor;
+//        int samples = fixedBpmTransport.ticksToSamples(t);
+//        fixedBpmTransport.updateTransport(samples);
+//        
+//        for (int groupIx = 0; groupIx < groupIxToAudioSource.size(); groupIx++) {
+//            int state = audioState[groupIx];
+//            int prevState = prevAudioState[groupIx];
+//                
+//            if (state != LOOP_INACTIVE) {
+//                auto src = (*groupIxToAudioSource[groupIx])[state];
+//                src->setNextReadPosition(samples % src->getTotalLength());
+//            }
+//            if (prevState != LOOP_INACTIVE) {
+//                auto src = (*groupIxToAudioSource[groupIx])[prevState];
+//                src->setNextReadPosition(samples % src->getTotalLength());
+//            }
+//        }
+//    }
+    
+    fixedBpmTransport.updateTransport(bufferToFill.numSamples);
+    
     bufferToFill.clearActiveBufferRegion();
     
-    if (audioEngine.isPlaying()) {
-        float frameStartTicks = audioEngine.getFrameStartTicks();
-        float frameEndTicks = audioEngine.getFrameEndTicks();
+    if (fixedBpmTransport.isPlaying()) {
+        float frameStartTicks = fixedBpmTransport.getFrameStartTicks();
+        float frameEndTicks = fixedBpmTransport.getFrameEndTicks();
         
         float nextTick = (float) ((int)frameStartTicks + 1);
-        float fadeLengthTicks = audioEngine.millisToTicks(FADE_TIME_MS);
+        float fadeLengthTicks = fixedBpmTransport.millisToTicks(FADE_TIME_MS);
         
         float fadeStartTicks = nextTick - fadeLengthTicks;
         float fadeEndTicks = nextTick;
@@ -387,7 +503,7 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
                 float barStartTicks = bar*16;
                 
                 float dTicks = fadeStartTicks - barStartTicks;
-                int dSamples = audioEngine.ticksToSamples(dTicks);
+                int dSamples = fixedBpmTransport.ticksToSamples(dTicks);
 
                 if (frameStartTicks == 0 || frameStartTicks <= fadeStartTicks) {
                     auto src = (*groupIxToAudioSource[groupIx])[state];
@@ -405,7 +521,7 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
                 float barStartTicks = bar*16;
                 
                 float dTicks = fadeStartTicks - barStartTicks;
-                int dSamples = audioEngine.ticksToSamples(dTicks);
+                int dSamples = fixedBpmTransport.ticksToSamples(dTicks);
                 
                 if (frameStartTicks == 0 || frameStartTicks <= fadeStartTicks) {
                     auto src = (*groupIxToAudioSource[groupIx])[state];
@@ -435,7 +551,7 @@ void LoopMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
 //        wasPlaying = true;
     }
     
-    if (wasPlaying && !audioEngine.isPlaying())
+    if (wasPlaying && !fixedBpmTransport.isPlaying())
         wasPlaying = false;
 }
 
@@ -454,107 +570,3 @@ void LoopMachine::addLoop(String groupName, File loopFile) {
     src->setLooping(true);
     groupSources.add(src);
 }
-
-
-
-
-
-// Old code for getNextAudioBlock.
-//int frameStartSamples = audioEngine.getFrameStartSamples();
-//int frameEndSamples = audioEngine.getFrameEndSamples();
-//float fadeLengthSamples = ((float)FADE_TIME_MS) / ((float)1000.0) * audioEngine.getSampleRate();
-//int nextTickSamples = audioEngine.ticksToSamples(nextTick);
-//        int fadeInStartSamples = nextTickSamples - fadeInLengthSamples;
-//        if (fadeInStartSamples < frameStartSamples) {
-//
-//            int x = nextTickSamples - fadeInLengthSamples;
-//            if (frameStartSamples <= x && frameEndSamples > x) {
-//                // we're switching from a tick into another
-//                int limit = commitIx.get();
-//                while (drainIx < limit) {
-//                    int groupIx = ringbuf[drainIx][0];
-//                    int loopIx = ringbuf[drainIx][1];
-//
-//                    userState[groupIx] = loopIx;
-//                    drainIx++;
-//                }
-//
-//                std::memcpy(prevAudioState, audioState, sizeof(audioState));
-//            }
-//
-//            int tick = (int) frameEndTicks;
-//            int ntick = tick % 16;
-//
-//
-//            for (int groupIx = 0; groupIx < MAX_NUM_GROUPS; groupIx++) {
-//                int state = audioState[groupIx];
-//                int prevState = prevAudioState[groupIx];
-//                if (state == LOOP_INACTIVE && prevState == LOOP_INACTIVE) {
-//                    // do nothing
-//                } else if (state == LOOP_INACTIVE) {
-//                    // we're going from something to silence fadeout
-//                    frameBuffer.numSamples = bufferToFill.numSamples;
-//                    auto src = groupIxToAudioSource[groupIx][prevState];
-//                    src->getNextAudioBlock(frameBuffer);
-//                    int numSamples = bufferToFill.numSamples;
-//
-//                    int offset;
-//                    float startGain;
-//                    float endGain;
-//                    if (frameStartSamples < x) {
-//                        offset = x - frameStartSamples;
-//                        startGain = 1;
-//                    } else {
-//                        offset = 0;
-//                        startGain = ((float)(nextTickSamples - frameStartSamples))/((float)fadeInSamples);
-//                    }
-//                    endGain = ((float)(nextTickSamples - frameEndSamples))/((float)fadeInSamples);
-//
-//                    for (int channel = 0; channel < 2; channel++) {
-//                        bufferToFill.buffer->addFromWithRamp(channel, offset,
-//                            frameBuffer.buffer->getSampleData(channel), numSamples-offset, startGain, endGain);
-//                    }
-//
-//                    src->setNextReadPosition(0);
-//                } else if (prevState == LOOP_INACTIVE) {
-//                    // we're starting a loop, fade in!
-//
-//                    int readPos = 0;
-//
-//                    // we're going from silence to something fadein
-//                    frameBuffer.numSamples = bufferToFill.numSamples;
-//                    auto src = groupIxToAudioSource[groupIx][state];
-//
-//                    src->setNextReadPosition(readPos);
-//                    src->getNextAudioBlock(frameBuffer);
-//
-//
-//                    int offset;
-//                    float startGain;
-//                    float endGain;
-//                    if (frameStartSamples < x) {
-//                        offset = x - frameStartSamples;
-//                        startGain = 1;
-//                    } else {
-//                        offset = 0;
-//                        startGain = ((float)(nextTickSamples - frameStartSamples))/((float)fadeInSamples);
-//                    }
-//                    endGain = ((float)(nextTickSamples - frameEndSamples))/((float)fadeInSamples);
-//
-//                    for (int channel = 0; channel < 2; channel++) {
-//                        bufferToFill.buffer->addFromWithRamp(channel, offset,
-//                                                             frameBuffer.buffer->getSampleData(channel), numSamples-offset, startGain, endGain);
-//                    }
-//
-//                    src->setNextReadPosition(0);
-//                } else if (prevState != state) {
-//                    // we're switching loops: crossfade.
-//                 } else  {
-//                    for (int channel = 0; channel < 2; channel++) {
-//                        bufferToFill.buffer->addFromWithRamp(channel, offset,
-//                                                             frameBuffer.buffer->getSampleData(channel), numSamples-offset, startGain, endGain);
-//                    }
-//                }
-//            }
-//        }
-

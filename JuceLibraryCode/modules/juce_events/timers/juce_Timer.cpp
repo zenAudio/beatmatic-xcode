@@ -61,6 +61,8 @@ public:
                 wait (1);
                 continue;
             }
+             
+            std::cout << "MPD: TIMER THREAD: " << now << std::endl;
 
             const int elapsed = (int) (now >= lastTime ? (now - lastTime)
                                                        : (std::numeric_limits<uint32>::max() - (lastTime - now)));

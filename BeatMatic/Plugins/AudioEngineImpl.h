@@ -11,6 +11,8 @@
 
 #include "juce.h"
 #include "mixer.h"
+#include "audiotransport.h"
+#include "recorder.h"
 
 struct AudioEngineException : public std::exception
 {
@@ -19,11 +21,14 @@ struct AudioEngineException : public std::exception
     const char* what() const throw() { return s.toUTF8(); }
 };
 
-class AudioEngineImpl {
+class AudioEngineImpl : public ChangeListener {
+public:
+    const static int CURSOR_UPDATE_INTERVAL_MS = 10;
+    
 public:
     
     AudioEngineImpl();
-    void init();
+    void init(void *objSelf);
     
     void playTestTone();
     
@@ -32,37 +37,31 @@ public:
     void toggleLoop(const char* const group, int ix);
     void auditionDrum(String soundName);
     void setDrumPattern(const char* const patternJson);
-    
-    // Transport
-    void play();
-    void stop();
-    void setBpm(float bpm);
-    float getBpm() const;
-    bool isPlaying() const;
-    float getSampleRate() const;
-    int getFrameStartSamples() const;
-    int getFrameEndSamples() const;
-    float getFrameStartTicks() const;
-    float getFrameEndTicks() const;
-    
+    void recordAudioStart(const char* const filename);
+    void recordAudioStop(const char* const callbackId);
+    void setCursorUpdateCallback(const char* const callbackId);
+    void playSample(const char* const filename, const char* const callbackId);
+    void stopSample();
+   
     // Utility
     AudioDeviceManager& getAudioMgr();
-    float samplesToTicks(float t_samples) const;
-    float ticksToSamples(float t_ticks) const;
-    float millisToSamples(float t_millis) const;
-    float samplesToMillis(float t_samples) const;
-    float millisToTicks(float t_millis) const;
-    float ticksToMillis(float t_ticks) const;
+    AudioTransport& getTransport();
+    void * getGuiFacade() const;
     
+    int useTimeSlice();
+    void changeListenerCallback(ChangeBroadcaster* source);
+
 private:
-    volatile float sampleRate;
-    volatile float bpm;
-    volatile int frameStartSamples;
-    volatile int frameEndSamples;
-    volatile bool playing;
-    
     AudioDeviceManager audioMgr;
     Mixer mixer;
+    AudioTransport transport;
+    AudioRecorder audioRecorder;
+    
+    // these are needed to communicate with the GUI
+    String cursorUpdateCb;
+    String playSampleCb;
+    
+    void * objcSelf;
     
     friend class Mixer;
 };
