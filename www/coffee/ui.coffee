@@ -19,5 +19,8 @@ class ui
 		
 		if tab is "dj"
 			BEATmatic.dj.resetButtons()
+		
+		if tab is "test"
+			BEATmatic.dj.playVideo()
 $ ->
 	BEATmatic.ui = new ui()
