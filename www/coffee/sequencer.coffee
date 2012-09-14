@@ -98,7 +98,7 @@ class sequencer
 			my_media.play()
 		else
 			#HTML5
-			new Audio(src).play()
+			#new Audio(src).play()
 	
 	changeBPM: (newBPM) ->
 		@BPM = newBPM

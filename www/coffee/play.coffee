@@ -7,6 +7,7 @@ class play
 	originalbpm: false
 	direction: false
 	lastDistance: 0
+	colCache: {}
 	
 	constructor: ->
 		
@@ -63,7 +64,7 @@ class play
 		html = """<table id="hor-minimalist-a" class="fulltable" summary="Matrix">"""
 		for track, index in BEATmatic.sequencer.drumTracks.tracks
 			html += "<tr>"
-			html += """<td class=""><img width="50" height="50" src="img/#{track.icon}" alt="#{track.name}"/></td>"""
+			#html += """<td class=""><img width="50" height="50" src="img/#{track.icon}" alt="#{track.name}"/></td>"""
 			for score, index in track.score
 				if score >= 100
 					score = 100
@@ -78,7 +79,7 @@ class play
 	enableSwipe: =>	
 		$("#hor-minimalist-a").swipe
 			click: (e, target) =>
-				score = e.target.cellIndex
+				score = e.target.cellIndex + 1
 				track = e.target.parentNode.rowIndex
 				
 				cell = $($(".c#{score}")[track])
@@ -193,14 +194,29 @@ class play
 			threshold: 50
 		
 
-			
+	getCols: (col) ->
+		return $(".c#{col}")
+		if @colCache[col]?
+			return @colCache[col]
+		else
+			return @colCache[col] = $(".c#{col}")		
 	
 	highlightColumn: (col) ->
-		$(".c#{col}").addClass "highlighted"
+		@getCols(col).addClass "highlighted"
 		col = col - 1
 		col = 16 if col is 0
-		$(".c#{col}").removeClass "highlighted"
+		@getCols(col).removeClass "highlighted"
 			
+
+delay = (ms, func) ->
+	setTimeout func, ms
 
 $ ->
 	BEATmatic.play = new play()
+	#vid = document.getElementById("my-video")
+	#vid.defaultPlaybackRate = 2.0;
+	#$("my-video").prop('muted', true)
+	#vid.play();
+	#delay 3000, ->
+	#	vid.playbackRate = 3.0;
+	
