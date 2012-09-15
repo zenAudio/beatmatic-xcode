@@ -34,11 +34,28 @@ body {
   font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   vertical-align: middle;
-  background: url(../img/bg.png) no-repeat;
+  background-color: white;
+}
+#table {
+  display: table;
+}
+.row {
+  display: table-row;
+}
+.cell {
+  display: table-cell;
 }
 .ui {
   height: 100%;
   width: 100%;
+}
+.uitab {
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+.active {
+  display: block;
 }
 #ui {
   display: -webkit-box;
@@ -46,7 +63,6 @@ body {
   -webkit-box-align: center;
 }
 .app {
-  background-image: url(../img/__beatmagic.png);
   background-repeat: no-repeat;
   margin: 0px auto;
   width: 275px;
@@ -56,6 +72,51 @@ body {
   background-repeat: no-repeat;
   margin: 0px auto;
   width: 275px;
+}
+.recordui {
+  background-image: url(../img/RecordScreen.png);
+  background-repeat: no-repeat;
+  position: absolute;
+}
+.btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  padding: 10px 25px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+#demoBtn {
+  float: right;
+  margin: 10px;
+}
+#tutorialBtn {
+  float: left;
+  margin: 10px;
+}
+#recordBtn {
+  position: absolute;
+  left: 50%;
+  margin-left: -76px;
+  bottom: 10px;
+}
+#micHome {
+  left: 100px;
+  top: 120px;
+}
+#recordLevel {
+  position: absolute;
+  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 100%, #a7faf8 100%);
+  left: 100px;
+  top: 120px;
+  width: 150px;
+  height: 165px;
 }
 h1 {
   font-size: 2em;

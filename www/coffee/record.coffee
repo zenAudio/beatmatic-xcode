@@ -9,9 +9,9 @@ class rec
 		@setup = true
 		@ready = false
 		
-		$("#toTable").click =>
-			BEATmatic.play.setup("demo")
-			BEATmatic.ui.switch("synth")
+		#$("#toTable").click =>
+		#	BEATmatic.play.setup("demo")
+		#	BEATmatic.ui.switch("synth")
 		
 		$("#record").click =>
 			@recordAudio3()
@@ -36,6 +36,12 @@ class rec
 		document.querySelector("#deviceready .pending").className += " hide"
 		completeElem = document.querySelector("#deviceready .complete")
 		completeElem.className = completeElem.className.split("hide").join("")
+		
+	
+	showMicLevel: (percent) ->
+		level = 100 - percent
+		$("#recordLevel").css("background", "-webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) #{level}%,rgba(167,250,248,1) 100%)")
+		level
 		
 		
 	getFilePath: ->
