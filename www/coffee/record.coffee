@@ -23,6 +23,10 @@ class rec
 		$("#stoprecord").click =>
 			@switchButtons "processingrecord"
 			@mediaRec.stopRecord()
+			
+		BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
+		  console.log level
+		  @.showMicLevel level
 	
 	switchButtons: (buttonToShow) ->
 		for button in ["stoprecord", "processingrecord", "record"]
@@ -127,6 +131,6 @@ class rec
 	setAudioPosition: (position) ->
 		document.getElementById("audio_position").innerHTML = position
 
-window.BEATmatic = {}
+#window.BEATmatic = {}
 $ ->
 	BEATmatic.rec = new rec()
