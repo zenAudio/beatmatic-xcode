@@ -88,8 +88,8 @@ void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
     
     // and now get the synth to process the midi events and generate its output.
     synth.renderNextBlock(*bufferToFill.buffer, incomingMidi, 0, bufferToFill.numSamples);
-    bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
-    bufferToFill.buffer->applyGain(1, 0, bufferToFill.numSamples, 0.5);
+    bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.2);
+    bufferToFill.buffer->applyGain(1, 0, bufferToFill.numSamples, 0.2);
 }
 
 void DrumMachine::setDrumPattern(const char *const patternJson) {

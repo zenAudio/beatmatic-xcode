@@ -117,6 +117,16 @@
     [cursorCallbackId release];
 }
 
+- (void) setAudioInputLevelCallback:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+    NSString* callbackId = [arguments pop];
+    [callbackId retain];  // do we need this?
+    
+	NSLog(@"MPD: NATIVE: Obj-c: Setting audio input level callback.");
+    engine.setCursorUpdateCallback([cursorCallbackId UTF8String]);
+    
+    [cursorCallbackId release];
+}
+
 - (void) setLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSString* callbackId = [arguments pop];
     [callbackId retain];
@@ -229,5 +239,94 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     [(id) objcSelf invokePhoneGapCallback:[[NSString alloc] initWithUTF8String: callbackId] withResponse: [[NSString alloc] initWithUTF8String:jsonMsg]];
 }
 
+- (void) setMasterFilter:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+    [arguments pop];
+    
+    NSString* opts = [arguments pop];
+    [opts retain];
+    NSLog(@"MPD: NATIVE: Obj-C: setMasterFilter: %@", opts);
+    var filtParms = JSON::parse(String([opts UTF8String]));
+    String type = filtParms["type"];
+    
+    IIRFilter filter;
+    
+    var fopt = filtParms["options"];
+    
+    if (type.equalsIgnoreCase("inactive")) {
+        filter.makeInactive();
+    } else if (type.equalsIgnoreCase("lp")) {
+        filter.makeLowPass(engine.getTransport().getSampleRate(), fopt["cutoff"]);
+    } else if (type.equalsIgnoreCase("hp")) {
+        filter.makeHighPass(engine.getTransport().getSampleRate(), fopt["cutoff"]);
+    } else if (type.equalsIgnoreCase("bp")) {
+        filter.makeBandPass(engine.getTransport().getSampleRate(), fopt["cutoff"],
+                            fopt["Q"], fopt["gain"]);
+    } else if (type.equalsIgnoreCase("ls")) {
+        filter.makeLowShelf(engine.getTransport().getSampleRate(), fopt["cutoff"],
+                            fopt["Q"], fopt["gain"]);
+    } else if (type.equalsIgnoreCase("hs")) {
+        filter.makeHighShelf(engine.getTransport().getSampleRate(), fopt["cutoff"],
+                             fopt["Q"], fopt["gain"]);
+    }
+    
+    engine.getMixer().getMasterFilter()->setFilterParameters(filter);
+    [opts release];
+}
+
+- (void) setMasterVerb:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+    [arguments pop];
+    /*
+    float 	roomSize
+ 	Room size, 0 to 1.0, where 1.0 is big, 0 is small.
+    float 	damping
+ 	Damping, 0 to 1.0, where 0 is not damped, 1.0 is fully damped.
+    float 	wetLevel
+ 	Wet level, 0 to 1.0.
+    float 	dryLevel
+ 	Dry level, 0 to 1.0.
+    float 	width
+ 	Reverb width, 0 to 1.0, where 1.0 is very wide.
+    float 	freezeMode
+    */
+    
+    NSString* opts = [arguments pop];
+    [opts retain];
+    NSLog(@"MPD: NATIVE: Obj-C: setMasterVerb: %@", opts);
+    
+    var parms = JSON::parse(String([opts UTF8String]));
+    
+    auto& verb = *engine.getMixer().getMasterVerb();
+    auto rparams = verb.getParameters();
+    
+    rparams.roomSize = parms.getProperty("roomSize", verb.getParameters().roomSize);
+    rparams.damping = parms.getProperty("damping", verb.getParameters().damping);
+    rparams.wetLevel = parms.getProperty("wetLevel", verb.getParameters().wetLevel);
+    rparams.dryLevel = parms.getProperty("dryLevel", verb.getParameters().dryLevel);
+    rparams.width = parms.getProperty("width", verb.getParameters().width);
+    rparams.freezeMode = parms.getProperty("freezeMode", verb.getParameters().freezeMode);
+
+    engine.getMixer().getMasterVerb()->setParameters(rparams);
+    
+    [opts release];
+}
+
+- (void) setMasterCrusher:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+    [arguments pop];
+    
+    NSString* optsObj = [arguments pop];
+    [optsObj retain];
+    
+    NSLog(@"MPD: NATIVE: Obj-c: AudioEngine::setMasterCrusher");
+    auto& crusher = *engine.getMixer().getMasterCrusher();
+    var opts = JSON::parse(String([optsObj UTF8String]));
+    
+    auto parms = crusher.getParams();
+    parms.bits = opts["bits"];
+    parms.rate = opts["rate"];
+    
+    crusher.setParams(parms);
+    
+    [optsObj release];
+}
 
 @end

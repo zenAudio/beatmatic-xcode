@@ -21,6 +21,40 @@ struct AudioEngineException : public std::exception
     const char* what() const throw() { return s.toUTF8(); }
 };
 
+class AudioEngineImpl;
+
+//==============================================================================
+/* This component scrolls a continuous waveform showing the audio that's currently
+ coming into the audio input.
+ */
+class AudioInputMeter  : public AudioIODeviceCallback, public Timer
+{
+public:
+    static const float LAMBDA;
+public:
+    //==============================================================================
+    AudioInputMeter(AudioEngineImpl& audioEngine);
+    ~AudioInputMeter();
+    
+    void setPhoneGapCallbackId(const char* const callbackId);
+    
+    void timerCallback();
+    
+    void audioDeviceAboutToStart (AudioIODevice* device);
+    void audioDeviceStopped();
+    void audioDeviceIOCallback (const float** inputChannelData, int numInputChannels,
+                                float** outputChannelData, int numOutputChannels, int numSamples);
+private:
+    volatile float level;
+    String callbackId;
+    char buf[64];
+    
+    AudioEngineImpl& audioEngine;
+
+    AudioInputMeter(const AudioInputMeter&);
+    AudioInputMeter& operator= (const AudioInputMeter&);
+};
+
 class AudioEngineImpl : public ChangeListener {
 public:
     const static int CURSOR_UPDATE_INTERVAL_MS = 10;
@@ -47,6 +81,7 @@ public:
     AudioDeviceManager& getAudioMgr();
     AudioTransport& getTransport();
     void * getGuiFacade() const;
+    Mixer& getMixer();
     
     int useTimeSlice();
     void changeListenerCallback(ChangeBroadcaster* source);
