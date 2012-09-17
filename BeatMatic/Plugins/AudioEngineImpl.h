@@ -27,7 +27,7 @@ class AudioEngineImpl;
 /* This component scrolls a continuous waveform showing the audio that's currently
  coming into the audio input.
  */
-class AudioInputMeter  : public AudioIODeviceCallback, public Timer
+class AudioInputMeter  : public AudioIODeviceCallback, public ChangeListener, public ChangeBroadcaster
 {
 public:
     static const float LAMBDA;
@@ -38,8 +38,9 @@ public:
     
     void setPhoneGapCallbackId(const char* const callbackId);
     
-    void timerCallback();
-    
+//    void timerCallback();
+    void changeListenerCallback(ChangeBroadcaster* source);
+   
     void audioDeviceAboutToStart (AudioIODevice* device);
     void audioDeviceStopped();
     void audioDeviceIOCallback (const float** inputChannelData, int numInputChannels,
@@ -48,6 +49,8 @@ private:
     volatile float level;
     String callbackId;
     char buf[64];
+    int pos;
+    int lastFire;
     
     AudioEngineImpl& audioEngine;
 
@@ -82,6 +85,7 @@ public:
     AudioTransport& getTransport();
     void * getGuiFacade() const;
     Mixer& getMixer();
+    AudioInputMeter& getInputMeter();
     
     int useTimeSlice();
     void changeListenerCallback(ChangeBroadcaster* source);
@@ -91,6 +95,7 @@ private:
     Mixer mixer;
     AudioTransport transport;
     AudioRecorder audioRecorder;
+    AudioInputMeter inputMeter;
     
     // these are needed to communicate with the GUI
     String cursorUpdateCb;
