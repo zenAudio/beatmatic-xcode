@@ -10,7 +10,8 @@
 #include "AudioEngineImpl.h"
 #include "audioplayer.h"
 
-Mixer::Mixer(AudioEngineImpl& engine) : audioEngine(engine), loopMachine(engine), drumMachine(engine), samplePlayer(nullptr)
+Mixer::Mixer(AudioEngineImpl& engine) : audioEngine(engine), loopMachine(engine),
+    drumMachine(engine), samplePlayer(nullptr)
 {
 }
 
@@ -21,7 +22,12 @@ void Mixer::init() {
     addInputSource(&loopMachine, true);
     addInputSource(&drumMachine, true);
     
-    player.setSource(this);
+    masterCrusher = new CrusherEffect(this, true);
+    masterVerb = new ReverbAudioSource(masterCrusher, true);
+    masterFilter = new IIRFilterAudioSource(masterVerb, true);
+    masterLimiter = new LimiterEffect(masterFilter, true);
+    
+    player.setSource(masterLimiter);
     
     audioEngine.getAudioMgr().addAudioCallback(&player);
 }
@@ -37,6 +43,19 @@ LoopMachine& Mixer::getLoopMachine() {
 AudioPlayer* Mixer::getAudioPlayer() {
     return samplePlayer;
 }
+
+IIRFilterAudioSource* Mixer::getMasterFilter() {
+    return masterFilter;
+}
+
+ReverbAudioSource* Mixer::getMasterVerb() {
+    return masterVerb;
+}
+
+CrusherEffect* Mixer::getMasterCrusher() {
+    return masterCrusher;
+}
+
 
 void Mixer::playSample(File filename) {
     if (samplePlayer != nullptr) {

@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "217"
          endingLineNumber = "217"
-         landmarkName = "-invokePhoneGapCallback:withResponse:"
+         landmarkName = "-stopSample:withDict:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -38,7 +38,9 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "68"
-         endingLineNumber = "68">
+         endingLineNumber = "68"
+         landmarkName = "AudioEngineImpl::init(void * objcSelf)"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -100,6 +102,32 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "156"
          endingLineNumber = "156">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/limitereffect.cpp"
+         timestampString = "369417764.61259"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "40"
+         endingLineNumber = "40"
+         landmarkName = "LimiterEffect::getNextAudioBlock (const AudioSourceChannelInfo&amp; bufferToFill)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/crushereffect.cpp"
+         timestampString = "369571813.975057"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "46"
+         endingLineNumber = "46"
+         landmarkName = "CrusherEffect::getNextAudioBlock(const AudioSourceChannelInfo&amp; bufferToFill)"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

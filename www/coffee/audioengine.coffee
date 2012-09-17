@@ -51,6 +51,10 @@ class AudioEngine
 		console.log "MPD: JS: AudioEngine:setCursorCallback"
 		Cordova.exec(callbackFn, callbackFn, "AudioEngine", "setCursorCallback", [])
 
+	setAudioInputLevelCallback: (callbackFn) ->
+		console.log "MPD: JS: AudioEngine:setAudioInputLevelCallback"
+		Cordova.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
+
 	recordAudioStart: (filename) ->
 		console.log "MPD: JS: AudioEngine:recordAudioStart"
 		Cordova.exec(@nop, @nop, "AudioEngine", "recordAudioStart", [filename])
@@ -58,6 +62,18 @@ class AudioEngine
 	recordAudioStop: (recordFinishedCb) ->
 		console.log "MPD: JS: AudioEngine:recordAudioStop"
 		Cordova.exec(recordFinishedCb, recordFinishedCb, "AudioEngine", "recordAudioStop", [])
+
+	setMasterFilter: (filterParams) ->
+		console.log "MPD: JS: AudioEngine:setMasterFilter"
+		Cordova.exec(@nop, @nop, "AudioEngine", "setMasterFilter", [JSON.stringify(filterParams)])
+
+	setMasterVerb: (params) ->
+		console.log "MPD: JS: AudioEngine:setMasterFilter"
+		Cordova.exec(@nop, @nop, "AudioEngine", "setMasterVerb", [JSON.stringify(params)])
+
+	setMasterCrusher: (params) ->
+		console.log "MPD: JS: AudioEngine:setMasterCrusher"
+		Cordova.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [JSON.stringify(params)])
 
 	nop: () ->
 		# no op

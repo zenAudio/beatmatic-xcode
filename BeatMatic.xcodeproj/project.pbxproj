@@ -45,6 +45,7 @@
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5500619415F7A0AE003A2E7E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619215F7A0AE003A2E7E /* Accelerate.framework */; };
 		5500619515F7A0AE003A2E7E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619315F7A0AE003A2E7E /* CoreAudio.framework */; };
+		5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5502DE9E160729DB00BC4E7E /* crushereffect.cpp */; };
 		553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 553F60B316028B0300A59E7E /* audioplayer.cpp */; };
 		5543660F16012272000AA306 /* recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5543660D16012271000AA306 /* recorder.cpp */; };
 		5567A39E15F7A0F9000072C0 /* DiracAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39B15F7A0F9000072C0 /* DiracAudioPlayer.mm */; };
@@ -80,6 +81,8 @@
 		55C40D5315FC148800063503 /* juce_audio_devices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C40A9315FC0E8300063503 /* juce_audio_devices.mm */; };
 		55C40D5415FC148800063503 /* juce_audio_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C40A6415FC0E8300063503 /* juce_audio_basics.mm */; };
 		55C40D5715FC9C8B00063503 /* AudioEngineImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C40D5515FC9C8B00063503 /* AudioEngineImpl.cpp */; };
+		55E803031604BE4500A69C82 /* limitereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803011604BE4400A69C82 /* limitereffect.cpp */; };
+		55E803091604CCD900A69C82 /* audioringbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803071604CCD800A69C82 /* audioringbuffer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +153,8 @@
 		32CA4F630368D1EE00C91783 /* BeatMatic-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BeatMatic-Prefix.pch"; sourceTree = "<group>"; };
 		5500619215F7A0AE003A2E7E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		5500619315F7A0AE003A2E7E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		5502DE9E160729DB00BC4E7E /* crushereffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crushereffect.cpp; sourceTree = "<group>"; };
+		5502DE9F160729DB00BC4E7E /* crushereffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crushereffect.h; sourceTree = "<group>"; };
 		553F60B316028B0300A59E7E /* audioplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioplayer.cpp; sourceTree = "<group>"; };
 		553F60B416028B0300A59E7E /* audioplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioplayer.h; sourceTree = "<group>"; };
 		5543660D16012271000AA306 /* recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = recorder.cpp; sourceTree = "<group>"; };
@@ -656,6 +661,10 @@
 		55C40D5515FC9C8B00063503 /* AudioEngineImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEngineImpl.cpp; sourceTree = "<group>"; };
 		55C40D5615FC9C8B00063503 /* AudioEngineImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioEngineImpl.h; sourceTree = "<group>"; };
 		55C40D5815FCFF7700063503 /* juce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = juce.h; sourceTree = "<group>"; };
+		55E803011604BE4400A69C82 /* limitereffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = limitereffect.cpp; sourceTree = "<group>"; };
+		55E803021604BE4400A69C82 /* limitereffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = limitereffect.h; sourceTree = "<group>"; };
+		55E803071604CCD800A69C82 /* audioringbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioringbuffer.cpp; sourceTree = "<group>"; };
+		55E803081604CCD800A69C82 /* audioringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioringbuffer.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BeatMatic-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "BeatMatic-Info.plist"; path = "../BeatMatic-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -833,6 +842,12 @@
 				55436614160129BC000AA306 /* objctrampoline.h */,
 				553F60B316028B0300A59E7E /* audioplayer.cpp */,
 				553F60B416028B0300A59E7E /* audioplayer.h */,
+				55E803011604BE4400A69C82 /* limitereffect.cpp */,
+				55E803021604BE4400A69C82 /* limitereffect.h */,
+				55E803071604CCD800A69C82 /* audioringbuffer.cpp */,
+				55E803081604CCD800A69C82 /* audioringbuffer.h */,
+				5502DE9E160729DB00BC4E7E /* crushereffect.cpp */,
+				5502DE9F160729DB00BC4E7E /* crushereffect.h */,
 			);
 			name = Plugins;
 			path = BeatMatic/Plugins;
@@ -1993,6 +2008,9 @@
 				55974CBC160069B900EDD8CD /* audiotransport.cpp in Sources */,
 				5543660F16012272000AA306 /* recorder.cpp in Sources */,
 				553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */,
+				55E803031604BE4500A69C82 /* limitereffect.cpp in Sources */,
+				55E803091604CCD900A69C82 /* audioringbuffer.cpp in Sources */,
+				5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,44 @@
 
 #define JSON_BUFFER 256
 
+const float AudioInputMeter::LAMBDA = 0.98;
+
+//[MiscUserDefs] You can add your own user definitions and misc code here...
+AudioInputMeter::AudioInputMeter(AudioEngineImpl& audioEngine) : callbackId(String::empty), audioEngine(audioEngine) {
+    level = 0;
+    
+    startTimer (1000 / 25); // use a timer to keep repainting this component
+}
+
+void AudioInputMeter::setPhoneGapCallbackId(const char* const callbackId) {
+    this->callbackId = callbackId;
+}
+
+AudioInputMeter::~AudioInputMeter() {}
+void AudioInputMeter::audioDeviceAboutToStart (AudioIODevice*) {}
+void AudioInputMeter::audioDeviceStopped() {}
+
+void AudioInputMeter::timerCallback() {
+    float l = level;
+    std::sprintf(buf, "%f", l);
+    InvokePhoneGapCallback(&audioEngine, callbackId.toUTF8(), buf);
+}
+
+void AudioInputMeter::audioDeviceIOCallback(const float** inputChannelData, int numInputChannels,
+                                            float** outputChannelData, int numOutputChannels, int numSamples)
+{
+    for (int chan = 0; chan < numInputChannels; chan++) {
+        for (int i = 0; i < numSamples; i++) {
+            level = (1 - LAMBDA)*inputChannelData[chan][i] + LAMBDA*level;
+        }
+    }
+    
+    // We need to clear the output buffers, in case they're full of junk..
+    for (int i = 0; i < numOutputChannels; ++i)
+        if (outputChannelData[i] != 0)
+            zeromem (outputChannelData[i], sizeof (float) * numSamples);
+}
+
 
 AudioEngineImpl::AudioEngineImpl() : mixer(*this), audioRecorder(*this),
     cursorUpdateCb(String::empty), playSampleCb(String::empty)
@@ -60,6 +98,9 @@ void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
     }
 }
 
+Mixer& AudioEngineImpl::getMixer() {
+    return mixer;
+}
 
 void AudioEngineImpl::playTestTone() {
     std::cout << "MPD: CPP: AudioEngineImpl::playTestTone" << std::endl;
@@ -101,7 +142,7 @@ AudioTransport& AudioEngineImpl::getTransport() {
 void AudioEngineImpl::recordAudioStart(const char* const filename) {
     std::cout << "MPD: CPP: AudioEngineImpl::recordAudioStart:" << filename << std::endl;
     
-    audioRecorder.startRecording(File(filename));
+    audioRecorder.startRecording(File(String(filename)));
 }
 
 void AudioEngineImpl::recordAudioStop(const char* const callbackId) {
