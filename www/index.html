@@ -121,6 +121,8 @@
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         <script type="text/javascript" src="js/jquery-1.8.0.js"></script>
         <script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
+        <!--<script type="text/javascript" src="js/jquery-ui-1.8.23.custom.min.js"></script>-->
+        <script type="text/javascript" src="js/jquery.mobile-1.1.1.min.js"></script>
         <script type="text/javascript" src="coffee/ui.js"></script>
         <script type="text/javascript" src="coffee/diracplayer.js"></script>
         <script type="text/javascript" src="coffee/sequencer.js"></script>
@@ -129,6 +131,171 @@
         <script type="text/javascript" src="coffee/play.js"></script>
         <script type="text/javascript" src="coffee/dj.js"></script>
         <script src="http://debug.phonegap.com/target/target-script-min.js#beatmatic"></script>
-        
+<!--
+        <script type="text/javascript">
+            document.addEventListener("deviceready", onDeviceReady, false);
+            
+            var recordFile = null;
+            var recording = false;
+						var playingScore = false;
+						var playingSample = false;
+						var filename = "mptest.wav";
+            
+            function onDeviceReady() {
+                $(document).ready(function() {
+									$('#playAudioBtn').button('disable');
+									$('#playBtn').bind('touchstart', function() {
+										if (!playingScore) {
+											console.log("MPD: HTML: pressed play");
+											BEATmatic.audioEngine.play();
+											playingScore = true;
+											$(this).val('Stop');
+											$(this).button('refresh');
+										} else {
+											console.log("MPD: HTML: pressed stop");
+											BEATmatic.audioEngine.stop();
+											playingScore = false;
+											$(this).val('Play');
+											$(this).button('refresh');
+										}
+									});
+									$('#playAudioBtn').bind('touchstart', function () {
+										if (!playingSample) {
+											window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+												function (fs) {
+													fs.root.getFile(filename, {create: false}, 
+														function (fileEntry) {
+															playingSample = true;
+															BEATmatic.audioEngine.playSample(fileEntry.fullPath, function (response) {
+																console.log("FINISHED PLAYING SAMPLE");
+																$('#playAudioBtn').val('Audition');
+																$('#playAudioBtn').button('refresh');
+															});
+															$('#playAudioBtn').val('Stop');
+															$('#playAudioBtn').button('refresh');
+													}, function() {})
+												}, function () {});
+											} else {
+												playingSample = false;
+												BEATmatic.audioEngine.stopSample();
+												$('#playAudioBtn').val('Audition');
+												$('#playAudioBtn').button('refresh');
+											}
+										});
+									$('#recordAudioBtn').bind('touchstart', function () {
+										try {
+												if (recording) {
+														console.log("MPD: HTML: Stopping recording.");
+														$('#recordAudioBtn').val('Record');
+														$('#recordAudioBtn').button('refresh');
+														recording = false;
+														BEATmatic.audioEngine.recordAudioStop(function (response) {
+															$('#playAudioBtn').button('enable');
+														});
+												} else {
+														console.log("MPD: HTML: Recording to: " + recordFile);
+														// grab a file to record to.
+														window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+															function (fs) {
+																console.log("MPD: got here");
+																fs.root.getFile(filename, {create: true}, 
+																	function (fileEntry) {
+																		console.log("MPD: got here: " + fileEntry.name);
+																		$('#recordAudioBtn').val('Stop');
+																		$('#recordAudioBtn').button('refresh');
+																		recording = true;
+																		BEATmatic.audioEngine.recordAudioStart(fileEntry.fullPath);
+																}, function() {})
+															}, function () {});
+												}
+										} catch (e) {
+												console.log(e.message);
+										}
+									});
+									function toggleLoop(group, ix) {
+										try {
+												console.log("MPD: HTML: pressed toggle loop " + group + ", " + ix);
+												BEATmatic.audioEngine.toggleLoop(group, ix);
+										} catch (e) {
+												console.log(e.message);
+										}
+									}
+									$('#synthABtn').bind('touchstart', function () {
+										toggleLoop('synth', 0);
+									});
+									$('#synthBBtn').bind('touchstart', function () {
+										toggleLoop('synth', 1);
+									});
+									$('#bassABtn').bind('touchstart', function () {
+										toggleLoop('melodic', 7);
+									});
+									$('#bassBBtn').bind('touchstart', function () {
+										toggleLoop('melodic', 8);
+									});
+                  $('#filterSlider').bind('change', function() {
+                     var cutoff = $(this).val() / 100.0 * 4000.0;
+                     BEATmatic.audioEngine.setMasterFilter({type: "lp", options: {"cutoff": cutoff}});
+                  });
+                  $('#crusherSlider').bind('change', function() {
+                     var bits = ($(this).val()+20)*16 / 80;
+                     var rate = $(this).val() / 100.0;
+                     BEATmatic.audioEngine.setMasterCrusher({"bits": bits, "rate": rate});
+                  });
+                  $('#verbSlider').bind('change', function() {
+                     var x = $(this).val() / 100.0;
+                     BEATmatic.audioEngine.setMasterVerb({roomSize: x, wetLevel: x, dryLevel: 1.0-x});
+                  });
+                  $( "#bpmSlider" ).bind("change", function () {
+                     BEATmatic.audioEngine.setBpm($(this).val());
+                  });
+							  });
+
+                BEATmatic.audioEngine.setCursorCallback(function (cursorPosJson) {
+//                    console.log("MPD: JS: playback cursor: " + cursorPosJson);
+                    var time = JSON.parse(cursorPosJson);
+                    $("#timeKeeper").text(time.bars + "." + time.beats + "." + time.ticks);
+                });
+                BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json");
+                console.log("MPD:HTML:onDeviceReady: initialized drum preset.");
+                var json = JSON.stringify({
+										"bpm": 120,
+										"tracks": [
+											 {
+												 "name": "kick drum",
+												 "score": [100,0,0,0,  100,0,0,0,  100,0,0,0,  100,0,0,100]
+											 },
+											 {
+												 "name": "snare drum",
+												 "score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
+											 },
+											 {
+												 "name": "hi-hat",
+												 "score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
+											 }
+									 ]});
+
+                console.log("MPD:HTML:onDeviceReady: about to set drum pattern to " + json);
+                BEATmatic.audioEngine.setDrumPattern(json);
+                console.log("MPD:HTML:onDeviceReady:set drum pattern.");
+                
+            }
+            function playTestTone() {
+                try {
+//                    console.log(BEATmatic.audioEngine);
+                    BEATmatic.audioEngine.playTestTone();
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+            function audition(soundName) {
+                try {
+                    console.log("MPD: HTML: auditioning sound " + soundName);
+                    BEATmatic.audioEngine.auditionDrum(soundName);
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+        </script>-->
+
     </body>
 </html>

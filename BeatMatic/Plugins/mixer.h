@@ -14,6 +14,8 @@
 #include <memory>
 #include "drummachine.h"
 #include "loopmachine2.h"
+#include "limitereffect.h"
+#include "crushereffect.h"
 
 class AudioEngineImpl;
 class AudioPlayer;
@@ -33,6 +35,9 @@ public:
     DrumMachine& getDrumMachine();
     LoopMachine& getLoopMachine();
     AudioPlayer* getAudioPlayer();
+    IIRFilterAudioSource* getMasterFilter();
+    ReverbAudioSource* getMasterVerb();
+    CrusherEffect* getMasterCrusher();
     
     void playSample(File filename);
     void stopSample();
@@ -63,6 +68,10 @@ private:
     LoopMachine loopMachine;
     DrumMachine drumMachine;
     AudioPlayer* samplePlayer;
+    ScopedPointer<CrusherEffect> masterCrusher;
+    ScopedPointer<IIRFilterAudioSource> masterFilter;
+    ScopedPointer<ReverbAudioSource> masterVerb;
+    ScopedPointer<LimiterEffect> masterLimiter;
 };
 
 #endif /* defined(__BeatMatic__mixer__) */

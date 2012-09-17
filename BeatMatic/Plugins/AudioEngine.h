@@ -37,7 +37,12 @@
 - (void) recordAudioStop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) playSample: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stopSample: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setAudioInputLevelCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
+// FX
+- (void) setMasterFilter: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setMasterVerb: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setMasterCrusher:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
 
 // Trampoline (objctrampoline.h)
 - (void) invokePhoneGapCallback:(NSString *)callbackId withResponse:(NSString*)jsonResponse;
