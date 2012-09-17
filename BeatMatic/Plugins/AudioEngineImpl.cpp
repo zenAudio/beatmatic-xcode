@@ -17,54 +17,85 @@
 
 #define JSON_BUFFER 256
 
-const float AudioInputMeter::LAMBDA = 0.98;
+const float AudioInputMeter::LAMBDA = 0.99995;
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-AudioInputMeter::AudioInputMeter(AudioEngineImpl& audioEngine) : callbackId(String::empty), audioEngine(audioEngine) {
+AudioInputMeter::AudioInputMeter(AudioEngineImpl& audioEngine) : callbackId(String::empty), audioEngine(audioEngine),
+    pos(0), lastFire(0)
+{
     level = 0;
     
-    startTimer (1000 / 25); // use a timer to keep repainting this component
+    addChangeListener(this);
+    
+//    startTimer (1000 / 25); // use a timer to keep repainting this component
 }
 
 void AudioInputMeter::setPhoneGapCallbackId(const char* const callbackId) {
+    std::cout << "MPD: NATIVE: CPP: AudioInputMeter::setPhoneGapCallbackId" << std::endl;
     this->callbackId = callbackId;
 }
 
 AudioInputMeter::~AudioInputMeter() {}
-void AudioInputMeter::audioDeviceAboutToStart (AudioIODevice*) {}
+void AudioInputMeter::audioDeviceAboutToStart(AudioIODevice*) {}
 void AudioInputMeter::audioDeviceStopped() {}
 
-void AudioInputMeter::timerCallback() {
-    float l = level;
-    std::sprintf(buf, "%f", l);
-    InvokePhoneGapCallback(&audioEngine, callbackId.toUTF8(), buf);
+void AudioInputMeter::changeListenerCallback(ChangeBroadcaster* source) {
+//    std::cout << "MPD: NATIVE: CPP: AudioInputMeter::changeListenerCallback: called" << std::endl;
+    if (callbackId != String::empty) {
+        float l = level;
+//        std::cout << "MPD: NATIVE: CPP: AudioInputMeter::changeListenerCallback: level: " << l << std::endl;
+        l = 10*std::log10f(l); // + 40.0;
+        if (l < -40)
+            l = -40;
+        l = (l + 40)/40.0*100.0;
+//        std::cout << "MPD: NATIVE: CPP: AudioInputMeter::changeListenerCallback: level: " << l << std::endl;
+        std::sprintf(buf, "%f", l);
+        InvokePhoneGapCallback(audioEngine.getGuiFacade(), callbackId.toUTF8(), buf);
+    }
 }
 
 void AudioInputMeter::audioDeviceIOCallback(const float** inputChannelData, int numInputChannels,
                                             float** outputChannelData, int numOutputChannels, int numSamples)
 {
-    for (int chan = 0; chan < numInputChannels; chan++) {
-        for (int i = 0; i < numSamples; i++) {
-            level = (1 - LAMBDA)*inputChannelData[chan][i] + LAMBDA*level;
+    for (int i = 0; i < numSamples; i++) {
+        float v = 0;
+        for (int chan = 0; chan < numInputChannels; chan++) {
+            v += inputChannelData[chan][i];
         }
+        v /= (float) numInputChannels;
+        level = (1 - LAMBDA)*v*v + LAMBDA*level;
     }
+    
+//    std::cout << "MPD: NATIVE: CPP: AudioInputMeter::audioDeviceIOCallback: " << level << std::endl;
     
     // We need to clear the output buffers, in case they're full of junk..
     for (int i = 0; i < numOutputChannels; ++i)
         if (outputChannelData[i] != 0)
             zeromem (outputChannelData[i], sizeof (float) * numSamples);
+    
+    float newPos = pos + numSamples;
+    if (newPos - lastFire > 2000) {
+        this->sendChangeMessage();
+        lastFire = newPos;
+    }
+    pos = newPos;
 }
 
 
 AudioEngineImpl::AudioEngineImpl() : mixer(*this), audioRecorder(*this),
-    cursorUpdateCb(String::empty), playSampleCb(String::empty)
+    cursorUpdateCb(String::empty), playSampleCb(String::empty), inputMeter(*this)
 {
+}
+
+AudioInputMeter& AudioEngineImpl::getInputMeter() {
+    return inputMeter;
 }
 
 void AudioEngineImpl::init(void * objcSelf) {
     transport.addChangeListener(this);
     audioMgr.initialise(1 /* mono input */, 2 /* stereo output */, nullptr, true, String::empty, nullptr);
     audioMgr.addAudioCallback(&audioRecorder);
+    audioMgr.addAudioCallback(&inputMeter);
     mixer.init();
     this->objcSelf = objcSelf;
 }

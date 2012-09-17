@@ -122,9 +122,9 @@
     [callbackId retain];  // do we need this?
     
 	NSLog(@"MPD: NATIVE: Obj-c: Setting audio input level callback.");
-    engine.setCursorUpdateCallback([cursorCallbackId UTF8String]);
+    engine.getInputMeter().setPhoneGapCallbackId([callbackId UTF8String]);
     
-    [cursorCallbackId release];
+    [callbackId release];
 }
 
 - (void) setLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {

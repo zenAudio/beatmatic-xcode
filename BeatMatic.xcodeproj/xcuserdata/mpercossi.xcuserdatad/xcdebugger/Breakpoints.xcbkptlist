@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/AudioEngineImpl.cpp"
-         timestampString = "369269892.341267"
+         timestampString = "369580892.089075"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "68"
-         endingLineNumber = "68"
+         startingLineNumber = "98"
+         endingLineNumber = "98"
          landmarkName = "AudioEngineImpl::init(void * objcSelf)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -127,6 +127,19 @@
          startingLineNumber = "46"
          endingLineNumber = "46"
          landmarkName = "CrusherEffect::getNextAudioBlock(const AudioSourceChannelInfo&amp; bufferToFill)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/AudioEngineImpl.cpp"
+         timestampString = "369580341.298366"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "43"
+         endingLineNumber = "43"
+         landmarkName = "AudioInputMeter::changeListenerCallback(ChangeBroadcaster* source)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
