@@ -40,7 +40,7 @@ class rec
 	
 	showMicLevel: (percent) ->
 		level = 100 - percent
-		$("#recordLevel").css("background", "-webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) #{level}%,rgba(167,250,248,1) 100%)")
+		$("#recordLevel").css("background", "-webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) #{level}%,rgba(255,0,0,1) 100%)")#rgba(167,250,248,1)
 		level
 		
 		
