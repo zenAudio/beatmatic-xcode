@@ -104,9 +104,11 @@ body {
   position: absolute;
   left: 50%;
   margin-left: -76px;
-  bottom: 10px;
+  bottom: 20px;
+  padding: 20px;
 }
 #micHome {
+  position: absolute;
   left: 100px;
   top: 120px;
 }

@@ -8,9 +8,7 @@
         <link rel="stylesheet" type="text/css" href="css/less/tiles.css" />
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <link rel="stylesheet" type="text/css" href="css/retina.css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" />
-        
-        
-        
+
         <title>BEATmatic</title>
     </head>
     <body>
@@ -18,40 +16,6 @@
     	<div id="main" class="uitab active">
     		<div id="recordLevel"></div>
 	    	<div class="recordui ui">
-	    		<svg id="micHome" width="114px" height="198px" xmlns="http://www.w3.org/2000/svg" version="1.1">
-				    <defs>
-				        <linearGradient id="myLinearGradient1"
-			                            x1="0%" y1="0%"
-			                            x2="0%" y2="100%"
-			                            spreadMethod="pad">
-			              <stop id="myLinearGradient1offset" offset="30%"  stop-color="white" stop-opacity="1"/>
-			              <stop offset="100%" stop-color="#006600" stop-opacity="1"/>
-			            </linearGradient>
-			            
-				        <pattern id="checker" patternUnits="userSpaceOnUse" x="0" y="0" width="6" height="6">
-				        			<rect x="0" y="0" height="6" width="6" fill="#999999"/>
-				        			<rect x="0" y="0" height="3" width="3" fill="white"/>
-				        			<rect x="3" y="3" height="3" width="3" fill="white"/>
-				        		</pattern>
-				        <filter id="innershadow" x0="-50%" y0="-50%" width="200%" height="200%">
-				        	<feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
-				        	<feOffset id="innershadowoffset" dy="0" dx="1"/>
-				        	<feComposite in2="SourceAlpha" operator="arithmetic"
-				        			k2="-1" k3="1" result="shadowDiff"/>
-				        	<feFlood flood-color="#898989" flood-opacity="0.5"/>
-				        	<feComposite in2="shadowDiff" operator="in"/>
-				        	<feComposite in2="SourceGraphic" operator="over"/>
-				        </filter>
-		
-				    </defs>
-				    <g fill="rgb(215,215,215)" id="Page 1">
-				        <g fill="rgb(255,254,254)" id="stand"></g>
-				        <path id="stand" d="M1,84 L16,84 L16,111 C16,146 48,146 48,146 L70,146 C70,146 98,146 98,111 L98,84 L113,84 L113,111 C113,161 70,161 70,161 L70,185 L98,185 L98,197 L16,197 L16,185 L48,185 L48,161 C48,161 48,161 48,161 C48,161 1,161 1,111 L1,84 Z M1,84" fill="rgb(255,254,254)" filter="url(#innershadow)"></path>
-				        <path id="top2" d="M24,31 L24,108 C24,123 39,138 54,138 L59,138 C74,138 89,123 89,108 L89,31 C89,16 74,1 59,1 L54,1 C39,1 24,16 24,31 Z M24,31" opacity="0.787287"  fill="url(#checker)" ></path>
-				        <path id="top" d="M24,31 L24,108 C24,123 39,138 54,138 L59,138 C74,138 89,123 89,108 L89,31 C89,16 74,1 59,1 L54,1 C39,1 24,16 24,31 Z M24,31" style="fill:url(#myLinearGradient1)" filter="url(#innershadow)" fill-opacity="0.95"></path>
-				        
-				    </g>
-				</svg>
 	    		<p id="tutorialBtn" class="btn">Intro<br>Video</p>
 	    		<p id="demoBtn" class=" btn">Demo<br>Beat</p>
 	    		<p id="recordBtn" class="btn">Start Recording</p>
@@ -61,23 +25,31 @@
 			<video id="tutorialVideoE" src="img/444.m4v" width="100%" height="100%" style="position: absolute;"></video>
         </div>
         <div id="synth2" class="uitab">
-	        <div id="table">
-	          <div class="row">
+        	<div id="synth-overview" class="hide">
+        	<div class="overviewBar">
+        		<div id="tick1-o"></div>
+        		<div id="tick2-o"></div>
+        	</div>
+        	</div>
+	        <div id="synth-table">
+	        <div id="bar1">
+	          <div id="tick1" class="row">
 	            <span class="cell">1</span>
 	            <span class="cell">1</span>
 	            <span class="cell">1</span>
 	          </div>
-	          <div class="row">
+	          <div id="tick2" class="row">
 	            <span class="cell">2</span>
 	            <span class="cell">222</span>
 	            <span class="cell">2</span>
 	          </div>
-	          <div class="row">
+	          <div id="tick3" class="row">
 	            <span class="cell">3</span>
 	            <span class="cell">3</span>
 	            <span class="cell">3</span>
 	          </div>
 	        </div>
+	       </div>
         </div>
         <div id="synth" class="uitab">
         
@@ -157,27 +129,6 @@
         <script type="text/javascript" src="coffee/play.js"></script>
         <script type="text/javascript" src="coffee/dj.js"></script>
         <script src="http://debug.phonegap.com/target/target-script-min.js#beatmatic"></script>
-        <script type="text/javascript">
-        function onSuccess(acceleration) {
-            console.log('Acceleration X: ' + acceleration.x + '\n' +
-                  'Acceleration Y: ' + acceleration.y + '\n' +
-                  'Acceleration Z: ' + acceleration.z + '\n' +
-                  'Timestamp: '      + acceleration.timestamp + '\n');
-        };
         
-        function onError() {
-            alert('onError!');
-        };
-        
-        var options = { frequency: 3000 };  // Update every 3 seconds
-        
-        var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
-        
-        //document.getElementById("innershadowoffset").setAttribute("dx","5");
-        
-        //document.getElementById("myLinearGradient1offset").setAttribute("offset","20%");
-        
-        
-        </script>
     </body>
 </html>
