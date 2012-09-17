@@ -1,3 +1,4 @@
 .recordui {
-  background-image: url(../img/RecordScreen@2x.png);
+  background: url(../img/RecordScreen@2x.png);
+  background-size: 100%;
 }
