@@ -72,9 +72,47 @@
 						var playingScore = false;
 						var playingSample = false;
 						var filename = "mptest.wav";
+            var presetLoaded = false;
             
             function onDeviceReady() {
                 $(document).ready(function() {
+                    BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json",
+                      function () {
+                        BEATmatic.audioEngine.setCursorCallback(function (cursorPosJson) {
+                            // console.log("MPD: JS: playback cursor: " + cursorPosJson);
+                            var time = JSON.parse(cursorPosJson);
+                            $("#timeKeeper").text(time.bars + "." + time.beats + "." + time.ticks);
+                        });
+                        BEATmatic.audioEngine.setAudioInputLevelCallback(function (level) {
+                            //console.log("MPD: JS: input level: " + level);
+                            var level = JSON.parse(level);
+                            $("#levelDisplay").text(level);
+                        });
+
+                        console.log("MPD:HTML:onDeviceReady: initialized drum preset.");
+                        var json = JSON.stringify({
+                            "bpm": 120,
+                            "tracks": [
+                               {
+                                 "name": "kick drum",
+                                 "score": [100,0,0,0,  100,0,0,0,  100,0,0,0,  100,0,0,100]
+                               },
+                               {
+                                 "name": "snare drum",
+                                 "score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
+                               },
+                               {
+                                 "name": "hi-hat",
+                                 "score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
+                               }
+                           ]});
+
+                        console.log("MPD:HTML:onDeviceReady: about to set drum pattern to " + json);
+                        BEATmatic.audioEngine.setDrumPattern(json);
+                        console.log("MPD:HTML:onDeviceReady:set drum pattern.");
+                      }
+                    );
+
 									$('#playAudioBtn').button('disable');
 									$('#playBtn').bind('touchstart', function() {
 										if (!playingScore) {
@@ -182,39 +220,6 @@
                   });
 							  });
 
-                BEATmatic.audioEngine.setCursorCallback(function (cursorPosJson) {
-//                    console.log("MPD: JS: playback cursor: " + cursorPosJson);
-                    var time = JSON.parse(cursorPosJson);
-                    $("#timeKeeper").text(time.bars + "." + time.beats + "." + time.ticks);
-                });
-                BEATmatic.audioEngine.setAudioInputLevelCallback(function (level) {
-                    console.log("MPD: JS: input level: " + level);
-                    var level = JSON.parse(level);
-                    $("#levelDisplay").text(level);
-                });
-                BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json");
-                console.log("MPD:HTML:onDeviceReady: initialized drum preset.");
-                var json = JSON.stringify({
-										"bpm": 120,
-										"tracks": [
-											 {
-												 "name": "kick drum",
-												 "score": [100,0,0,0,  100,0,0,0,  100,0,0,0,  100,0,0,100]
-											 },
-											 {
-												 "name": "snare drum",
-												 "score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
-											 },
-											 {
-												 "name": "hi-hat",
-												 "score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
-											 }
-									 ]});
-
-                console.log("MPD:HTML:onDeviceReady: about to set drum pattern to " + json);
-                BEATmatic.audioEngine.setDrumPattern(json);
-                console.log("MPD:HTML:onDeviceReady:set drum pattern.");
-                
             }
             function playTestTone() {
                 try {

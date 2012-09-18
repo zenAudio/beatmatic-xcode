@@ -127,6 +127,9 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
     if (expectedBufferSize == 0)
         expectedBufferSize = samplesPerBlockExpected;
     std::cout << "MPD: CPP: LoopMachine::prepareToPlay:samplesPerBlockExpected=" << samplesPerBlockExpected << ", sampleRate=" << sampleRate << std::endl;
+    
+    audioEngine.getTransport().setLatency(8192);
+    
     for (int i = 0; i < groupIxToAudioSource.size(); i++) {
         for (int j = 0; j < groupIxToAudioSource[i]->size(); j++) {
             std::cout << "MPD: CPP: LoopMachine::prepareToPlay:group " << i << ", sample " << j << std::endl;
@@ -135,11 +138,19 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
     }
     if (!dirac) {
         std::cout << "MPD: CPP: LoopMachine::prepareToPlay:creating dirac FX object" << std::endl;
-
-        dirac = DiracFxCreate(kDiracQualityGood, fixedBpmTransport.getSampleRate(), 1);
-        latency = DiracFxLatencyFrames(fixedBpmTransport.getSampleRate());
-        audioEngine.getTransport().setLatency(latency);
-
+        // out with the old style...
+//        dirac = DiracFxCreate(kDiracQualityGood, fixedBpmTransport.getSampleRate(), 1);
+//        latency = DiracFxLatencyFrames(fixedBpmTransport.getSampleRate());
+//        audioEngine.getTransport().setLatency(latency);
+        // ...in with the new (but nothings new bout being hocked by a few)
+        
+        dirac = DiracCreate(kDiracLambdaPreview, kDiracQualityPreview, 1,
+                            sampleRate, DiracDataProviderCb, (void*)this);
+        if (!dirac)
+            throw AudioEngineException("!! ERROR !!\n\n\tCould not create Dirac instance\n\tCheck sample rate!\n");
+        
+        DiracSetProperty(kDiracPropertyTimeFactor, 1, dirac);
+        DiracSetProperty(kDiracPropertyPitchFactor, 1, dirac);
     }
     
     prevBpm = audioEngine.getTransport().getBpm();
@@ -352,7 +363,7 @@ void LoopMachine::processFade(int groupIx, int loopIx, float startGain, float en
     src->getNextAudioBlock(frameBuffer);
     
     // finally, we can add these to our main output buffer.
-    for (int channel = 0; channel < NUM_OUTPUT_CHANNELS; channel++) {
+    for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); channel++) {
         bufferToFill.buffer->addFromWithRamp(channel, destOffset, frameBuffer.buffer->getSampleData(channel),
                                              numSamples, startGain, endGain);
     }
@@ -368,13 +379,48 @@ void LoopMachine::processBlock(int groupIx, int loopIx, int destOffset, int numS
     src->getNextAudioBlock(frameBuffer);
     
     // finally, we can add these to our main output buffer.
-    for (int channel = 0; channel < NUM_OUTPUT_CHANNELS; channel++) {
+    for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); channel++) {
         bufferToFill.buffer->addFrom(channel, destOffset, *frameBuffer.buffer, channel, 0, numSamples);
     }
 }
 
+long DiracDataProviderCb(float **chdata, long numFrames, void *userData) {
+//    std::cout << "MPD: NATIVE: CPP: DiracCoreDataProviderCb: starting: " << numFrames<< std::endl;
+    LoopMachine* ethis = static_cast<LoopMachine*>(userData);
+    
+    AudioSampleBuffer buf(chdata, 1, numFrames);
+    AudioSourceChannelInfo info(&buf, 0, numFrames);
+    
+    ethis->getNextAudioBlockFixedBpm(info);
+//    std::cout << "MPD: NATIVE: CPP: DiracCoreDataProviderCb: ending" << std::endl;
+}
 
 void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
+    bufferToFill.clearActiveBufferRegion();
+    
+//    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: starting" << std::endl;
+    float bpm = audioEngine.getTransport().getBpm();
+    
+    double timeFactor = fixedBpmTransport.getBpm() / bpm;
+    double pitchFactor = 1.0;
+//    int numSamplesProcessed = diracOffset;
+    
+    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: timeFactor: " << timeFactor << std::endl;
+
+    
+    DiracSetProperty(kDiracPropertyTimeFactor, timeFactor, dirac);
+    DiracSetProperty(kDiracPropertyPitchFactor, pitchFactor, dirac);
+    
+    long ret = DiracProcess(bufferToFill.buffer->getArrayOfChannels(), bufferToFill.numSamples, dirac);
+    
+    
+    
+//    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: ending." << std::endl;
+    bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
+    bufferToFill.buffer->copyFrom(1, 0, *bufferToFill.buffer, 0, 0, bufferToFill.numSamples);
+}
+
+void LoopMachine::getNextAudioBlockOld(const juce::AudioSourceChannelInfo &bufferToFill) {
     bool resync = false;
     
     float bpm = audioEngine.getTransport().getBpm();
@@ -385,7 +431,6 @@ void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferTo
     double newLatency = (double)latency*timeFactor;
     audioEngine.getTransport().setLatency(latency);
 
-    
     //    if (bpm != prevBpm) {
 //  //      DiracSetProperty(kDiracPropertyTimeFactor, timeFactor, dirac);
 //        resync = true;
@@ -405,7 +450,7 @@ void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferTo
     
 //    if (bpm != prevBpm) {
 //    }
-//    
+//
     float *outputBuffer[NUM_OUTPUT_CHANNELS];
     
     while (numSamplesProcessed < bufferToFill.numSamples) {
@@ -447,28 +492,6 @@ void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& buffer
         else
             fixedBpmTransport.stop();
     }
-    
-//    float bpm = audioEngine.getTransport().getBpm();
-//    if (prevBpm != bpm) {
-//        double timeFactor = fixedBpmTransport.getBpm() / bpm;
-//        int t = audioEngine.getTransport().getFrameStartTicks() / timeFactor;
-//        int samples = fixedBpmTransport.ticksToSamples(t);
-//        fixedBpmTransport.updateTransport(samples);
-//        
-//        for (int groupIx = 0; groupIx < groupIxToAudioSource.size(); groupIx++) {
-//            int state = audioState[groupIx];
-//            int prevState = prevAudioState[groupIx];
-//                
-//            if (state != LOOP_INACTIVE) {
-//                auto src = (*groupIxToAudioSource[groupIx])[state];
-//                src->setNextReadPosition(samples % src->getTotalLength());
-//            }
-//            if (prevState != LOOP_INACTIVE) {
-//                auto src = (*groupIxToAudioSource[groupIx])[prevState];
-//                src->setNextReadPosition(samples % src->getTotalLength());
-//            }
-//        }
-//    }
     
     fixedBpmTransport.updateTransport(bufferToFill.numSamples);
     
@@ -545,8 +568,8 @@ void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& buffer
             wasPlaying = true;
         }
         
-        bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
-        bufferToFill.buffer->applyGain(1, 0, bufferToFill.numSamples, 0.5);
+//        bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
+//        bufferToFill.buffer->applyGain(1, 0, bufferToFill.numSamples, 0.5);
         
 //        wasPlaying = true;
     }
