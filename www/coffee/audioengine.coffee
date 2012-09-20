@@ -53,7 +53,7 @@ class AudioEngine
 
 	setAudioInputLevelCallback: (callbackFn) ->
 		console.log "MPD: JS: AudioEngine:setAudioInputLevelCallback"
-		Cordova.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
+		Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
 
 	recordAudioStart: (filename) ->
 		console.log "MPD: JS: AudioEngine:recordAudioStart"

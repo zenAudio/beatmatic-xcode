@@ -45,11 +45,78 @@ body {
 .cell {
   display: table-cell;
 }
+#obars {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 19px;
+  background-color: red;
+}
+.oticks {
+  position: relative;
+  height: 33.3%;
+  background-color: blue;
+}
+.overviewBar {
+  height: 100%;
+}
+#bars {
+  overflow: scroll;
+  width: 320px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.wrapper {
+  position: relative;
+  float: left;
+  width: 299px;
+  left: 20px;
+  margin-bottom: 1px;
+  background-color: #cccccc;
+}
+.left1 {
+  position: relative;
+  float: left;
+  left: 0px;
+  width: 99px;
+  height: 50px;
+  background-image: url(img/hit.png);
+  overflow: visible;
+  opacity: 0.3;
+}
+.high .left1 {
+  background-color: blue;
+  opacity: 1;
+  -webkit-box-shadow: inset -1px -1px 3px #999999;
+}
+.left2 {
+  position: relative;
+  float: left;
+  left: 1px;
+  width: 99px;
+  height: 50px;
+  background-color: #828282;
+}
+.left3 {
+  position: relative;
+  float: left;
+  left: 2px;
+  width: 99px;
+  height: 50px;
+  background-color: #828282;
+}
 .ui {
   height: 100%;
   width: 100%;
 }
 .uitab {
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+.tutor {
+  position: absolute;
   height: 100%;
   width: 100%;
   display: none;
@@ -78,6 +145,15 @@ body {
   background-repeat: no-repeat;
   position: absolute;
 }
+#tutor1 {
+  background-image: url(../img/tutor1.png);
+}
+#tutor2 {
+  background-image: url(../img/tutor2.png);
+}
+#tutor3 {
+  background-image: url(../img/tutor3.png);
+}
 .btn {
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-decoration: none;
@@ -105,7 +181,7 @@ body {
   left: 50%;
   margin-left: -76px;
   bottom: 20px;
-  padding: 20px;
+  padding: 25px;
 }
 #micHome {
   position: absolute;

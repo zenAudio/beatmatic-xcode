@@ -45,6 +45,80 @@ body {
 .row {display: table-row;}
 .cell {display: table-cell;}
 
+#obars {
+	//overflow: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 19px;
+	background-color: red;
+}
+
+.oticks {
+	position: relative;
+	//margin: auto;
+	//display: inline-block;
+	height: 33.3%;
+	background-color: blue;
+}
+
+.overviewBar {
+	height: 100%
+}
+
+#bars {
+	overflow: scroll;
+	width: 320px;
+	//height: 300px;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+	//float: left;
+	//left: 20px;
+}
+.wrapper{
+   position: relative;
+   float: left;
+   width: 299px;
+   left: 20px;
+   margin-bottom: 1px;
+   background-color: #cccccc
+}
+.left1{
+   position: relative;
+   float: left;
+   left: 0px;
+   width: 99px;
+   height: 50px;
+   //background-color: #828282;
+   background-image: url(img/hit.png);
+   overflow: visible;
+   opacity: 0.3;
+}
+
+.high .left1 {
+   background-color: blue;
+   opacity: 1;
+   -webkit-box-shadow: inset -1px -1px 3px #999;   
+}
+
+.left2{
+   position: relative;
+   float: left;
+   left: 1px;
+   width: 99px;
+   height: 50px;
+   background-color: #828282
+}
+.left3{
+   position: relative;
+   float: left;
+   left: 2px;
+   width: 99px;
+   height: 50px;
+   background-color: #828282
+}
+
 
 .ui {
     height:100%;
@@ -55,6 +129,14 @@ body {
     height:100%;
     width: 100%;
     display: none;
+}
+
+.tutor {
+	position: absolute;
+    height:100%;
+    width: 100%;
+    display: none;
+    //opacity: 0.5;
 }
 
 .active {
@@ -88,6 +170,18 @@ body {
     
     //z-index: 10;
 }
+
+#tutor1 {
+	background-image: url(../img/tutor1.png);
+}
+#tutor2 {
+	background-image: url(../img/tutor2.png);
+}
+#tutor3 {
+	background-image: url(../img/tutor3.png);
+}
+
+
 
 .btn {
 	//-webkit-border-radius: 4px;
@@ -131,7 +225,7 @@ body {
 	//margin-bottom: 5 px;
 	//width: 275px;
 	//height: 50px;
-	padding: 20px;
+	padding: 25px;
 }
 
 

@@ -23,11 +23,9 @@ class rec
 		$("#stoprecord").click =>
 			@switchButtons "processingrecord"
 			@mediaRec.stopRecord()
-			
-		BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
-		  console.log level
-		  @.showMicLevel level
-	
+		
+		#BEATmatic.rec.showMicLevel	
+
 	switchButtons: (buttonToShow) ->
 		for button in ["stoprecord", "processingrecord", "record"]
 			if button is buttonToShow
@@ -36,10 +34,18 @@ class rec
 				$("#"+button).hide()
 	
 	deviceready: =>
-		window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
-		document.querySelector("#deviceready .pending").className += " hide"
-		completeElem = document.querySelector("#deviceready .complete")
-		completeElem.className = completeElem.className.split("hide").join("")
+		#window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
+		#document.querySelector("#deviceready .pending").className += " hide"
+		#completeElem = document.querySelector("#deviceready .complete")
+		#completeElem.className = completeElem.className.split("hide").join("")
+		
+		console.log "deviceready"
+		
+		BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json")
+		
+		BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
+		  console.log level
+		  @showMicLevel level
 		
 	
 	showMicLevel: (percent) ->
