@@ -16,6 +16,8 @@
 
 class AudioEngineImpl;
 
+extern long DiracDataProviderCb(float **chdata, long numFrames, void *userData);
+
 class LoopMachine : public AudioSource {
 public:
     static const int FADE_TIME_MS=50;
@@ -42,6 +44,7 @@ public:
     void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate);
     void releaseResources();
     
+    void getNextAudioBlockOld(const AudioSourceChannelInfo& bufferToFill);
     void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
     void getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& bufferToFill);
     
