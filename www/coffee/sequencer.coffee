@@ -54,7 +54,7 @@ class sequencer
 			@playAdjustedAudio track, sample.wav, sample.loop, sample.callbacks
 		
 		
-		BEATmatic.play.highlightColumn @beat16 if @highlightPlayer
+		BEATmatic.play.highlightTick @beat16 if @highlightPlayer
 		
 		if @recording
 			@recordObject[@beatTotal] =
@@ -178,4 +178,4 @@ class sequencer
 
 
 $ ->
-	BEATmatic.sequencer = new sequencer()
+	#BEATmatic.sequencer = new sequencer()

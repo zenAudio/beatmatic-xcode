@@ -10,7 +10,7 @@ class play
 	colCache: {}
 	
 	constructor: ->
-		
+		###
 		$("#snext").click =>
 			#@stopLoop()
 			BEATmatic.ui.switch("dj")
@@ -23,13 +23,41 @@ class play
 			BEATmatic.ui.switch("main")
 			BEATmatic.sequencer.highlightPlayer = false
 			false
-			
-		#@setup("demo")
+		###	
 		
+		$("#bars").click (e) =>
+			console.log window.e1 = e
+			console.log score = e1.target.classList[0][4...]
+			console.log track = e1.target.parentElement.id[4...]
+			cell =  $ e1.target
+			
+			if cell.hasClass "hit"
+				cell.removeClass "hit"
+				BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 0
+			else
+				cell.addClass "hit"
+				
+				BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 100
+		###	
+		click: (e, target) =>
+			score = e.target.cellIndex + 1
+			track = e.target.parentNode.rowIndex
+			
+			cell = $($(".c#{score}")[track])
+			if cell.hasClass "x100"
+				cell.removeClass "x100"
+				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+			else
+				cell.addClass "x100"
+				
+				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+		
+		###
+		@setup("demo")
 		
 	setup: (data) =>		
 		if data is "demo"
-			BEATmatic.sequencer.setup
+			data =
 					"project": "House Beat 1",
 					"bpm": 130,
 					"tracks":
@@ -51,31 +79,55 @@ class play
 								"icon": "hihat.png"
 								"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
 						]
-		else
-			BEATmatic.sequencer.setup data
 
 		@generateHTML()
-		BEATmatic.sequencer.highlightPlayer = true
+		#BEATmatic.sequencer.highlightPlayer = true
 		#@loopTracks()
-	
+		
+		
+		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json"
+		console.log "MPD:HTML:onDeviceReady: initialized drum preset."
+		json = JSON.stringify(data)
+		console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
+		BEATmatic.audioEngine.setDrumPattern json
+		
+		
+		BEATmatic.audioEngine.setCursorCallback (cursorPosJson) ->
+		  
+		  console.log("MPD: JS: playback cursor: " + cursorPosJson);
+		  time = JSON.parse(cursorPosJson)
+		  #$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
+		  #@highlightTick
+		
+		#BEATmatic.audioEngine.play()
 	
 	
 	generateHTML: =>
-		html = """<table id="hor-minimalist-a" class="fulltable" summary="Matrix">"""
-		for track, index in BEATmatic.sequencer.drumTracks.tracks
-			html += "<tr>"
-			#html += """<td class=""><img width="50" height="50" src="img/#{track.icon}" alt="#{track.name}"/></td>"""
-			for score, index in track.score
-				if score >= 100
-					score = 100
-				html += """<td class="x#{score} c#{index+1}"></td>"""
-			html += "</tr>"
-			
-			
-		html += "</table>"
-		$("#matrix").html html
-		@enableSwipe()
+		html = ""
 		
+		for score1, index in BEATmatic.sequencer.drumTracks.tracks[0].score
+			score2 =BEATmatic.sequencer.drumTracks.tracks[1].score[index]
+			score3 =BEATmatic.sequencer.drumTracks.tracks[2].score[index]
+			
+			html = """#{html}<div id="tick#{index+1}"class="wrapper">
+			     <div class="left1 #{if score1 then "hit" else ""}">
+			     </div>
+			     <div class="left2 #{if score2 then "hit" else ""}">
+			     </div>
+			     <div class="left3 #{if score3 then "hit" else ""}">
+			     </div>
+			 </div>"""
+		
+		
+		$("#bars").html html
+		#@enableSwipe()
+	
+	highlightTick: (col) ->
+		@highcol.removeClass "high" if @highcol
+		@highcol = $("#tick"+col)
+		@highcol.addClass "high"
+	
+	###	
 	enableSwipe: =>	
 		$("#hor-minimalist-a").swipe
 			click: (e, target) =>
@@ -206,6 +258,8 @@ class play
 		col = col - 1
 		col = 16 if col is 0
 		@getCols(col).removeClass "highlighted"
+		
+	###
 			
 
 delay = (ms, func) ->
