@@ -92,12 +92,18 @@ AudioInputMeter& AudioEngineImpl::getInputMeter() {
 }
 
 void AudioEngineImpl::init(void * objcSelf) {
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: starting: " << Time::currentTimeMillis() << std::endl;
     transport.addChangeListener(this);
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: audio engine listening to messages: " << Time::currentTimeMillis() << std::endl;
     audioMgr.initialise(1 /* mono input */, 2 /* stereo output */, nullptr, true, String::empty, nullptr);
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: audio manager initialized: " << Time::currentTimeMillis() << std::endl;
     audioMgr.addAudioCallback(&audioRecorder);
     audioMgr.addAudioCallback(&inputMeter);
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: added input and recorder audio callback: " << Time::currentTimeMillis() << std::endl;
     mixer.init();
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: initialized mixer: " << Time::currentTimeMillis() << std::endl;
     this->objcSelf = objcSelf;
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: ending: " << Time::currentTimeMillis() << std::endl;
 }
 
 void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
@@ -140,10 +146,12 @@ void AudioEngineImpl::playTestTone() {
 
 void AudioEngineImpl::setDrumPreset(const char * const presetFilename) {
     mixer.getDrumMachine().setDrumPreset(presetFilename);
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setDrumPreset: done: " << Time::currentTimeMillis() << std::endl;
 }
 
 void AudioEngineImpl::setLooperPreset(const char * const presetFilename) {
     mixer.getLoopMachine().setPreset(presetFilename);
+    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setLooperPreset: done: " << Time::currentTimeMillis() << std::endl;
 }
 
 void AudioEngineImpl::auditionDrum(juce::String soundName) {

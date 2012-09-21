@@ -51,6 +51,11 @@
     }
     [path release];
     
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [pluginResult retain];
+    [self writeJavascript: [pluginResult toSuccessCallbackString:callbackID]];
+    [pluginResult release];
+        
 //    NSLog(@"MPD: SELF: %x", (int) self);
 //    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(cursorCb:) userInfo: nil repeats:YES];
     
