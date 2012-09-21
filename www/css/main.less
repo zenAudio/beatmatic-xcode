@@ -1,18 +1,18 @@
 html,
 body {
-    height:100%;
-    width: 100%;
-    font-size:12px;
-    width:100%;
-    margin: 0;
-    padding: 0;
-    border: 0;
-     -webkit-user-select: none;
-     overflow: hidden
+	 height:100%;
+	 width: 100%;
+	 font-size:12px;
+	 width:100%;
+	 margin: 0;
+	 padding: 0;
+	 border: 0;
+		-webkit-user-select: none;
+		overflow: hidden
 }
 
 html {
-    display: table;
+	 display: table;
 }
 
 a {
@@ -20,23 +20,23 @@ a {
 }
 
 body {
-    /*
-    background-color:#ECEFF6;
-    background-image:linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-webkit-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-ms-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #ECEFF6),
-        color-stop(0.51, #D8DEEA)
-    );
-    */
-    display:table-cell;
-    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    text-transform:uppercase;
-    vertical-align:middle;
+	 /*
+	 background-color:#ECEFF6;
+	 background-image:linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-webkit-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-ms-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #ECEFF6),
+			color-stop(0.51, #D8DEEA)
+	 );
+	 */
+	 display:table-cell;
+	 font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+	 text-transform:uppercase;
+	 vertical-align:middle;
 	//background: url(../img/bg.png) no-repeat;
 	background-color: white;
 }
@@ -50,15 +50,40 @@ body {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	width: 19px;
-	background-color: red;
+	width: 20px;
+	//background-color: red;
 }
 
+#scrollbars {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 10px;
+}
+
+
+#playbars {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 10px;
+	width: 10px;
+}
+
+
 .oticks {
-	position: relative;
+	//position: relative;
 	//margin: auto;
 	//display: inline-block;
-	height: 33.3%;
+	height: 8.333%;
+	//background-color: blue;
+}
+
+.oticks.hit {
+	//position: relative;
+	//margin: auto;
+	//display: inline-block;
+	//height: 8.333%;
 	background-color: blue;
 }
 
@@ -71,72 +96,131 @@ body {
 	width: 320px;
 	//height: 300px;
 	position: absolute;
-    top: 0;
-    bottom: 0;
+	 top: 0;
+	 bottom: 0;
 	//float: left;
 	//left: 20px;
 }
 .wrapper{
-   position: relative;
-   float: left;
-   width: 299px;
-   left: 20px;
-   margin-bottom: 1px;
-   background-color: #cccccc
+	position: relative;
+	float: left;
+	width: 300px;
+	left: 20px;
+	//margin-bottom: 1px;
+	//background-color: #cccccc
 }
+
+.wrapper:nth-child(4n+4) {  
+	border-bottom: 15px solid transparent;
+}
+
+//.wrapper:nth-child(5n) {  
+//  border-bottom: 5px solid #F1F1F1;
+//}
+
 .left1{
-   position: relative;
-   float: left;
-   left: 0px;
-   width: 99px;
-   height: 50px;
-   //background-color: #828282;
-   background-image: url(img/hit.png);
-   overflow: visible;
-   opacity: 0.3;
+	position: relative;
+	float: left;
+	//left: 0px;
+	width: 100px;
+	height: 50px;
+	overflow: visible;
+	opacity: 0.3;
+	background-image: url(../img/hit-grey.png);
+	background-repeat:no-repeat;
+	background-position:center; 
+}
+
+//.high .left1 {
+//	background-image: url(../img/hit-grey-high.png);
+//}
+
+.hit.left1 {
+	//background-color: blue;
+	opacity: 1;
+	background-image: url(../img/hit-blue.png);
 }
 
 .high .left1 {
-   background-color: blue;
-   opacity: 1;
-   -webkit-box-shadow: inset -1px -1px 3px #999;   
+	//-webkit-box-shadow: inset -1px -1px 3px #999;   
 }
+
+.high .hit.left1 {
+	background-image: url(../img/hit-blue-high.png);
+}
+
 
 .left2{
-   position: relative;
-   float: left;
-   left: 1px;
-   width: 99px;
-   height: 50px;
-   background-color: #828282
-}
-.left3{
-   position: relative;
-   float: left;
-   left: 2px;
-   width: 99px;
-   height: 50px;
-   background-color: #828282
+	position: relative;
+	float: left;
+	//left: 1px;
+	width: 100px;
+	height: 50px;
+	//background-color: #828282
+	background-image: url(../img/hit-grey.png);
+	background-repeat:no-repeat;
+	background-position:center; 
+	opacity: 0.3;
 }
 
+.hit.left2 {
+	opacity: 1;
+	background-image: url(../img/hit-lime.png);
+}
+
+.high .left2 {
+	//-webkit-box-shadow: inset -1px -1px 3px #999;   
+}
+
+.high .hit.left2 {
+	background-image: url(../img/hit-lime-high.png);
+	//background-image: url(../img/Explode-03-june.gif);
+}
+
+.left3{
+	position: relative;
+	float: left;
+	//left: 2px;
+	width: 100px;
+	height: 50px;
+	//background-color: #828282
+	background-image: url(../img/hit-grey.png);
+	background-repeat:no-repeat;
+	background-position:center; 
+	opacity: 0.3;
+}
+
+.hit.left3 {
+	opacity: 1;
+	background-image: url(../img/hit-magenta.png);
+}
+
+.high .left3 {
+	//-webkit-box-shadow: inset -1px -1px 3px #999;   
+}
+
+.high .hit.left3 {
+	background-image: url(../img/hit-magenta-high.png);
+	 //background-image: url(../img/Explode-03-june.gif);
+}
 
 .ui {
-    height:100%;
-    width: 100%;
+	 height:100%;
+	 width: 100%;
 }
 
 .uitab {
-    height:100%;
-    width: 100%;
-    display: none;
+	 height:100%;
+	 width: 100%;
+	 display: none;
 }
 
 .tutor {
 	position: absolute;
-    height:100%;
-    width: 100%;
-    display: none;
-    //opacity: 0.5;
+	 height:100%;
+	 width: 100%;
+	 display: none;
+	 //opacity: 0.5;
 }
 
 .active {
@@ -150,25 +234,25 @@ body {
 }
 
 .app {
-    //background-image:url(../img/__beatmagic.png);
-    background-repeat:no-repeat;
-    margin:0px auto;
-    width:275px;
+	 //background-image:url(../img/__beatmagic.png);
+	 background-repeat:no-repeat;
+	 margin:0px auto;
+	 width:275px;
 }
 
 .app2 {
-    background-image:url(../img/sharewith.jpg);
-    background-repeat:no-repeat;
-    margin:0px auto;
-    width:275px;
+	 background-image:url(../img/sharewith.jpg);
+	 background-repeat:no-repeat;
+	 margin:0px auto;
+	 width:275px;
 }
 
 .recordui {
-    background-image:url(../img/RecordScreen.png);
-    background-repeat:no-repeat;
-    position: absolute;
-    
-    //z-index: 10;
+	 background-image:url(../img/RecordScreen.png);
+	 background-repeat:no-repeat;
+	 position: absolute;
+	 
+	 //z-index: 10;
 }
 
 #tutor1 {
@@ -248,226 +332,226 @@ body {
 
 
 h1 {
-    font-size:2em;
-    font-weight:300;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
+	 font-size:2em;
+	 font-weight:300;
+	 margin:0px;
+	 overflow:visible;
+	 padding:0px;
+	 text-align:center;
 }
 
 .status {
-    background-color:#333333;
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:1em;
-    margin:0px auto;
-    padding:2px 10px;
-    text-align:center;
-    width:100%;
-    max-width:175px;
+	 background-color:#333333;
+	 border-radius:4px;
+	 -webkit-border-radius:4px;
+	 color:#FFFFFF;
+	 font-size:1em;
+	 margin:0px auto;
+	 padding:2px 10px;
+	 text-align:center;
+	 width:100%;
+	 max-width:175px;
 }
 
 .record {
-    background-color:#4B946A;
-    vertical-align: middle;
+	 background-color:#4B946A;
+	 vertical-align: middle;
 }
 
 .stoprecord {
-    background-color: rgba(255, 0, 0, 0.81);
+	 background-color: rgba(255, 0, 0, 0.81);
 }
 
 .hide {
-    display:none;
+	 display:none;
 }
 
 @keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+	 from { opacity: 1.0; }
+	 50% { opacity: 0.4; }
+	 to { opacity: 1.0; }
 }
  
 @-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+	 from { opacity: 1.0; }
+	 50% { opacity: 0.4; }
+	 to { opacity: 1.0; }
 }
  
 .blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
+	 animation:fade 3000ms infinite;
+	 -webkit-animation:fade 3000ms infinite;
 }
 
 /* portrait */
 /* @media screen and (max-aspect-ratio: 1/1) */
 .app {
-    background-position:center top;
-    height:100px;              /* adds enough room for text */
-    padding:180px 0px 0px 0px; /* background height - shadow offset */
+	 background-position:center top;
+	 height:100px;              /* adds enough room for text */
+	 padding:180px 0px 0px 0px; /* background height - shadow offset */
 }
 
 /* lanscape (when wide enough) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:445px) {
-    .app {
-        background-position:left center;
-        height:140px;       /* height + padding = background image size */
-        padding-left:170px; /* background width */
-        padding-top:60px;   /* center the text */
-    }
+	 .app {
+			background-position:left center;
+			height:140px;       /* height + padding = background image size */
+			padding-left:170px; /* background width */
+			padding-top:60px;   /* center the text */
+	 }
 }
 
 
 //table stuff
 .fulltable {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 .x100 {
-  background-color: #1BA1E2;
-  opacity: 0.7;
+	background-color: #1BA1E2;
+	opacity: 0.7;
 }
 
 .x100.highlighted  {
-  box-shadow: 4px 0px 50px 0px rgba(0, 0, 0, 0.2) inset;
-  opacity: 1;
+	box-shadow: 4px 0px 50px 0px rgba(0, 0, 0, 0.2) inset;
+	opacity: 1;
 }
 
 .highlighted {
-  //opacity: 1;
-  //box-shadow: 4px 0px 50px 0px #5E73A2 inset; //rgba(0, 0, 0, 0.3)
+	//opacity: 1;
+	//box-shadow: 4px 0px 50px 0px #5E73A2 inset; //rgba(0, 0, 0, 0.3)
 }
 #content {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 #matrix {
-  width: 100%;
-  height: 85%;
-  margin: 0;
-  padding: 0;
-  float: left;
+	width: 100%;
+	height: 85%;
+	margin: 0;
+	padding: 0;
+	float: left;
 }
 .dww li {
-  list-style: none;
-  margin: 0;
-  padding: 0 5px;
-  display: block;
-  text-align: center;
-  line-height: 40px;
-  font-size: 26px;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px black;
-  vertical-align: bottom;
-  border-bottom: 1px solid white;
+	list-style: none;
+	margin: 0;
+	padding: 0 5px;
+	display: block;
+	text-align: center;
+	line-height: 40px;
+	font-size: 26px;
+	white-space: nowrap;
+	text-shadow: 0 1px 1px black;
+	vertical-align: bottom;
+	border-bottom: 1px solid white;
 }
 .dww li:hover {
-  background-color: #E37F2A;
+	background-color: #E37F2A;
 }
 .dww ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  z-index: 2;
-  color: white;
-  font-family: arial, verdana, sans-serif;
-  font-size: 12px;
-  text-shadow: none;
-  -webkit-padding-start: 0px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+	color: white;
+	font-family: arial, verdana, sans-serif;
+	font-size: 12px;
+	text-shadow: none;
+	-webkit-padding-start: 0px;
 }
 #snext {
-  width: 100%;
-  height: 15%;
-  margin: 0;
-  padding: 0;
-  //border: 0;
-  background-color: #1BA1E2;
-  opacity: 0.7;
-  position: absolute;
-  bottom: 0px;
-  //float: right;
-  text-align: center;
-  vertical-align: middle;
+	width: 100%;
+	height: 15%;
+	margin: 0;
+	padding: 0;
+	//border: 0;
+	background-color: #1BA1E2;
+	opacity: 0.7;
+	position: absolute;
+	bottom: 0px;
+	//float: right;
+	text-align: center;
+	vertical-align: middle;
 }
 #sback {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 1px;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	padding: 1px;
 }
 
 #swipeDJSampleLayover, #swipeSampleLayover {
-  position: absolute;
-  display: none;
-  bottom: 5px;
-  left: 150px;
-  width: 150px;
-  color: black;
-  font-family: arial, verdana, sans-serif;
-  font-size: 24px;
-  text-shadow: none;
-  background-color: rgba(255, 255, 255, 0.6);
+	position: absolute;
+	display: none;
+	bottom: 5px;
+	left: 150px;
+	width: 150px;
+	color: black;
+	font-family: arial, verdana, sans-serif;
+	font-size: 24px;
+	text-shadow: none;
+	background-color: rgba(255, 255, 255, 0.6);
 }
 #swipeDJVolumeLayover, #swipeVolumeLayover {
-  position: absolute;
-  display: none;
-  top: 5px;
-  left: 150px;
-  width: 150px;
-  color: black;
-  font-family: arial, verdana, sans-serif;
-  font-size: 24px;
-  text-shadow: none;
-  background-color: rgba(255, 255, 255, 0.6);
+	position: absolute;
+	display: none;
+	top: 5px;
+	left: 150px;
+	width: 150px;
+	color: black;
+	font-family: arial, verdana, sans-serif;
+	font-size: 24px;
+	text-shadow: none;
+	background-color: rgba(255, 255, 255, 0.6);
 }
 
 #sshare {
-  vertical-align: middle;
-  position: absolute;
-  top: 50%;
-  margin-top: -45px;
+	vertical-align: middle;
+	position: absolute;
+	top: 50%;
+	margin-top: -45px;
 }
 #hor-minimalist-a {
-  //background-color: white;
-  //#ECEFF6;
-  //background-image: linear-gradient(top, #eceff6 0%, #d8deea 51%);
-  //background-image: -webkit-linear-gradient(top, #eceff6 0%, #d8deea 51%);
-  //background-image: -ms-linear-gradient(top, #eceff6 0%, #d8deea 51%);
-  //background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eceff6), color-stop(0.51, #d8deea));
-  border-collapse: collapse;
-  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-  font-size: 12px;
-  text-align: left;
+	//background-color: white;
+	//#ECEFF6;
+	//background-image: linear-gradient(top, #eceff6 0%, #d8deea 51%);
+	//background-image: -webkit-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+	//background-image: -ms-linear-gradient(top, #eceff6 0%, #d8deea 51%);
+	//background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eceff6), color-stop(0.51, #d8deea));
+	border-collapse: collapse;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	text-align: left;
 }
 #hor-minimalist-a th {
-  border-bottom: 2px solid #6678b1;
-  color: #039;
-  font-size: 14px;
-  font-weight: 400;
-  padding: 10px 8px;
+	border-bottom: 2px solid #6678b1;
+	color: #039;
+	font-size: 14px;
+	font-weight: 400;
+	padding: 10px 8px;
 }
 
 #hor-minimalist-a tr {
 	//background: url(../img/snare.png) no-repeat fixed #f2f262;
 }
 #hor-minimalist-a td {
-  //color: #1BA1E2;
-  //padding: 9px 8px 0;
+	//color: #1BA1E2;
+	//padding: 9px 8px 0;
 }
 #hor-minimalist-a td:nth-child(1n+1) {
-  border-left: 1px solid transparent;
+	border-left: 1px solid transparent;
 }
 #hor-minimalist-a td:nth-child(4n+1) {
-  border-left: 1px solid #5FBDEB;
+	border-left: 1px solid #5FBDEB;
 }
 #hor-minimalist-a tbody tr:hover td {
-  color: #009;
+	color: #009;
 }
 //hidden initially
 //#synth, #dj, #share {

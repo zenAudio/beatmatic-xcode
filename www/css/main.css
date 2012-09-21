@@ -17,18 +17,18 @@ a {
 }
 body {
   /*
-    background-color:#ECEFF6;
-    background-image:linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-webkit-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-ms-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #ECEFF6),
-        color-stop(0.51, #D8DEEA)
-    );
-    */
+	 background-color:#ECEFF6;
+	 background-image:linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-webkit-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-ms-linear-gradient(top, #ECEFF6 0%, #D8DEEA 51%);
+	 background-image:-webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #ECEFF6),
+			color-stop(0.51, #D8DEEA)
+	 );
+	 */
 
   display: table-cell;
   font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
@@ -49,12 +49,25 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 19px;
-  background-color: red;
+  width: 20px;
+}
+#scrollbars {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+}
+#playbars {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  width: 10px;
 }
 .oticks {
-  position: relative;
-  height: 33.3%;
+  height: 8.333%;
+}
+.oticks.hit {
   background-color: blue;
 }
 .overviewBar {
@@ -70,41 +83,63 @@ body {
 .wrapper {
   position: relative;
   float: left;
-  width: 299px;
+  width: 300px;
   left: 20px;
-  margin-bottom: 1px;
-  background-color: #cccccc;
+}
+.wrapper:nth-child(4n+4) {
+  border-bottom: 15px solid transparent;
 }
 .left1 {
   position: relative;
   float: left;
-  left: 0px;
-  width: 99px;
+  width: 100px;
   height: 50px;
-  background-image: url(img/hit.png);
   overflow: visible;
   opacity: 0.3;
+  background-image: url(../img/hit-grey.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }
-.high .left1 {
-  background-color: blue;
+.hit.left1 {
   opacity: 1;
-  -webkit-box-shadow: inset -1px -1px 3px #999999;
+  background-image: url(../img/hit-blue.png);
+}
+.high .hit.left1 {
+  background-image: url(../img/hit-blue-high.png);
 }
 .left2 {
   position: relative;
   float: left;
-  left: 1px;
-  width: 99px;
+  width: 100px;
   height: 50px;
-  background-color: #828282;
+  background-image: url(../img/hit-grey.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+}
+.hit.left2 {
+  opacity: 1;
+  background-image: url(../img/hit-lime.png);
+}
+.high .hit.left2 {
+  background-image: url(../img/hit-lime-high.png);
 }
 .left3 {
   position: relative;
   float: left;
-  left: 2px;
-  width: 99px;
+  width: 100px;
   height: 50px;
-  background-color: #828282;
+  background-image: url(../img/hit-grey.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+}
+.hit.left3 {
+  opacity: 1;
+  background-image: url(../img/hit-magenta.png);
+}
+.high .hit.left3 {
+  background-image: url(../img/hit-magenta-high.png);
 }
 .ui {
   height: 100%;

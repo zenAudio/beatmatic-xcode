@@ -26,6 +26,56 @@ class ui
 			BEATmatic.play.setup("demo")
 			@switch "synth2"
 			
+		###
+		$(".color").each (i) ->
+			position = $(this).position()
+			console.log position
+			console.log "min: " + position.top + " / max: " + parseInt(position.top + $(this).height())
+			$(this).scrollspy
+				min: position.top
+				max: position.top + $(this).height()
+				onEnter: (element, position) ->
+					console.log "entering " + element.id  if console
+					$("body").css "background-color", element.id
+	
+				onLeave: (element, position) ->
+					console.log "leaving " + element.id  if console
+		###
+		
+		
+		#	$('body').css('background-color','#eee');
+		
+		$("#bars").scrollspy
+			#min: $("#bars").offset().top
+			onEnter: (element, position) ->
+				console?.log "2entering " + element.id
+				#$("#nav").addClass "fixed"
+		
+		#XXXX
+		#bar
+		$(".wrapper").each (i) ->
+			position = $(this).position()
+			console.log position
+			$("#bars").scrollspy
+				#min: $("#bars").offset().top
+				onEnter: (element, position) ->
+					console?.log "entering " + element.id
+					#$("#nav").addClass "fixed"
+		
+		$(".wrapper").each (i) ->
+				position = $(this).position()
+				console.log position
+				console.log "min: " + position.top + " / max: " + parseInt(position.top + $(this).height())
+				$("#bars").scrollspy
+					min: position.top
+					max: position.top + $(this).height()
+					onEnter: (element, position) ->
+						console?.log "entering " + element.id
+						#$("body").css "background-color", element.id
+		
+					onLeave: (element, position) ->
+						console?.log "leaving " + element.id
+			
 	playTutorial: (layer) ->
 		$(".tutor").show()
 		@switchTutorial 1
