@@ -1,3 +1,11 @@
+class dj2
+	constructor
+	
+
+
+$ ->
+	BEATmatic.dj2 = new dj2()
+
 class dj
 	swipeSampleLayover: false
 	swipeVolumeLayover: false

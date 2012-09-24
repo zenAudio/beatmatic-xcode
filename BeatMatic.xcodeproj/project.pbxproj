@@ -83,6 +83,7 @@
 		55C40D5715FC9C8B00063503 /* AudioEngineImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C40D5515FC9C8B00063503 /* AudioEngineImpl.cpp */; };
 		55E803031604BE4500A69C82 /* limitereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803011604BE4400A69C82 /* limitereffect.cpp */; };
 		55E803091604CCD900A69C82 /* audioringbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803071604CCD800A69C82 /* audioringbuffer.cpp */; };
+		E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -666,6 +667,7 @@
 		55E803071604CCD800A69C82 /* audioringbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioringbuffer.cpp; sourceTree = "<group>"; };
 		55E803081604CCD800A69C82 /* audioringbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioringbuffer.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BeatMatic-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "BeatMatic-Info.plist"; path = "../BeatMatic-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -738,6 +740,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */,
 				55C40D4D15FC11DD00063503 /* Dirac Library Code */,
 				55C40D4915FC0E9800063503 /* Juce Library Code */,
 				55C40A5615FC0E6900063503 /* Juce Modules */,
@@ -1957,6 +1960,7 @@
 				55C40CEA15FC0E8400063503 /* juce_module_info in Resources */,
 				55C40D3215FC0E8400063503 /* README in Resources */,
 				55C40D3D15FC0E8400063503 /* juce_module_info in Resources */,
+				E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
