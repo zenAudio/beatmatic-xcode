@@ -6,14 +6,10 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
+  font-family: "Helvetica Neue", HelveticaNeue, Verdana, Arial, sans-serif;
   -webkit-user-select: none;
   overflow: hidden;
-}
-html {
-  display: table;
-}
-a {
-  text-decoration: none;
+  background-color: white;
 }
 body {
   /*
@@ -30,11 +26,31 @@ body {
 	 );
 	 */
 
-  display: table-cell;
-  font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  vertical-align: middle;
-  background-color: white;
+}
+html {
+  display: table;
+}
+a {
+  text-decoration: none;
+}
+h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8em;
+}
+canvas {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 66px;
+  height: 66px;
+}
+.canvbtn {
+  margin: 0;
+  padding: 0;
+  float: left;
+  width: 66px;
+  height: 66px;
 }
 #table {
   display: table;
@@ -56,6 +72,7 @@ body {
   top: 0;
   bottom: 0;
   width: 10px;
+  opacity: 0.1;
 }
 #playbars {
   position: absolute;
@@ -63,12 +80,13 @@ body {
   bottom: 0;
   left: 10px;
   width: 10px;
+  opacity: 0.1;
 }
 .oticks {
   height: 8.333%;
 }
-.oticks.hit {
-  background-color: blue;
+.oticks.high {
+  background-color: grey;
 }
 .overviewBar {
   height: 100%;

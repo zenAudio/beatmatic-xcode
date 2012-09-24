@@ -178,4 +178,4 @@ class sequencer
 
 
 $ ->
-	#BEATmatic.sequencer = new sequencer()
+	BEATmatic.sequencer = new sequencer()

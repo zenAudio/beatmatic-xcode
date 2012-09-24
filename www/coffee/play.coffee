@@ -26,18 +26,19 @@ class play
 		###	
 		
 		$("#bars").click (e) =>
-			console.log window.e1 = e
-			console.log score = e1.target.classList[0][4...]
-			console.log track = e1.target.parentElement.id[4...]
-			cell =  $ e1.target
+			#console.log window.e1 = e
+			track = e.target.classList[0][4...]
+			score = e.target.parentElement.id[4...]
+			cell =  $ e.target
 			
 			if cell.hasClass "hit"
 				cell.removeClass "hit"
-				BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 0
+				@changeScore track - 1, score - 1, 0
+				#BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 0
 			else
 				cell.addClass "hit"
-				
-				BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 100
+				@changeScore track - 1, score - 1, 100
+				#BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 100
 		###	
 		click: (e, target) =>
 			score = e.target.cellIndex + 1
@@ -54,10 +55,13 @@ class play
 		
 		###
 		@setup("demo")
+	
+	changeScore: (track, score, value) =>
+		BEATmatic.sequencer.drumTracks.tracks[track].score[score] = value
 		
 	setup: (data) =>		
 		if data is "demo"
-			data =
+			BEATmatic.sequencer.setup
 					"project": "House Beat 1",
 					"bpm": 130,
 					"tracks":
@@ -79,37 +83,76 @@ class play
 								"icon": "hihat.png"
 								"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
 						]
+		else
+			BEATmatic.sequencer.setup data
 
 		@generateHTML()
-		#BEATmatic.sequencer.highlightPlayer = true
+		BEATmatic.sequencer.highlightPlayer = true
 		#@loopTracks()
-		
-		
-		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json"
-		console.log "MPD:HTML:onDeviceReady: initialized drum preset."
-		json = JSON.stringify(data)
-		console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
-		BEATmatic.audioEngine.setDrumPattern json
-		
-		
-		BEATmatic.audioEngine.setCursorCallback (cursorPosJson) ->
-		  
-		  console.log("MPD: JS: playback cursor: " + cursorPosJson);
-		  time = JSON.parse(cursorPosJson)
-		  #$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
-		  #@highlightTick
-		
-		#BEATmatic.audioEngine.play()
+	
+	setup2: (data) =>		
+			if data is "demo"
+				data =
+						"project": "House Beat 1",
+						"bpm": 130,
+						"tracks":
+							[
+									"name": "kick drum"
+									"sample": "kick01.wav"
+									"icon": "kickdrum.png"
+									"score": [100,0,0,0,  0,0,0,100,  100,0,0,0,  0,0,0,0]
+							#"SD":
+								,
+									"name": "snare drum"
+									"sample": "snare01.wav"
+									"icon": "snaredrum.png"
+									"score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
+							#"HH":
+								,
+									"name": "hi hat"
+									"sample": "hihat01.wav"
+									"icon": "hihat.png"
+									"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
+							]
+	
+			@generateHTML()
+			BEATmatic.sequencer.highlightPlayer = true
+			@loopTracks()
+			
+			
+			BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json"
+			console.log "MPD:HTML:onDeviceReady: initialized drum preset."
+			json = JSON.stringify(data)
+			console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
+			BEATmatic.audioEngine.setDrumPattern json
+			
+			
+			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) ->
+			  
+			  console.log("MPD: JS: playback cursor: " + cursorPosJson);
+			  time = JSON.parse(cursorPosJson)
+			  #$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
+			  @highlightTick time
+			
+			BEATmatic.audioEngine.play()
 	
 	
 	generateHTML: =>
-		html = ""
+		bars = ""
+		playbar = ""
+		scrollbar = ""
+		
+		
+		@scoresMax = BEATmatic.sequencer.drumTracks.tracks[0].score.length
+		@ticksOnScreen = Math.round($(window).height() / 52)
+		
+		itemHeight = 100 / @scoresMax
 		
 		for score1, index in BEATmatic.sequencer.drumTracks.tracks[0].score
-			score2 =BEATmatic.sequencer.drumTracks.tracks[1].score[index]
-			score3 =BEATmatic.sequencer.drumTracks.tracks[2].score[index]
+			score2 = BEATmatic.sequencer.drumTracks.tracks[1].score[index]
+			score3 = BEATmatic.sequencer.drumTracks.tracks[2].score[index]
 			
-			html = """#{html}<div id="tick#{index+1}"class="wrapper">
+			bars = """#{bars}<div id="tick#{index+1}"class="wrapper">
 			     <div class="left1 #{if score1 then "hit" else ""}">
 			     </div>
 			     <div class="left2 #{if score2 then "hit" else ""}">
@@ -117,16 +160,66 @@ class play
 			     <div class="left3 #{if score3 then "hit" else ""}">
 			     </div>
 			 </div>"""
+			 
+			playbar = """#{playbar}<div id="obar#{index+1}" class="oticks" style="height: #{itemHeight}%;"></div>"""
+			scrollbar = """#{scrollbar}<div id="sbar#{index+1}" class="oticks" style="height: #{itemHeight}%;"></div>"""
+			#@scoresMax = index + 1
+
 		
+		$("#bars").html bars
 		
-		$("#bars").html html
+		$("#playbars").html playbar
+		$("#scrollbars").html scrollbar
 		#@enableSwipe()
+		@setupScrollSpy()
+	
+	setupScrollSpy: =>
+		$(".wrapper").each (i) ->
+			position = $(this).position()
+			#console.log position
+			#console.log "min: " + position.top + " / max: " + parseInt(position.top + $(this).height())
+			
+			$(this).scrollspy
+				min: position.top
+				max: position.top + $(this).height()
+				container: $("#bars")
+				
+				onEnter: (element, position) ->
+					#console?.log "entering " + element.id[4...]
+					#console?.log element
+					#$("body").css "background-color", element.id
+					BEATmatic.play.highlightScroll element.id[4...]
+	
+				#onLeave: (element, position) ->
+				#	console?.log "leaving " + element.id
+	#inBetween: (num, first, last) ->
+	#	(first < last ? num >= first && num <= last : num >= last && num <= first)
+	 
+	highlightScroll: (col) =>
+		#console.log "highlightScroll"+col
+		#console.log "scoresMax"+@scoresMax
+		for index in [1..@scoresMax]
+			#console.log index
+			#console.log "testing if #{index} is in between #{col} and #{col+9}: " + ( index >= col and index <= col+9)
+			if index >= col and index <= Number(col)+@ticksOnScreen#@inBetween index, col, col+9
+				#console.log "yea" +index
+				$("#sbar"+index).addClass "high"
+			else
+				#console.log "not "+index
+				$("#sbar"+index).removeClass "high"
 	
 	highlightTick: (col) ->
-		@highcol.removeClass "high" if @highcol
-		@highcol = $("#tick"+col)
-		@highcol.addClass "high"
-	
+		@highCol.removeClass "high" if @highCol
+		@highCol = $("#tick"+col)
+		@highCol.addClass "high"
+		
+		#if (col % 4) is 0
+		#	bar = col / 4
+			
+		@highOverview.removeClass "high" if @highOverview
+		@highOverview = $("""#obar#{col}""")
+		@highOverview.addClass "high"
+		
 	###	
 	enableSwipe: =>	
 		$("#hor-minimalist-a").swipe
