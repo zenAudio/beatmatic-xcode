@@ -11,3 +11,4 @@ project.pbxproj
 contents.xcworkspacedata
 BeatMatic.xcscheme
 xcschememanagement.plist
+www/ignore
