@@ -23,9 +23,16 @@
 	        	<p id="tutorialBtn" class="btn">How it<br>works</p>
 	        	<p id="demoBtn" class=" btn">Demo<br>Beat</p>
 	        	<p id="recordBtn" class="btn">Record me<br> Beatboxing</p>
+	        	<p id="stopBtn" class="btn hide">Stop<br> Recording</p>
+	        	<p id="processingBtn" class="btn hide">Processing</p>
 	        </div>
         </div>
-        <div id="synth2" class="uitab">
+        <div id="synth2" class="uitab active">
+        	<div data-role="header" data-theme="b" data-position="inline" class="ui-header ui-bar-b" role="banner">
+				<h1 class="ui-title" role="heading" aria-level="1">Modify detected beat</h1>
+				<a href="#" data-rel="back" data-icon="arrow-l" data-theme="b" class="ui-btn-left ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Back</span><span class="ui-ui-icon--l ui--shadow">&nbsp;</span></span></a>
+				<a href="#" data-theme="b" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Next</span></span></a>
+			</div>
         	<div id="scrollbars" class="obars">
         	</div>
         	<div id="playbars" class="obars">
@@ -34,7 +41,7 @@
         	</div>
         </div>
         <div id="synth" class="uitab">
-        
+        	
         	<div id="content">
         		<div id="matrix"></div>
         		<div id="snext"><img id="sshare" src="img/share.png" alt="Share"/> <img id="sback" src="img/back.png" alt="back"/></div>
@@ -44,7 +51,7 @@
         
         </div>
         
-        <div id="dj2" class="uitab active">
+        <div id="dj2" class="uitab ">
         	<div id="music" style="position: absolute; top: 5px; left: 5px; width: 70px; height: 200px; border: 1px solid blue;">
         		<h3 style="color: #24A2E2;">Drums</h3>
         		<div class="canvBtn">
@@ -130,7 +137,10 @@
         <script type="text/javascript" src="js/jquery-1.8.0.js"></script>
         <script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
         <script type="text/javascript" src="js/jquery-scrollspy.js"></script>
+       
+        
         <script type="text/javascript" src="coffee/ui.js"></script>
+         <script type="text/javascript" src="coffee/SoundBtn.js"></script>
         <script type="text/javascript" src="coffee/diracplayer.js"></script>
         <script type="text/javascript" src="coffee/sequencer.js"></script>
         <script type="text/javascript" src="coffee/audioengine.js"></script>
