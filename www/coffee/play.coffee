@@ -10,7 +10,7 @@ class play
 	colCache: {}
 	
 	constructor: ->
-		###
+		
 		$("#snext").click =>
 			#@stopLoop()
 			BEATmatic.ui.switch("dj")
@@ -23,7 +23,7 @@ class play
 			BEATmatic.ui.switch("main")
 			BEATmatic.sequencer.highlightPlayer = false
 			false
-		###	
+		
 		
 		$("#bars").click (e) =>
 			#console.log window.e1 = e
@@ -91,50 +91,10 @@ class play
 		#@loopTracks()
 	
 	setup2: (data) =>		
-			if data is "demo"
-				data =
-						"project": "House Beat 1",
-						"bpm": 130,
-						"tracks":
-							[
-									"name": "kick drum"
-									"sample": "kick01.wav"
-									"icon": "kickdrum.png"
-									"score": [100,0,0,0,  0,0,0,100,  100,0,0,0,  0,0,0,0]
-							#"SD":
-								,
-									"name": "snare drum"
-									"sample": "snare01.wav"
-									"icon": "snaredrum.png"
-									"score": [0,0,0,0,    100,0,0,0,   0,0,0,0,   100,0,0,0]
-							#"HH":
-								,
-									"name": "hi hat"
-									"sample": "hihat01.wav"
-									"icon": "hihat.png"
-									"score": [0,0,100,0,  0,0,100,0,  0,0,100,0,   0,0,100,0]
-							]
 	
 			@generateHTML()
-			BEATmatic.sequencer.highlightPlayer = true
-			@loopTracks()
+			#BEATmatic.sequencer.highlightPlayer = true
 			
-			
-			BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json"
-			console.log "MPD:HTML:onDeviceReady: initialized drum preset."
-			json = JSON.stringify(data)
-			console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
-			BEATmatic.audioEngine.setDrumPattern json
-			
-			
-			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) ->
-			  
-			  console.log("MPD: JS: playback cursor: " + cursorPosJson);
-			  time = JSON.parse(cursorPosJson)
-			  #$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
-			  @highlightTick time
-			
-			BEATmatic.audioEngine.play()
 	
 	
 	generateHTML: =>
