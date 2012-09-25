@@ -49,33 +49,23 @@ class rec
 		###	
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
 			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
+				console.log "TFD:"+cursorPosJson
 				time = JSON.parse(cursorPosJson)
 				#$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
 
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
-				console.log "TFD:"+level
-				level = JSON.parse(level)
-				console.log level
+				#console.log "TFD:"+level
+				#level = JSON.parse(level)
+				#console.log level
 				#$("#levelDisplay").text level
 				@showMicLevel level
 
 			console.log "MPD:HTML:onDeviceReady: initialized drum preset."
-			json = JSON.stringify(
-				bpm: 120
-				tracks: [
-					name: "kick drum"
-					score: [100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 100]
-				,
-					name: "snare drum"
-					score: [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
-				,
-					name: "hi-hat"
-					score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
-				]
-			)
-			console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
-			BEATmatic.audioEngine.setDrumPattern json
+			#console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
+			BEATmatic.audioEngine.applyDrumPattern()
 			console.log "MPD:HTML:onDeviceReady:set drum pattern."
+			
+			BEATmatic.audioEngine.play()
 		
 	
 	showMicLevel: (percent) ->

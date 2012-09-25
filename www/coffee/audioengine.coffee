@@ -1,5 +1,18 @@
 
 class AudioEngine
+	drumPattern:
+		tracks: [
+			name: "kick drum"
+			score: [100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 100]
+		,
+			name: "snare drum"
+			score: [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
+		,
+			name: "hi-hat"
+			score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
+		]
+	
+	
 	constructor: () ->
 		console.log "MPD: JS: AudioEngine: initialising audio engine wrapper object"
 
@@ -15,9 +28,9 @@ class AudioEngine
 		console.log "MPD: JS: AudioEngine: auditioning drum #{drumSound}"
 		Cordova?.exec(@nop, @nop, "AudioEngine", "auditionDrum", [drumSound])
 
-	setDrumPattern: (drumPattern) ->
-		console.log "MPD: JS: AudioEngine: setting drum pattern to #{drumPattern}"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "setDrumPattern", [drumPattern])
+	applyDrumPattern: () ->
+		console.log "MPD: JS: AudioEngine: setting drum pattern to #{JSON.stringify @drumPattern}"
+		Cordova?.exec(@nop, @nop, "AudioEngine", "setDrumPattern", [JSON.stringify @drumPattern])
 
 	toggleLoop: (group, ix) ->
 		console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"
