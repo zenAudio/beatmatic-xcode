@@ -13,21 +13,21 @@ class rec
 		#	BEATmatic.play.setup("demo")
 		#	BEATmatic.ui.switch("synth")
 		
-		$("#record").click =>
+		$("#recordBtn").click =>
 			@recordAudio3()
 			
-		$("#processingrecord").click =>
-			@switchButtons "record"
+		$("#processingBtn").click =>
+			@switchButtons "recordBtn"
 			@mediaRec.stopRecord()
 		
-		$("#stoprecord").click =>
-			@switchButtons "processingrecord"
+		$("#stopBtn").click =>
+			@switchButtons "processingBtn"
 			@mediaRec.stopRecord()
 		
 		#BEATmatic.rec.showMicLevel	
 
 	switchButtons: (buttonToShow) ->
-		for button in ["stoprecord", "processingrecord", "record"]
+		for button in ["stopBtn", "processingBtn", "recordBtn"]
 			if button is buttonToShow
 				$("#"+button).show()
 			else
@@ -80,7 +80,7 @@ class rec
 		#console.log "nothing"
 		
 	recordAudio3: (fileEntry) =>
-		@switchButtons "stoprecord"
+		@switchButtons "stopBtn"
 	
 		#console.log fileEntry.fullPath
 		#@recordFile = fileEntry
@@ -121,9 +121,9 @@ class rec
 	uploadSuccess: =>
 		data = decodeURIComponent result.response
 		BEATmatic.play.setup(JSON.parse data)
-		BEATmatic.ui.switch("synth")
+		BEATmatic.ui.switch("synth2")
 	uploadError: (error) =>
-		@switchButtons "record"
+		@switchButtons "recordBtn"
 		console.log error
 		alert "Error uploading file to get processed. No Network?"
 		

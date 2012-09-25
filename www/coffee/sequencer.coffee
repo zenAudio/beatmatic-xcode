@@ -76,7 +76,7 @@ class sequencer
 		src = @folder + "samples/" + fname
 		console.log "playAdjustedAudio sample:#{sample}, wav:#{src}, loop?:#{shouldLoop}, callbacks: #{callbacks}"
 		if Cordova?
-			
+			###
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 
 			player.matchBPM @BPM
@@ -89,6 +89,7 @@ class sequencer
 					callback(sample, src, player)
 					
 			player
+			###
 		else
 			@playAudio src
 		

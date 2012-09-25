@@ -144,7 +144,7 @@ class play
 		
 		
 		@scoresMax = BEATmatic.sequencer.drumTracks.tracks[0].score.length
-		@ticksOnScreen = Math.round($(window).height() / 52)
+		@ticksOnScreen = Math.round(($(window).height() - 45) / 52)
 		
 		itemHeight = 100 / @scoresMax
 		
