@@ -9,33 +9,49 @@ class rec
 		@setup = true
 		@ready = false
 		
-		$("#toTable").click =>
-			BEATmatic.play.setup("demo")
-			BEATmatic.ui.switch("synth")
+		#$("#toTable").click =>
+		#	BEATmatic.play.setup("demo")
+		#	BEATmatic.ui.switch("synth")
 		
-		$("#record").click =>
+		$("#recordBtn").click =>
 			@recordAudio3()
 			
-		$("#processingrecord").click =>
-			@switchButtons "record"
+		$("#processingBtn").click =>
+			@switchButtons "recordBtn"
 			@mediaRec.stopRecord()
 		
-		$("#stoprecord").click =>
-			@switchButtons "processingrecord"
+		$("#stopBtn").click =>
+			@switchButtons "processingBtn"
 			@mediaRec.stopRecord()
-	
+		
+		#BEATmatic.rec.showMicLevel	
+
 	switchButtons: (buttonToShow) ->
-		for button in ["stoprecord", "processingrecord", "record"]
+		for button in ["stopBtn", "processingBtn", "recordBtn"]
 			if button is buttonToShow
 				$("#"+button).show()
 			else
 				$("#"+button).hide()
 	
 	deviceready: =>
-		window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
-		document.querySelector("#deviceready .pending").className += " hide"
-		completeElem = document.querySelector("#deviceready .complete")
-		completeElem.className = completeElem.className.split("hide").join("")
+		#window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
+		#document.querySelector("#deviceready .pending").className += " hide"
+		#completeElem = document.querySelector("#deviceready .complete")
+		#completeElem.className = completeElem.className.split("hide").join("")
+		
+		console.log "deviceready"
+		
+		BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json")
+		
+		BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
+		  console.log level
+		  @showMicLevel level
+		
+	
+	showMicLevel: (percent) ->
+		level = 100 - percent
+		$("#recordLevel").css("background", "-webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) #{level}%,rgba(255,0,0,1) 100%)")#rgba(167,250,248,1)
+		level
 		
 		
 	getFilePath: ->
@@ -64,7 +80,7 @@ class rec
 		#console.log "nothing"
 		
 	recordAudio3: (fileEntry) =>
-		@switchButtons "stoprecord"
+		@switchButtons "stopBtn"
 	
 		#console.log fileEntry.fullPath
 		#@recordFile = fileEntry
@@ -105,9 +121,9 @@ class rec
 	uploadSuccess: =>
 		data = decodeURIComponent result.response
 		BEATmatic.play.setup(JSON.parse data)
-		BEATmatic.ui.switch("synth")
+		BEATmatic.ui.switch("synth2")
 	uploadError: (error) =>
-		@switchButtons "record"
+		@switchButtons "recordBtn"
 		console.log error
 		alert "Error uploading file to get processed. No Network?"
 		
@@ -121,6 +137,6 @@ class rec
 	setAudioPosition: (position) ->
 		document.getElementById("audio_position").innerHTML = position
 
-window.BEATmatic = {}
+#window.BEATmatic = {}
 $ ->
 	BEATmatic.rec = new rec()
