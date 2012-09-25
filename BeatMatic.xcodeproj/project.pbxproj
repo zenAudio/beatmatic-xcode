@@ -2588,7 +2588,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
-					"\"/Cordova/CordovaLib/Classes\"/**",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -2647,7 +2646,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
-					"\"/Cordova/CordovaLib/Classes\"/**",
 				);
 				OTHER_LDFLAGS = (
 					"-weak_framework",
