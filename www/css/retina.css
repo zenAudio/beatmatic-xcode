@@ -1,0 +1,16 @@
+.recordui {
+  background: url(../img/RecordScreen@2x.png);
+  background-size: 100%;
+}
+#tutor1 {
+  background-image: url(../img/tutor1@2x.png);
+  background-size: 100%;
+}
+#tutor2 {
+  background-image: url(../img/tutor2@2x.png);
+  background-size: 100%;
+}
+#tutor3 {
+  background-image: url(../img/tutor3@2x.png);
+  background-size: 100%;
+}
