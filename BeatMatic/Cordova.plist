@@ -28,6 +28,8 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>AudioEngine</key>
+		<string>AudioEngine</string>
 		<key>SoundPlug</key>
 		<string>SoundPlug</string>
 		<key>DiracPlayer</key>
