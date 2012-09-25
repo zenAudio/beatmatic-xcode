@@ -9,6 +9,10 @@
 #include "loopmachine2.h"
 #include "AudioEngineImpl.h"
 
+// MPD: This is a dreadful fucking hack: but I have no alternative, as the provider callback
+// for Dirac seems to be passed garbage instead of the correct user data variable. Very strange.
+static LoopMachine* mthis = nullptr;
+
 LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserveIx(-1),
     commitIx(-1), drainIx(0), expectedBufferSize(0), wasPlaying(false), dirac(nullptr),
     diracInputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
@@ -128,7 +132,7 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
         expectedBufferSize = samplesPerBlockExpected;
     std::cout << "MPD: CPP: LoopMachine::prepareToPlay:samplesPerBlockExpected=" << samplesPerBlockExpected << ", sampleRate=" << sampleRate << std::endl;
     
-    audioEngine.getTransport().setLatency(8192);
+    audioEngine.getTransport().setLatency(0);
     
     for (int i = 0; i < groupIxToAudioSource.size(); i++) {
         for (int j = 0; j < groupIxToAudioSource[i]->size(); j++) {
@@ -143,9 +147,10 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
 //        latency = DiracFxLatencyFrames(fixedBpmTransport.getSampleRate());
 //        audioEngine.getTransport().setLatency(latency);
         // ...in with the new (but nothings new bout being hocked by a few)
-        
+        mthis = this;
         dirac = DiracCreate(kDiracLambdaPreview, kDiracQualityPreview, 1,
-                            sampleRate, DiracDataProviderCb, (void*)this);
+                            sampleRate, DiracDataProviderCb, this);
+        std::cout << "MPD: FUCKING BUG: " << dirac << " and " << this << std::endl;
         if (!dirac)
             throw AudioEngineException("!! ERROR !!\n\n\tCould not create Dirac instance\n\tCheck sample rate!\n");
         
@@ -178,7 +183,7 @@ void LoopMachine::drainRingBuffer() {
         drainIx++;
     }
     
-//    printState("curr", audioState);
+    printState("curr", audioState);
 //    printState("prev", prevAudioState);
 }
 
@@ -386,13 +391,17 @@ void LoopMachine::processBlock(int groupIx, int loopIx, int destOffset, int numS
 
 long DiracDataProviderCb(float **chdata, long numFrames, void *userData) {
 //    std::cout << "MPD: NATIVE: CPP: DiracCoreDataProviderCb: starting: " << numFrames<< std::endl;
-    LoopMachine* ethis = static_cast<LoopMachine*>(userData);
+//    LoopMachine* ethis = static_cast<LoopMachine *>(userData);
+    
+//    std::cout << "MPD: FUCKING BUG: " << mthis << ", "  << ethis << ", " << userData << std::endl;
     
     AudioSampleBuffer buf(chdata, 1, numFrames);
     AudioSourceChannelInfo info(&buf, 0, numFrames);
     
-    ethis->getNextAudioBlockFixedBpm(info);
+    mthis->getNextAudioBlockFixedBpm(info);
 //    std::cout << "MPD: NATIVE: CPP: DiracCoreDataProviderCb: ending" << std::endl;
+    
+    return numFrames;
 }
 
 void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill) {
@@ -405,15 +414,18 @@ void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferTo
     double pitchFactor = 1.0;
 //    int numSamplesProcessed = diracOffset;
     
-    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: timeFactor: " << timeFactor << std::endl;
-
+//    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: timeFactor: " << timeFactor << std::endl;
     
     DiracSetProperty(kDiracPropertyTimeFactor, timeFactor, dirac);
     DiracSetProperty(kDiracPropertyPitchFactor, pitchFactor, dirac);
     
-    long ret = DiracProcess(bufferToFill.buffer->getArrayOfChannels(), bufferToFill.numSamples, dirac);
+//    long double v = DiracGetProperty(kDiracPropertyTimeFactor, dirac);
+//    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: timeFactor (check): " << v << std::endl;
     
-    
+//    long n = DiracProcess(bufferToFill.buffer->getArrayOfChannels(), bufferToFill.numSamples, dirac);
+    long n = DiracDataProviderCb(bufferToFill.buffer->getArrayOfChannels(), bufferToFill.numSamples, dirac);
+    if (n < bufferToFill.numSamples)
+        throw AudioEngineException("Dirac filled less samples than expected");
     
 //    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: ending." << std::endl;
     bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
@@ -422,6 +434,9 @@ void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferTo
 
 void LoopMachine::getNextAudioBlockOld(const juce::AudioSourceChannelInfo &bufferToFill) {
     bool resync = false;
+    
+    if (true)
+        throw AudioEngineException("Old code: bad.");
     
     float bpm = audioEngine.getTransport().getBpm();
     
@@ -486,8 +501,10 @@ void LoopMachine::getNextAudioBlockOld(const juce::AudioSourceChannelInfo &buffe
 }
 
 void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& bufferToFill) {
-    if (fixedBpmTransport.isPlaying() != audioEngine.getTransport().isPlaying()) {
-        if (audioEngine.getTransport().isPlaying())
+    auto& transport = audioEngine.getTransport();
+    bool mainTransportPlaying = transport.isPlaying();
+    if (fixedBpmTransport.isPlaying() != mainTransportPlaying) {
+        if (mainTransportPlaying)
             fixedBpmTransport.play();
         else
             fixedBpmTransport.stop();

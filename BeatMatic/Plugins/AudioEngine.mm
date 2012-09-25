@@ -17,9 +17,6 @@
 - (void) initialise: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     cursorCallbackId = nil;
     
-	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Initializing audio engine.");
-    engine.init(self);
-    
 	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Reading drum preset.");
     NSString* callbackID = [arguments pop];
     [callbackID retain];
@@ -50,6 +47,9 @@
         engine.setLooperPreset([path UTF8String]);
     }
     [path release];
+    
+    NSLog(@"MPD: NATIVE: AudioEngine::initialize: Initializing audio engine.");
+    engine.init(self);
     
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [pluginResult retain];
@@ -241,7 +241,13 @@
 }
 
 void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const char* const jsonMsg) {
-    [(id) objcSelf invokePhoneGapCallback:[[NSString alloc] initWithUTF8String: callbackId] withResponse: [[NSString alloc] initWithUTF8String:jsonMsg]];
+    NSString* json = [[NSString alloc] initWithUTF8String:jsonMsg];
+    [json retain];
+    NSString* callback = [[NSString alloc] initWithUTF8String: callbackId];
+    [callback retain];
+    [(id) objcSelf invokePhoneGapCallback: callback withResponse: json];
+    [callback release];
+    [json release];
 }
 
 - (void) setMasterFilter:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {

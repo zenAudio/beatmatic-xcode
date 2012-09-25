@@ -113,6 +113,7 @@ void AudioTransport::setSampleRate(float sampleRate) {
     this->sampleRate = sampleRate;
 }
 int AudioTransport::getFrameStartSamples() const {
+//    std::cout << "MPD: NATIVE: CPP: AudioTransport::getFrameStartSamples: latency: " << latencySamples << std::endl;
     return frameStartSamples - latencySamples;
 }
 int AudioTransport::getFrameEndSamples() const {

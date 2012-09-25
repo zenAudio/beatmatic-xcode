@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "369666556.495125"
+         timestampString = "369779035.683242"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "537"
-         endingLineNumber = "537"
+         startingLineNumber = "554"
+         endingLineNumber = "554"
          landmarkName = "LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo&amp; bufferToFill)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -134,11 +134,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "369661665.398721"
+         timestampString = "369779035.683242"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "388"
-         endingLineNumber = "388"
+         startingLineNumber = "393"
+         endingLineNumber = "393"
          landmarkName = "DiracDataProviderCb(float **chdata, long numFrames, void *userData)"
          landmarkType = "7">
       </FileBreakpoint>
@@ -147,11 +147,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "369661665.398721"
+         timestampString = "369779035.683242"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "395"
-         endingLineNumber = "395"
+         startingLineNumber = "402"
+         endingLineNumber = "402"
          landmarkName = "DiracDataProviderCb(float **chdata, long numFrames, void *userData)"
          landmarkType = "7">
       </FileBreakpoint>
@@ -160,11 +160,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "369659514.680666"
+         timestampString = "369779035.683242"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
+         startingLineNumber = "36"
+         endingLineNumber = "36"
          landmarkName = "LoopMachine::setPreset(const char* const presetFilename)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -173,11 +173,37 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "369660460.812312"
+         timestampString = "369779035.683242"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "127"
-         endingLineNumber = "127"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
+         landmarkName = "LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
+         timestampString = "369779035.683242"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "26"
+         endingLineNumber = "26"
+         landmarkName = "LoopMachine::LoopMachine(AudioEngineImpl&amp; engine)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
+         timestampString = "369779035.683242"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "151"
+         endingLineNumber = "151"
          landmarkName = "LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate)"
          landmarkType = "5">
       </FileBreakpoint>
