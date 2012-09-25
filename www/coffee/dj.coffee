@@ -1,3 +1,11 @@
+class dj2
+	constructor
+	
+
+
+$ ->
+	BEATmatic.dj2 = new dj2()
+
 class dj
 	swipeSampleLayover: false
 	swipeVolumeLayover: false
@@ -31,6 +39,7 @@ class dj
 		#console.log button
 		button.click @clickHandler
 	###
+
 		
 	resetButtons: ->
 		for btn in $(".djbtn")
