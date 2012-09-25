@@ -5,39 +5,34 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>BEATmatic</string>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>ico_electro1.png</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>ico_electro1.png</string>
-		<string>ico_rap_4@2x.png</string>
-		<string>icon-72.png</string>
-		<string>icon-72@2x.png</string>
-		<string>Default.png</string>
-		<string>Default@2x.png</string>
-	</array>
-  <!--
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>icon.png</string>
-  -->
+	<string>ico_electro2.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>ico_electro2.png</string>
+		<string>ico_electro2@2x.png</string>
+		<string>icon-72.png</string>
+		<string>icon-72@2x.png</string>
+		<string>Default.png</string>
+		<string>Default@2x.png</string>
+		<string>Default.png</string>
+	</array>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>ico_electro1.png</string>
-				<string>ico_rap_4@2x.png</string>
+				<string>ico_electro2.png</string>
+				<string>ico_electro2@2x.png</string>
 				<string>icon-72.png</string>
 				<string>icon-72@2x.png</string>
 				<string>Default.png</string>
 				<string>Default@2x.png</string>
+				<string>Default.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -67,7 +62,8 @@
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-  <string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

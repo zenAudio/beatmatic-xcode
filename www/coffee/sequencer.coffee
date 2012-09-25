@@ -54,7 +54,7 @@ class sequencer
 			@playAdjustedAudio track, sample.wav, sample.loop, sample.callbacks
 		
 		
-		BEATmatic.play.highlightColumn @beat16 if @highlightPlayer
+		BEATmatic.play.highlightTick @beat16 if @highlightPlayer
 		
 		if @recording
 			@recordObject[@beatTotal] =
@@ -76,7 +76,7 @@ class sequencer
 		src = @folder + "samples/" + fname
 		console.log "playAdjustedAudio sample:#{sample}, wav:#{src}, loop?:#{shouldLoop}, callbacks: #{callbacks}"
 		if Cordova?
-			
+			###
 			@sampleTacksPlaying[sample] = player = @diracMgr.newPlayer(sample, src)
 
 			player.matchBPM @BPM
@@ -89,6 +89,7 @@ class sequencer
 					callback(sample, src, player)
 					
 			player
+			###
 		else
 			@playAudio src
 		
@@ -98,7 +99,7 @@ class sequencer
 			my_media.play()
 		else
 			#HTML5
-			new Audio(src).play()
+			#new Audio(src).play()
 	
 	changeBPM: (newBPM) ->
 		@BPM = newBPM

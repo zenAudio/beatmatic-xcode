@@ -56,19 +56,19 @@
   -webkit-user-select: none;
 }
 .one {
-  width: 100px;
-  height: 56px;
+  width: 105px;
+  height: 61px;
 }
 .onehead {
-  width: 100px;
+  width: 105px;
 }
 .two-h {
-  width: 220px;
-  height: 56px;
+  width: 230px;
+  height: 61px;
 }
 .two-v {
-  width: 100px;
-  height: 220px;
+  width: 105px;
+  height: 230px;
 }
 .firstcol,
 .secondcol,
@@ -78,14 +78,14 @@
   position: absolute;
 }
 .secondcol {
-  margin-left: 120px;
+  margin-left: 125px;
 }
 .thirdcol {
-  margin-left: 240px;
+  margin-left: 250px;
 }
 .fourthcol {
-  margin-left: 360px;
+  margin-left: 375px;
 }
 .fifthcol {
-  margin-left: 480px;
+  margin-left: 500px;
 }
