@@ -9,6 +9,8 @@ class play
 	lastDistance: 0
 	colCache: {}
 	
+	noClick: false
+	
 	constructor: ->
 		
 		$("#snext").click =>
@@ -27,14 +29,15 @@ class play
 		
 		
 		$("#bars").click (e) =>
-			@clickOnHit(e)
-		
+			@clickOnHit(e)# unless @noClick
+		###
 		$("#bars").bind 'touchstart',  (e) =>
-			e.preventDefault()
+			@noClick = true
+			
 			@clickOnHit(e)
 			
-			@setup2()
-	
+		@setup2()
+		###
 	clickOnHit: (e) =>
 		track = e.target.classList[0][4...]
 		score = e.target.parentElement.id[4...]
@@ -133,7 +136,7 @@ class play
 				container: $("#bars")
 				
 				onEnter: (element, position) ->
-					#console?.log "entering " + element.id[4...]
+					console?.log "entering " + element.id[4...]
 					#console?.log element
 					#$("body").css "background-color", element.id
 					BEATmatic.play.highlightScroll element.id[4...]

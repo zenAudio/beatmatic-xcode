@@ -1,7 +1,8 @@
+#@codekit-prepend visdata.coffee
+
 data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,75,9,0,17,107,0,0,0,88,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1111,920,680,287,0,246,116,361,134,0,210,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] unless data
 
-delay = (ms, func) ->
-	setTimeout func, ms
+
 
 class BEATmatic.SoundBtn
 	@instances: 1
@@ -51,27 +52,30 @@ class BEATmatic.SoundBtn
 		@VALUE_MULTIPLIER = Math.min(@WIDTH, @HEIGHT) / 15000
 		@BEZIER_WIDTH = @radius * 0.05
 		
-		timeout = 0
+		
 		
 		@clearCircle()
 		
-		
+	delay: (ms, func) ->
+		setTimeout func, ms	
 	
 	play: ->
+		timeout = 0
 		for points, i in data
-			timeout = timeout + 50#125#(1000 / FPS)
+			timeout = timeout + 125#(1000 / FPS)
 			@timedDrawCircle timeout, points
 		
 		@timedEndCircle timeout + 50
 		
 	
 	timedDrawCircle: (timeout, todo) ->
-		delay timeout, =>
+		#console.log timeout
+		@delay timeout, =>
 			@drawCircle todo
 			#console.log todo
 	
 	timedEndCircle: (timeout) ->
-		delay timeout, =>
+		@delay timeout, =>
 			@clearCircle()
 	
 	clearCircle: ->

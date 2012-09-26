@@ -65,7 +65,13 @@ class ui
 					console?.log "entering " + element.id
 					#$("#nav").addClass "fixed"
 		###
-		b1 = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
+		#btn = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
+		#btn.play()
+		
+		for x in [1..12]
+			btn = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
+			btn.play()
+		
 
 	playTutorial: (layer) ->
 		$(".tutor").show()
@@ -108,3 +114,4 @@ class ui
 			
 $ ->
 	BEATmatic.ui = new ui()
+	#new FastClick(document.body)
