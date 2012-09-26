@@ -68,7 +68,7 @@ class ui
 		#btn = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
 		#btn.play()
 		
-		for x in [1..12]
+		for x in [1..10]
 			btn = new BEATmatic.SoundBtn($("#music2"), "btn-drum", "#24A2E2")
 			btn.play()
 		

@@ -63,7 +63,7 @@ class rec
 			BEATmatic.audioEngine.applyDrumPattern()
 			console.log "MPD:HTML:onDeviceReady:set drum pattern."
 			
-			#BEATmatic.audioEngine.play()
+			BEATmatic.audioEngine.play()
 		
 	
 	showMicLevel: (percent) ->
