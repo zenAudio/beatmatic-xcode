@@ -27,36 +27,25 @@ class play
 		
 		
 		$("#bars").click (e) =>
-			#console.log window.e1 = e
-			track = e.target.classList[0][4...]
-			score = e.target.parentElement.id[4...]
-			cell =  $ e.target
-			
-			if cell.hasClass "hit"
-				cell.removeClass "hit"
-				@changeScore track - 1, score - 1, 0
-				#BEATmatic.drumPattern.tracks[track - 1].score[score - 1] = 0
-			else
-				cell.addClass "hit"
-				@changeScore track - 1, score - 1, 100
-				#BEATmatic.drumPattern.tracks[track - 1].score[score - 1] = 100
-		###	
-		click: (e, target) =>
-			score = e.target.cellIndex + 1
-			track = e.target.parentNode.rowIndex
-			
-			cell = $($(".c#{score}")[track])
-			if cell.hasClass "x100"
-				cell.removeClass "x100"
-				BEATmatic.drumPattern.tracks[track].score[score - 1] = 0
-			else
-				cell.addClass "x100"
-				
-				BEATmatic.drumPattern.tracks[track].score[score - 1] = 100
+			@clickOnHit(e)
 		
-		###
-		#@setup("demo")
-		@setup2()
+		$("#bars").bind 'touchstart',  (e) =>
+			e.preventDefault()
+			@clickOnHit(e)
+			
+			@setup2()
+	
+	clickOnHit: (e) =>
+		track = e.target.classList[0][4...]
+		score = e.target.parentElement.id[4...]
+		cell =  $ e.target
+		
+		if cell.hasClass "hit"
+			cell.removeClass "hit"
+			@changeScore track - 1, score - 1, 0
+		else
+			cell.addClass "hit"
+			@changeScore track - 1, score - 1, 100
 	
 	changeScore: (track, score, value) =>
 		BEATmatic.drumPattern.tracks[track].score[score] = value
