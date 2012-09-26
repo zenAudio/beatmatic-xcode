@@ -81,11 +81,18 @@
 		55C40D5715FC9C8B00063503 /* AudioEngineImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C40D5515FC9C8B00063503 /* AudioEngineImpl.cpp */; };
 		55E803031604BE4500A69C82 /* limitereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803011604BE4400A69C82 /* limitereffect.cpp */; };
 		55E803091604CCD900A69C82 /* audioringbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E803071604CCD800A69C82 /* audioringbuffer.cpp */; };
-		55F252861611F15100436A3E /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F252851611F12500436A3E /* libCordova.a */; };
+		55EDA27B1613381E00D0EC3B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F252851611F12500436A3E /* libCordova.a */; };
 		E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		55EDA2791613381600D0EC3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = CordovaLib;
+		};
 		55F252841611F12500436A3E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */;
@@ -659,7 +666,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55F252861611F15100436A3E /* libCordova.a in Frameworks */,
+				55EDA27B1613381E00D0EC3B /* libCordova.a in Frameworks */,
 				55C40D4C15FC0F9A00063503 /* CoreMIDI.framework in Frameworks */,
 				5500619415F7A0AE003A2E7E /* Accelerate.framework in Frameworks */,
 				5500619515F7A0AE003A2E7E /* CoreAudio.framework in Frameworks */,
@@ -1839,6 +1846,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				55EDA27A1613381600D0EC3B /* PBXTargetDependency */,
 			);
 			name = BeatMatic;
 			productName = BeatMatic;
@@ -1986,6 +1994,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		55EDA27A1613381600D0EC3B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CordovaLib;
+			targetProxy = 55EDA2791613381600D0EC3B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		1F766FDC13BBADB100FB74C0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -2052,11 +2068,11 @@
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer\"",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/util\"",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/ExtAudioFile\"",
-					"\"$(CORDOVALIB)/Classes\"",
+					"\"$(CORDOVALIB)/Classes\"/**",
 					"\"../../JuceLibraryCode\"/**",
 				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
@@ -2079,6 +2095,7 @@
 				);
 				PRODUCT_NAME = BeatMatic;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -2114,7 +2131,7 @@
 					"\"../../JuceLibraryCode\"/**",
 				);
 				INFOPLIST_FILE = "BeatMatic/BeatMatic-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dirac3 LE/Dirac3-Mobile/Common Files/src\"",
@@ -2137,6 +2154,7 @@
 				);
 				PRODUCT_NAME = BeatMatic;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -2144,7 +2162,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2172,6 +2190,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -2179,7 +2198,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 307D28A1123043350040C0FA /* CordovaBuildSettings.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2207,6 +2226,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
