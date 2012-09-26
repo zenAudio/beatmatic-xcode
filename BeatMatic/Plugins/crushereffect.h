@@ -10,6 +10,7 @@
 #define __BeatMatic__crushereffect__
 
 #include "juce.h"
+#include <iostream>
 
 class CrusherEffect : public AudioSource {
 public:
@@ -18,7 +19,8 @@ public:
     struct Parameters {
         Parameters() {
             rate = 0.5;
-            bits = 2;
+            bits = 6;
+			std::cout << "MPD: NATIVE: CPP: CrusherEffect::Parameters::Parameters: rate=" << rate << "; bits=" << bits << std::endl;
         }
         float rate;
         int bits;
@@ -39,7 +41,8 @@ private:
     float decimate(float i);
     
 private:
-    long int m;
+    long long m;
+	int decimation;
     float y, cnt;
     
     bool deleteInputWhenDeleted;

@@ -148,7 +148,7 @@ void Synthesiser::renderNextBlock (AudioSampleBuffer& outputBuffer,
     // must set the sample rate before using this!
     jassert (sampleRate != 0);
 
-    const ScopedLock sl (lock);
+//    const ScopedLock sl (lock);
 
     MidiBuffer::Iterator midiIterator (midiData);
     midiIterator.setNextSamplePosition (startSample);

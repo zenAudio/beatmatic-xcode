@@ -19,7 +19,7 @@ class DrumMachine  : public AudioSource
 public:
     static const int MAX_DRUM_PATTERN_LENGTH = 64;
     static const int NUM_DRUM_HIT_TYPES = 3;
-    static const int NUM_DRUM_VOICES = 4;
+    static const int NUM_DRUM_VOICES = 6;
     
 public:
     DrumMachine(AudioEngineImpl& engine);

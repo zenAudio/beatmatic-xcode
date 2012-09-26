@@ -22,8 +22,15 @@ void Mixer::init() {
     addInputSource(&loopMachine, true);
     addInputSource(&drumMachine, true);
     
-//    masterCrusher = new CrusherEffect(this, true);
-    masterVerb = new ReverbAudioSource(this, true);
+    masterCrusher = new CrusherEffect(this, true);
+    masterVerb = new ReverbAudioSource(masterCrusher, true);
+	Reverb::Parameters p;
+	p.damping = 0.1;
+	p.roomSize = 0.4;
+	p.wetLevel = 0.1;
+	p.dryLevel = 0.8;
+	p.width = 1.2;
+	masterVerb->setParameters(p);
     masterFilter = new IIRFilterAudioSource(masterVerb, true);
 //    masterLimiter = new LimiterEffect(masterFilter, true);
     

@@ -49,10 +49,10 @@ class rec
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
 
 			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
-				console.log "TFD:"+cursorPosJson
+				#console.log "TFD:"+cursorPosJson
 				time = JSON.parse(cursorPosJson)
 				#{"bars": 6, "beats": 4, "ticks": 2}
-				console.log "ticks: #{(time.beats - 1 )* 4 + time.ticks}"
+				#console.log "ticks: #{(time.beats - 1 )* 4 + time.ticks}"
 				BEATmatic.play.highlightTick (time.beats - 1 ) * 4 + time.ticks
 				#$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
 
