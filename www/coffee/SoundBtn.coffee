@@ -1,4 +1,3 @@
-#@codekit-prepend visdata.coffee
 data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,75,9,0,17,107,0,0,0,88,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1111,920,680,287,0,246,116,361,134,0,210,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] unless data
 
 delay = (ms, func) ->
@@ -54,6 +53,7 @@ class BEATmatic.SoundBtn
 		
 		timeout = 0
 		
+		@clearCircle()
 		
 		
 	
@@ -72,19 +72,22 @@ class BEATmatic.SoundBtn
 	
 	timedEndCircle: (timeout) ->
 		delay timeout, =>
-			@c.clearRect 0, 0, @WIDTH, @HEIGHT
-			
-			@c.lineWidth = @RING_THICKNESS
-			#ctx.fillStyle = "black";
-			#ctx.fillRect(0,0,100,100);
-			@c.strokeStyle = @color#"#24A2E2";
-			#@c.lineWidth = 5
-			
-			#draw a circle
-			@c.beginPath();
-			@c.arc(@CX, @CY, @radius, 0, Math.PI*2, true);
-			#@c.lineWidth = 10
-			@c.stroke();
+			@clearCircle()
+	
+	clearCircle: ->
+		@c.clearRect 0, 0, @WIDTH, @HEIGHT
+		
+		@c.lineWidth = @RING_THICKNESS
+		#ctx.fillStyle = "black";
+		#ctx.fillRect(0,0,100,100);
+		@c.strokeStyle = @color#"#24A2E2";
+		#@c.lineWidth = 5
+		
+		#draw a circle
+		@c.beginPath();
+		@c.arc(@CX, @CY, @radius, 0, Math.PI*2, true);
+		#@c.lineWidth = 10
+		@c.stroke();
 	
 	initCircle: (circumference) ->
 		#circumference = 1 - (data[0].t - now) / INIT_TIME
