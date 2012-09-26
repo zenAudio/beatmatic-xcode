@@ -62,7 +62,7 @@ class BEATmatic.SoundBtn
 	play: ->
 		timeout = 0
 		for points, i in data
-			timeout = timeout + 50#125#(1000 / FPS)
+			timeout = timeout + 125#(1000 / FPS)
 			@timedDrawCircle timeout, points
 		
 		@timedEndCircle timeout + 50
