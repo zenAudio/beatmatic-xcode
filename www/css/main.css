@@ -63,7 +63,7 @@ canvas {
 }
 .obars {
   position: absolute;
-  top: 45px;
+  top: 44px;
   bottom: 0;
 }
 #scrollbars {
@@ -88,7 +88,7 @@ canvas {
   overflow: scroll;
   width: 320px;
   position: absolute;
-  top: 45px;
+  top: 44px;
   bottom: 0;
 }
 .wrapper {
@@ -393,24 +393,6 @@ h1 {
   font-size: 12px;
   text-shadow: none;
   -webkit-padding-start: 0px;
-}
-#snext {
-  width: 100%;
-  height: 15%;
-  margin: 0;
-  padding: 0;
-  background-color: #1BA1E2;
-  opacity: 0.7;
-  position: absolute;
-  bottom: 0px;
-  text-align: center;
-  vertical-align: middle;
-}
-#sback {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 1px;
 }
 #swipeDJSampleLayover,
 #swipeSampleLayover {
