@@ -1,6 +1,8 @@
 
 class AudioEngine
+	###
 	drumPattern:
+		bpm: 120
 		tracks: [
 			name: "kick drum"
 			score: [100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 100]
@@ -11,6 +13,7 @@ class AudioEngine
 			name: "hi-hat"
 			score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
 		]
+	###
 	
 	
 	constructor: () ->
@@ -29,8 +32,10 @@ class AudioEngine
 		Cordova?.exec(@nop, @nop, "AudioEngine", "auditionDrum", [drumSound])
 
 	applyDrumPattern: () ->
-		console.log "MPD: JS: AudioEngine: setting drum pattern to #{JSON.stringify @drumPattern}"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "setDrumPattern", [JSON.stringify @drumPattern])
+		console.log "MPD: JS: AudioEngine: setting drum pattern to #{BEATmatic.drumPattern.getAsJSON()}"
+		#console.log json1 = JSON.stringify @drumPattern
+		#console.log json2 = BEATmatic.drumPattern.getAsJSON()
+		Cordova?.exec(@nop, @nop, "AudioEngine", "setDrumPattern", [BEATmatic.drumPattern.getAsJSON()])
 
 	toggleLoop: (group, ix) ->
 		console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"

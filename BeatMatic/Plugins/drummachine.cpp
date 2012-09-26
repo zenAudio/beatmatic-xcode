@@ -179,11 +179,12 @@ void DrumMachine::setDrumPreset(const char * const presetFilename) {
 }
 
 int DrumMachine::getDrumPatternIx(String drumSound) {
-    if (drumSound.contains("kick"))
+    auto sound = drumSound.toLowerCase();
+    if (sound.contains("kick"))
         return 0;
-    else if (drumSound.contains("snare") || drumSound.contains("clap"))
+    else if (sound.contains("snare") || sound.contains("clap"))
         return 1;
-    else if (drumSound.contains("hat"))
+    else if (sound.contains("hat"))
         return 2;
     else
         return -1;

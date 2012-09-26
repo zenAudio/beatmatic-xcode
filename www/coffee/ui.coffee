@@ -23,7 +23,7 @@ class ui
 		#	@switch "main"
 			
 		$("#demoBtn").click =>	
-			BEATmatic.play.setup("demo")
+			BEATmatic.play.setup2()
 			@switch "synth2"
 			
 		#$("#recordBtn").click =>	

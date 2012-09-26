@@ -14,14 +14,15 @@ class play
 		$("#snext").click =>
 			#@stopLoop()
 			BEATmatic.ui.switch("dj")
-			BEATmatic.sequencer.highlightPlayer = false
+			#BEATmatic.sequencer.highlightPlayer = false
 			false
 		
 		$("#sback").click =>
 			#@stopLoop()
-			BEATmatic.sequencer.stopCoreLoop()
+			#BEATmatic.sequencer.stopCoreLoop()
+			BEATmatic.audioEngine.stop()
 			BEATmatic.ui.switch("main")
-			BEATmatic.sequencer.highlightPlayer = false
+			#BEATmatic.sequencer.highlightPlayer = false
 			false
 		
 		
@@ -34,11 +35,11 @@ class play
 			if cell.hasClass "hit"
 				cell.removeClass "hit"
 				@changeScore track - 1, score - 1, 0
-				#BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 0
+				#BEATmatic.drumPattern.tracks[track - 1].score[score - 1] = 0
 			else
 				cell.addClass "hit"
 				@changeScore track - 1, score - 1, 100
-				#BEATmatic.sequencer.drumTracks.tracks[track - 1].score[score - 1] = 100
+				#BEATmatic.drumPattern.tracks[track - 1].score[score - 1] = 100
 		###	
 		click: (e, target) =>
 			score = e.target.cellIndex + 1
@@ -47,18 +48,20 @@ class play
 			cell = $($(".c#{score}")[track])
 			if cell.hasClass "x100"
 				cell.removeClass "x100"
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+				BEATmatic.drumPattern.tracks[track].score[score - 1] = 0
 			else
 				cell.addClass "x100"
 				
-				BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+				BEATmatic.drumPattern.tracks[track].score[score - 1] = 100
 		
 		###
-		@setup("demo")
+		#@setup("demo")
+		@setup2()
 	
 	changeScore: (track, score, value) =>
-		BEATmatic.sequencer.drumTracks.tracks[track].score[score] = value
-		
+		BEATmatic.drumPattern.tracks[track].score[score] = value
+		BEATmatic.audioEngine.applyDrumPattern()
+	###	
 	setup: (data) =>		
 		if data is "demo"
 			BEATmatic.sequencer.setup
@@ -89,13 +92,9 @@ class play
 		@generateHTML()
 		BEATmatic.sequencer.highlightPlayer = true
 		#@loopTracks()
-	
-	setup2: (data) =>		
-	
-			@generateHTML()
-			#BEATmatic.sequencer.highlightPlayer = true
-			
-	
+	###
+	setup2: () =>		
+		@generateHTML()	
 	
 	generateHTML: =>
 		bars = ""
@@ -103,14 +102,14 @@ class play
 		scrollbar = ""
 		
 		
-		@scoresMax = BEATmatic.sequencer.drumTracks.tracks[0].score.length
+		@scoresMax = BEATmatic.drumPattern.tracks[0].score.length
 		@ticksOnScreen = Math.round(($(window).height() - 45) / 52)
 		
 		itemHeight = 100 / @scoresMax
 		
-		for score1, index in BEATmatic.sequencer.drumTracks.tracks[0].score
-			score2 = BEATmatic.sequencer.drumTracks.tracks[1].score[index]
-			score3 = BEATmatic.sequencer.drumTracks.tracks[2].score[index]
+		for score1, index in BEATmatic.drumPattern.tracks[0].score
+			score2 = BEATmatic.drumPattern.tracks[1].score[index]
+			score3 = BEATmatic.drumPattern.tracks[2].score[index]
 			
 			bars = """#{bars}<div id="tick#{index+1}"class="wrapper">
 			     <div class="left1 #{if score1 then "hit" else ""}">
@@ -190,11 +189,11 @@ class play
 				cell = $($(".c#{score}")[track])
 				if cell.hasClass "x100"
 					cell.removeClass "x100"
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 0
+					BEATmatic.drumPattern.tracks[track].score[score - 1] = 0
 				else
 					cell.addClass "x100"
 					
-					BEATmatic.sequencer.drumTracks.tracks[track].score[score - 1] = 100
+					BEATmatic.drumPattern.tracks[track].score[score - 1] = 100
 		
 			swipeStatus: (e, phase, direction, distance) =>
 				#swipeCount++
@@ -249,7 +248,7 @@ class play
 					@lastDistance = distance
 					
 					track = e.target.parentNode.rowIndex
-					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
+					sample = BEATmatic.drumPattern.tracks[track].sample
 					i = sample.indexOf "0"
 					n = Number sample[i+1]
 					unless @samplebase
@@ -268,7 +267,7 @@ class play
 					newsample = @samplebase + 0 + n + sample[i+2...]
 					#return
 					BEATmatic.sequencer.playAudio BEATmatic.sequencer.folder + "drums/" +  newsample
-					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
+					BEATmatic.drumPattern.tracks[track].sample = newsample
 					
 					$("#swipeSampleLayover").html(newsample)
 					

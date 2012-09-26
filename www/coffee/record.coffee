@@ -9,22 +9,22 @@ class rec
 		@setup = true
 		@ready = false
 		
-		#$("#toTable").click =>
-		#	BEATmatic.play.setup("demo")
-		#	BEATmatic.ui.switch("synth")
-		
 		$("#recordBtn").click =>
 			@recordAudio3()
 			
 		$("#processingBtn").click =>
 			@switchButtons "recordBtn"
-			@mediaRec.stopRecord()
+			BEATmatic.audioEngine.recordAudioStop (response) ->
+				console.log "recordAudioStop - discarding"
+				#$("#playAudioBtn").button "enable"
+			#@mediaRec.stopRecord()
 		
 		$("#stopBtn").click =>
 			@switchButtons "processingBtn"
-			@mediaRec.stopRecord()
-		
-		#BEATmatic.rec.showMicLevel	
+			BEATmatic.audioEngine.recordAudioStop (response) ->
+				console.log "recordAudioStop - uploading"
+				BEATmatic.rec.uploadFile()
+			
 
 	switchButtons: (buttonToShow) ->
 		for button in ["stopBtn", "processingBtn", "recordBtn"]
@@ -34,30 +34,23 @@ class rec
 				$("#"+button).hide()
 	
 	deviceready: =>
-		#window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
+		window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
 		#document.querySelector("#deviceready .pending").className += " hide"
 		#completeElem = document.querySelector("#deviceready .complete")
 		#completeElem.className = completeElem.className.split("hide").join("")
 		
-		console.log "deviceready"
-		###
-		BEATmatic.audioEngine.init("sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json")
-		
-		BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
-			console.log level
-			@showMicLevel level
-		###	
+		#console.log "deviceready"
+
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
 			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
 				console.log "TFD:"+cursorPosJson
 				time = JSON.parse(cursorPosJson)
+				#{"bars": 6, "beats": 4, "ticks": 2}
+				console.log "ticks: #{(time.beats - 1 )* 4 + time.ticks}"
+				BEATmatic.play.highlightTick (time.beats - 1 ) * 4 + time.ticks
 				#$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
 
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
-				#console.log "TFD:"+level
-				#level = JSON.parse(level)
-				#console.log level
-				#$("#levelDisplay").text level
 				@showMicLevel level
 
 			console.log "MPD:HTML:onDeviceReady: initialized drum preset."
@@ -81,15 +74,9 @@ class rec
 		else
 			return "res//db//"
 	
-	
-	# Record audio
-	# 
-	
 	gotFS: (fileSystem) =>
-		console.log "got filesystem"
 		@fileSystem = fileSystem
 		@src = "test.wav"#@getFilePath() + "myrecording.wav"
-		#console.log "trying to recording to #{@src}"
 		@fileSystem.root.getFile(@src, {create: true}, @fileReady, @nothing)
 		
 	fileReady: (fileEntry) =>
@@ -100,49 +87,39 @@ class rec
 		#console.log "nothing"
 		
 	recordAudio3: (fileEntry) =>
-		@switchButtons "stopBtn"
-	
-		#console.log fileEntry.fullPath
-		#@recordFile = fileEntry
-		@mediaRec = new Media(@recordFile.fullPath, @onSuccess, @onError)
-		#console.log "recording to #{@src}"
-		
-		# Record audio
-		@mediaRec.startRecord()
-		###
-		recTime = 0
-		recInterval = setInterval(->
-			recTime = recTime + 1
-			setAudioPosition recTime + " sec"
-			#if recTime >= 10
-			#	clearInterval recInterval
-			#	@mediaRec.stopRecord()
-		, 1000)#http://localhost:5000/
-		###
-		
-	
-	# onSuccess Callback
-	#
-	onSuccess: =>
-		#$("#stoprecord").hide()
-		#$("#record").show()
-		
-		console.log "recordAudio():Audio Success"
-		@uploadFile()
-		
+		@switchButtons "stopBtn"		
+		BEATmatic.audioEngine.recordAudioStart @recordFile.fullPath
+
 	uploadFile: =>
-		console.log "starting upload"
-		mediaFile = @recordFile
 		ft = new FileTransfer()
-		path = mediaFile.fullPath
-		name = mediaFile.name
-		ft.upload path, @url, @uploadSuccess, @uploadError, {fileName: name}
+		ft.upload @recordFile.fullPath, @url, @uploadSuccess, @uploadError, {fileName: @recordFile.name}
 		
-	uploadSuccess: =>
+	uploadSuccess: (result) =>
+		console.log "uploadSuccess"
+		console.log result
 		data = decodeURIComponent result.response
-		BEATmatic.play.setup(JSON.parse data)
+		console.log "SERVER RESPONSE"
+		console.log data
+		drumData = JSON.parse data
+		console.log drumData
+		
+		BEATmatic.audioEngine.drumPattern =
+				bpm: 120
+				tracks: [
+					name: "kick drum"
+					score: [100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 100]
+				,
+					name: "snare drum"
+					score: [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
+				,
+					name: "hi-hat"
+					score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
+				]
+		
 		BEATmatic.ui.switch("synth2")
+		
 	uploadError: (error) =>
+		console.log "uploadError"
 		@switchButtons "recordBtn"
 		console.log error
 		alert "Error uploading file to get processed. No Network?"
