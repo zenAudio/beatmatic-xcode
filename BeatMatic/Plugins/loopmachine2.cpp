@@ -33,13 +33,13 @@ void LoopMachine::init() {
 }
 
 void LoopMachine::setPreset(const char* const presetFilename) {
-    std::cout << "MPD: CPP: LoopMachine::setPreset: setting looper preset to: " << presetFilename << std::endl;
+//    std::cout << "MPD: CPP: LoopMachine::setPreset: setting looper preset to: " << presetFilename << std::endl;
     
     File presetFile(presetFilename);
     File presetDir = presetFile.getParentDirectory();
     var preset = JSON::parse(presetFile);
     
-    std::cout << "MPD: CPP: LoopMachine::setPreset: preset json: " << preset.toString() << std::endl;
+//    std::cout << "MPD: CPP: LoopMachine::setPreset: preset json: " << preset.toString() << std::endl;
     
     auto& obj = *preset.getDynamicObject();
     
@@ -55,14 +55,14 @@ void LoopMachine::setPreset(const char* const presetFilename) {
         var group = groups[i];
         auto& obj = *group.getDynamicObject();
         String groupName = obj.getProperty("group");
-        std::cout << "MPD: CPP: LoopMachine::setPreset: adding loops for " << groupName << std::endl;
+//        std::cout << "MPD: CPP: LoopMachine::setPreset: adding loops for " << groupName << std::endl;
         
         var loops = obj.getProperty("loops");
         for (int j = 0; j < loops.size(); j++) {
             File sample = presetDir.getChildFile(loops[j].toString());
             
-            std::cout << "MPD: CPP: LoopMachine::setPreset: adding sample: "
-            << sample.getFullPathName() << std::endl;
+//            std::cout << "MPD: CPP: LoopMachine::setPreset: adding sample: "
+//            << sample.getFullPathName() << std::endl;
             
             addLoop(groupName, sample);
         }
@@ -136,12 +136,12 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
     
     for (int i = 0; i < groupIxToAudioSource.size(); i++) {
         for (int j = 0; j < groupIxToAudioSource[i]->size(); j++) {
-            std::cout << "MPD: CPP: LoopMachine::prepareToPlay:group " << i << ", sample " << j << std::endl;
+//            std::cout << "MPD: CPP: LoopMachine::prepareToPlay:group " << i << ", sample " << j << std::endl;
             (*groupIxToAudioSource[i])[j]->prepareToPlay(samplesPerBlockExpected, sampleRate);
         }
     }
     if (!dirac) {
-        std::cout << "MPD: CPP: LoopMachine::prepareToPlay:creating dirac FX object" << std::endl;
+//        std::cout << "MPD: CPP: LoopMachine::prepareToPlay:creating dirac FX object" << std::endl;
         // out with the old style...
 //        dirac = DiracFxCreate(kDiracQualityGood, fixedBpmTransport.getSampleRate(), 1);
 //        latency = DiracFxLatencyFrames(fixedBpmTransport.getSampleRate());
@@ -150,7 +150,7 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
         mthis = this;
         dirac = DiracCreate(kDiracLambdaPreview, kDiracQualityPreview, 1,
                             sampleRate, DiracDataProviderCb, this);
-        std::cout << "MPD: FUCKING BUG: " << dirac << " and " << this << std::endl;
+//        std::cout << "MPD: FUCKING BUG: " << dirac << " and " << this << std::endl;
         if (!dirac)
             throw AudioEngineException("!! ERROR !!\n\n\tCould not create Dirac instance\n\tCheck sample rate!\n");
         
@@ -183,7 +183,7 @@ void LoopMachine::drainRingBuffer() {
         drainIx++;
     }
     
-    printState("curr", audioState);
+//    printState("curr", audioState);
 //    printState("prev", prevAudioState);
 }
 

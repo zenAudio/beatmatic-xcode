@@ -22,12 +22,12 @@ void Mixer::init() {
     addInputSource(&loopMachine, true);
     addInputSource(&drumMachine, true);
     
-    masterCrusher = new CrusherEffect(this, true);
-    masterVerb = new ReverbAudioSource(masterCrusher, true);
+//    masterCrusher = new CrusherEffect(this, true);
+    masterVerb = new ReverbAudioSource(this, true);
     masterFilter = new IIRFilterAudioSource(masterVerb, true);
-    masterLimiter = new LimiterEffect(masterFilter, true);
+//    masterLimiter = new LimiterEffect(masterFilter, true);
     
-    player.setSource(masterLimiter);
+    player.setSource(masterFilter);
     
     audioEngine.getAudioMgr().addAudioCallback(&player);
 }

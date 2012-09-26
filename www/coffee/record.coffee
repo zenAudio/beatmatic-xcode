@@ -47,6 +47,7 @@ class rec
 		#console.log "deviceready"
 
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
+
 			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
 				console.log "TFD:"+cursorPosJson
 				time = JSON.parse(cursorPosJson)
@@ -64,6 +65,7 @@ class rec
 			console.log "MPD:HTML:onDeviceReady:set drum pattern."
 			
 			BEATmatic.audioEngine.play()
+
 		
 	
 	showMicLevel: (percent) ->

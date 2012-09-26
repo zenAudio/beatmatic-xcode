@@ -15,9 +15,9 @@
 ////////////////////
 //////////////////////
 
-#define JSON_BUFFER 256
+#define JSON_BUFFER 256 
 
-const float AudioInputMeter::LAMBDA = 0.99995;
+const float AudioInputMeter::LAMBDA = 0.9985;
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 AudioInputMeter::AudioInputMeter(AudioEngineImpl& audioEngine) : callbackId(String::empty), audioEngine(audioEngine),

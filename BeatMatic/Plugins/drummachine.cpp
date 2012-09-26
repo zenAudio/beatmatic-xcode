@@ -109,22 +109,22 @@ void DrumMachine::setDrumPattern(const char *const patternJson) {
         auto& trackObj = *tracks[i].getDynamicObject();
         
         var score = trackObj.getProperty("score");
-        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score " << score.toString() << std::endl;
-        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score array " << score.getArray()->size() << std::endl;
+//        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score " << score.toString() << std::endl;
+//        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score array " << score.getArray()->size() << std::endl;
         
         String trackName = trackObj.getProperty("name");
         int patternIx = getDrumPatternIx(trackName);
-        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: pattern ix for " << trackName << " is " << patternIx << std::endl;
+//        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: pattern ix for " << trackName << " is " << patternIx << std::endl;
         
         if (patternIx < 0)
             throw AudioEngineException("Invalid pattern name " + trackName);
         
-        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score length for " << trackName << " is " << score.size() << std::endl;
+//        std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score length for " << trackName << " is " << score.size() << std::endl;
         
         for (int tick = 0; tick < score.size(); tick++) {
             int vel = (int) score[tick];
-            std::cout << "MPD: CPP: DrumMachine::setDrumPattern: tick " << tick << std::endl;
-            std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score tick " << vel << std::endl;
+//            std::cout << "MPD: CPP: DrumMachine::setDrumPattern: tick " << tick << std::endl;
+//            std::cout << "MPD: CPP: DrumMachine::setDrumPattern: score tick " << vel << std::endl;
             this->pattern[patternIx][tick] = vel;
         }
         
@@ -146,12 +146,12 @@ void DrumMachine::setDrumPreset(const char * const presetFilename) {
     File presetDir = presetFile.getParentDirectory();
     var preset = JSON::parse(presetFile);
     
-    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: preset json: " << preset.toString() << std::endl;
+//    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: preset json: " << preset.toString() << std::endl;
     
     auto& obj = *preset.getDynamicObject();
     
-    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: preset name: " << obj.getProperty("preset").toString()
-              << "; created by: " << obj.getProperty("preset").toString() << std::endl;
+//    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: preset name: " << obj.getProperty("preset").toString()
+//              << "; created by: " << obj.getProperty("preset").toString() << std::endl;
     
     var voices = obj.getProperty("voices");
     
@@ -162,13 +162,13 @@ void DrumMachine::setDrumPreset(const char * const presetFilename) {
         var voice = voices[i];
         auto& obj = *voice.getDynamicObject();
         String name = obj.getProperty("voice");
-        std::cout << "MPD: CPP: DrumMachine::setDrumPreset: adding voice: " << name << std::endl;
+//        std::cout << "MPD: CPP: DrumMachine::setDrumPreset: adding voice: " << name << std::endl;
         
         var samples = obj.getProperty("samples");
         {
             File sample = presetDir.getChildFile(samples[0].toString());
-            std::cout << "MPD: CPP: DrumMachine::setDrumPreset: adding sample: "
-                      << sample.getFullPathName() << std::endl;
+//            std::cout << "MPD: CPP: DrumMachine::setDrumPreset: adding sample: "
+//                      << sample.getFullPathName() << std::endl;
             
             setDrumSound(name, sample);
         }

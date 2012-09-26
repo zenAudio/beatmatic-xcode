@@ -13,7 +13,7 @@
     </head>
     <body>
     <div id="ui" class="ui">
-    	<div id="main" class="uitab">
+    	<div id="main" class="uitab active">
     		<div id="recordLevel"></div>
 	    	<div class="recordui ui"></div>
 	        <div id="tutor1" class="tutor"></div>
@@ -24,7 +24,12 @@
 	        	<p id="demoBtn" class=" btn">Demo<br>Beat</p>
 	        	<p id="recordBtn" class="btn">Record me<br> Beatboxing</p>
 	        	<p id="stopBtn" class="btn hide">Stop<br> Recording</p>
+                
+                <!--MPD: I ADDED THIS TO DEBUG:
 	        	<p id="processingBtn" class="btn hide">Processing</p>
+            -->
+                
+	        	<p id="testToneBtn" class="btn">Test Tone</p>
 	        </div>
         </div>
         <div id="synth2" class="uitab ">
@@ -51,7 +56,7 @@
         
         </div>
         
-        <div id="dj2" class="uitab active">
+        <div id="dj2" class="uitab">
         	<div id="music" style="position: absolute; top: 5px; left: 5px; width: 70px; height: 200px; border: 1px solid blue;">
         		<h3 style="color: #24A2E2;">Drums</h3>
         		<div class="canvBtn">
@@ -135,7 +140,7 @@
         
        
         <script type="text/javascript" src="coffee/ui.js"></script>
-		<script type="text/javascript" src="coffee/drumPattern.js"></script>
+				<script type="text/javascript" src="coffee/drumPattern.js"></script>
 		
         <script type="text/javascript" src="coffee/SoundBtn.js"></script>
         <script type="text/javascript" src="coffee/audioengine.js"></script>
@@ -143,7 +148,17 @@
         <script type="text/javascript" src="coffee/record.js"></script>
         <script type="text/javascript" src="coffee/play.js"></script>
         <script type="text/javascript" src="coffee/dj.js"></script>
-       
+
+        <!--MPD: I ADDED THIS TO DEBUG:
+				<script type="text/javascript">
+					$(function () {
+						$("#testToneBtn").bind("touchstart", function () {
+							//alert("HELLO");
+							BEATmatic.audioEngine.playTestTone();
+						});
+					});
+				</script>
+        -->
 
     </body>
 </html>
