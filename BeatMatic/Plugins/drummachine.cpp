@@ -58,16 +58,19 @@ void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
         
         if ((int) frameStartTicks < (int) frameEndTicks) {
             int tick = (int) frameEndTicks;
-            int ntick = tick % patternLength;
             
-            for (int voice = 0; voice < NUM_DRUM_VOICES; voice++) {
-                if (pattern[voice][ntick] > 0) {
-                    // we need to queue the appropriate note in the drum machine's synth.
-                    MidiMessage msg = MidiMessage::noteOn(1, voice, (float) 1.0);
-                    int offset = transport.ticksToSamples(tick) - frameStartSamples;
-                    if (offset > 0) {
-                        msg.setTimeStamp(offset);
-                        midiCollector.addMessageToQueue(msg);
+            if (patternLength != 0) {
+                int ntick = tick % patternLength;
+                
+                for (int voice = 0; voice < NUM_DRUM_VOICES; voice++) {
+                    if (pattern[voice][ntick] > 0) {
+                        // we need to queue the appropriate note in the drum machine's synth.
+                        MidiMessage msg = MidiMessage::noteOn(1, voice, (float) 1.0);
+                        int offset = transport.ticksToSamples(tick) - frameStartSamples;
+                        if (offset > 0) {
+                            msg.setTimeStamp(offset);
+                            midiCollector.addMessageToQueue(msg);
+                        }
                     }
                 }
             }

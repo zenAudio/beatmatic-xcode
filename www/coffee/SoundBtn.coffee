@@ -18,7 +18,7 @@ class BEATmatic.SoundBtn
 	
 	#VALUE_MULTIPLIER: Math.min(@WIDTH, @HEIGHT) / 15000
 	RING_THICKNESS: 2#1.4
-	#CX: @WIDTH / 2
+	#CX: @WIDTH / 2     
 	#CY: @HEIGHT / 2
 	MAX_MOVE: 0.8
 	#BEZIER_WIDTH: @radius * 0.05
