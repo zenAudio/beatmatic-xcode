@@ -24,6 +24,11 @@ class rec
 			BEATmatic.audioEngine.recordAudioStop (response) ->
 				console.log "recordAudioStop - uploading"
 				BEATmatic.rec.uploadFile()
+				
+		$("#demoBtn").click =>	
+			BEATmatic.play.setup2()
+			BEATmatic.ui.switch "synth2"
+			BEATmatic.audioEngine.play()
 			
 
 	switchButtons: (buttonToShow) ->
@@ -58,7 +63,7 @@ class rec
 			BEATmatic.audioEngine.applyDrumPattern()
 			console.log "MPD:HTML:onDeviceReady:set drum pattern."
 			
-			BEATmatic.audioEngine.play()
+			#BEATmatic.audioEngine.play()
 		
 	
 	showMicLevel: (percent) ->
@@ -100,9 +105,18 @@ class rec
 		data = decodeURIComponent result.response
 		console.log "SERVER RESPONSE"
 		console.log data
-		drumData = JSON.parse data
-		console.log drumData
+		resultData = JSON.parse data
+		console.log resultData
 		
+		#drumData = 
+		#	bpm: resultData.bpm
+		#	tracks: resultData.tracks
+		
+		BEATmatic.drumPattern.bpm = resultData.bpm
+		BEATmatic.drumPattern.tacks = resultData.tracks
+		BEATmatic.audioEngine.applyDrumPattern()
+		
+		###
 		BEATmatic.audioEngine.drumPattern =
 				bpm: 120
 				tracks: [
@@ -115,8 +129,12 @@ class rec
 					name: "hi-hat"
 					score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
 				]
+		{"project":"Untitled beat","bpm":273,"tracks":[{"name":"kick drum","sample":"kick01.wav","icon":"kickdrum.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"name":"snare drum","sample":"snare01.wav","icon":"snaredrum.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"name":"hi-hat","sample":"hihat01.wav","icon":"hihat.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]}
+		###
+		
 		
 		BEATmatic.ui.switch("synth2")
+		BEATmatic.audioEngine.play()
 		
 	uploadError: (error) =>
 		console.log "uploadError"

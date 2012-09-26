@@ -22,9 +22,7 @@ class ui
 		#	$("#tutorialVideoE")[0].stop()
 		#	@switch "main"
 			
-		$("#demoBtn").click =>	
-			BEATmatic.play.setup2()
-			@switch "synth2"
+		
 			
 		#$("#recordBtn").click =>	
 		#	BEATmatic.play.setup("demo")
@@ -67,7 +65,7 @@ class ui
 					console?.log "entering " + element.id
 					#$("#nav").addClass "fixed"
 		###
-		b1 = new BEATmatic.SoundBtn("c11")
+		b1 = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
 
 	playTutorial: (layer) ->
 		$(".tutor").show()
@@ -107,5 +105,6 @@ class ui
 		#if tabid is "tutorialVideo"
 		#	@playTutorialVideo()
 			#BEATmatic.dj.playVideo()
+			
 $ ->
 	BEATmatic.ui = new ui()

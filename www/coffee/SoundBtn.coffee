@@ -1,10 +1,12 @@
 #@codekit-prepend visdata.coffee
+data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,75,9,0,17,107,0,0,0,88,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1111,920,680,287,0,246,116,361,134,0,210,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] unless data
 
 delay = (ms, func) ->
 	setTimeout func, ms
 
 class BEATmatic.SoundBtn
-
+	@instances: 1
+	instanceID: null
 	#FPS: 40
 	BG_COLOR: "#000000"
 	color: "#24A2E2"
@@ -26,18 +28,22 @@ class BEATmatic.SoundBtn
 	
 	
 	
-	
-	constructor: (btn) ->
+	#div, "btn-drum", "#24A2E2"
+	constructor: (partentDiv, ico, color) ->
+		@instanceID = BEATmatic.SoundBtn.instances++
+		#@instanceID = BEATmatic.SoundBtn.instances
 		
-		"""
-		<div class="canvBtn">
-			<img src="img/btn-drum.png" alt="" style="position: absolute"/>
-			<canvas id="c11"></canvas>
+		@partentDiv = partentDiv.append """
+		<div id="SB#{@instanceID}" class="canvBtn">
+			<img src="img/#{ico}.png" alt="" style="position: absolute"/>
+			<canvas id="SBC#{@instanceID}"></canvas>
 		</div>
 		"""
 		
-		#get a reference to the canvas
-		@c = $('#'+btn)[0].getContext("2d");
+		@color = color if color
+		#@div = div
+		
+		@c = $('#SBC'+@instanceID)[0].getContext("2d");
 		
 		@c.scale 2, 1
 		
@@ -46,15 +52,15 @@ class BEATmatic.SoundBtn
 		@VALUE_MULTIPLIER = Math.min(@WIDTH, @HEIGHT) / 15000
 		@BEZIER_WIDTH = @radius * 0.05
 		
-		#FPS = 40
 		timeout = 0
 		
-		#@initCircle()
+		
+		
+	
+	play: ->
 		for points, i in data
 			timeout = timeout + 50#125#(1000 / FPS)
-			#console.log "draw " + points
 			@timedDrawCircle timeout, points
-			#@timedEndCircle 0
 		
 		@timedEndCircle timeout + 50
 		
