@@ -103,15 +103,11 @@ class BEATmatic.SoundBtn
 			
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
-				@clickHandler()
+				@btnFunction()
 		
 	
 	clickHandler: =>
-		if @playing
-			@stop()
-			
-		else	
-			@play()
+		@toggle()
 			
 		@soundGroup = "synth"
 		@soundID = 0 
