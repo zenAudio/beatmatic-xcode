@@ -44,7 +44,7 @@ int AudioTransport::getCurrPosBars() const {
 
 // Transport
 void AudioTransport::play() {
-    std::cout << "MPD: CPP: AudioTransport::play" << std::endl;
+//    std::cout << "MPD: CPP: AudioTransport::play" << std::endl;
     if (!playing) {
         frameStartSamples = 0;
         frameEndSamples = 0;
@@ -53,7 +53,7 @@ void AudioTransport::play() {
 }
 
 void AudioTransport::stop() {
-    std::cout << "MPD: CPP: AudioTransport::stop" << std::endl;
+//    std::cout << "MPD: CPP: AudioTransport::stop" << std::endl;
     if (playing) {
         playing = false;
     }
@@ -65,7 +65,7 @@ float AudioTransport::getBpm() const {
 }
 
 void AudioTransport::setBpm(float bpm) {
-    std::cout << "MPD: CPP: AudioTransport::setBpm:" << bpm << std::endl;
+//    std::cout << "MPD: CPP: AudioTransport::setBpm:" << bpm << std::endl;
     this->bpm = bpm;
 }
 

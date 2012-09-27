@@ -42,10 +42,11 @@ void LoopMachine::setPreset(const char* const presetFilename) {
 //    std::cout << "MPD: CPP: LoopMachine::setPreset: preset json: " << preset.toString() << std::endl;
     
     auto& obj = *preset.getDynamicObject();
+	jassert(&obj != nullptr);
     
-    std::cout << "MPD: CPP: LoopMachine::setPreset: preset name: " << obj.getProperty("preset").toString()
-    << "; created by: " << obj.getProperty("createdBy").toString() << ", orig bpm: "
-    << obj.getProperty("origBpm").toString() << std::endl;
+//    std::cout << "MPD: CPP: LoopMachine::setPreset: preset name: " << obj.getProperty("preset").toString()
+//    << "; created by: " << obj.getProperty("createdBy").toString() << ", orig bpm: "
+//    << obj.getProperty("origBpm").toString() << std::endl;
     
     fixedBpmTransport.setBpm(obj.getProperty("origBpm"));
 
@@ -54,9 +55,9 @@ void LoopMachine::setPreset(const char* const presetFilename) {
     for (int i = 0; i < groups.size(); i++) {
         var group = groups[i];
         auto& obj = *group.getDynamicObject();
-        String groupName = obj.getProperty("group");
+        String groupName = obj.getProperty("name");
 //        std::cout << "MPD: CPP: LoopMachine::setPreset: adding loops for " << groupName << std::endl;
-        
+		
         var loops = obj.getProperty("loops");
         for (int j = 0; j < loops.size(); j++) {
             File sample = presetDir.getChildFile(loops[j].toString());
@@ -97,21 +98,21 @@ void LoopMachine::toggleLoop(int groupIx, int loopIx) {
         userState[groupIx] = loopIx;
     }
     
-    printState("GUI thread, user", userState);
+//    printState("GUI thread, user", userState);
     
     // now we need to plop a message in the ring buffer
     int ix = ++reserveIx & RINGBUF_SIZE_M1; // == ++reserveIx % RINGBUF_SIZE
     ringbuf[ix][0] = groupIx;
     ringbuf[ix][1] = userState[groupIx];
     while (ix-1 != commitIx.get()) {
-        std::cout << "MPD: CPP: LoopMachine::toggleLoop sleeping, ix=" << ix << ", commitIx:" << commitIx.get() << std::endl;
+//        std::cout << "MPD: CPP: LoopMachine::toggleLoop sleeping, ix=" << ix << ", commitIx:" << commitIx.get() << std::endl;
         Thread::sleep(20);
     }
     printRingBuffer();
     
     ++commitIx;
     
-    std::cout << "MPD: CPP: LoopMachine::toggleLoop done processing." << std::endl;    
+//    std::cout << "MPD: CPP: LoopMachine::toggleLoop done processing." << std::endl;    
 }
 
 void LoopMachine::toggleLoop(String group, int loopIx) {
@@ -130,7 +131,7 @@ int LoopMachine::groupIx(String groupName) {
 void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) {
     if (expectedBufferSize == 0)
         expectedBufferSize = samplesPerBlockExpected;
-    std::cout << "MPD: CPP: LoopMachine::prepareToPlay:samplesPerBlockExpected=" << samplesPerBlockExpected << ", sampleRate=" << sampleRate << std::endl;
+//    std::cout << "MPD: CPP: LoopMachine::prepareToPlay:samplesPerBlockExpected=" << samplesPerBlockExpected << ", sampleRate=" << sampleRate << std::endl;
     
     audioEngine.getTransport().setLatency(0);
     
@@ -604,9 +605,17 @@ void LoopMachine::addLoop(String groupName, File loopFile) {
     } else {
         groupIx = groupNameToIx[groupName];
     }
-    
+	AudioFormatReader* reader;
+    if (loopFile.getFileName().endsWith("wav")) {
+		reader = wavFormat.createReaderFor(new FileInputStream(loopFile), true);
+	} else if (loopFile.getFileName().endsWith("caf")) {
+		reader = cafFormat.createReaderFor(new FileInputStream(loopFile), true);
+	} else {
+		throw AudioEngineException("Unknown loop format.");
+	}
     auto& groupSources = *groupIxToAudioSource[groupIx];
-    auto src = new AudioFormatReaderSource(wavFormat.createReaderFor(new FileInputStream(loopFile), true), true);
+    auto src = new AudioFormatReaderSource(reader, true);
+//	std::cout << src->getTotalLength() << std::endl;
     src->setLooping(true);
     groupSources.add(src);
 }

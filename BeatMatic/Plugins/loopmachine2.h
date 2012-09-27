@@ -97,6 +97,7 @@ private:
     int drainIx;            // only one consumer, the audio thread => no atomic.
     
     WavAudioFormat wavFormat;
+	CoreAudioFormat cafFormat;
     AudioEngineImpl& audioEngine;
 };
 

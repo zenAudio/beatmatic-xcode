@@ -18,7 +18,7 @@ namespace {
 
 CrusherEffect::CrusherEffect(AudioSource* inputSource, bool deleteInputWhenDeleted) : src(inputSource), deleteInputWhenDeleted(deleteInputWhenDeleted), m(2), y(0), cnt(0)
 {
-    std::cout << "MPD: NATIVE: CPP: CrusherEffect::CrusherEffect: m=" << m << std::endl;
+//    std::cout << "MPD: NATIVE: CPP: CrusherEffect::CrusherEffect: m=" << m << std::endl;
 }
 CrusherEffect::~CrusherEffect() {
 }
@@ -29,7 +29,7 @@ void CrusherEffect::setParams(const Parameters& newSettings) {
 	decimation = spow(parms.bits);
     y = 0;
     cnt = 0;
-    std::cout << "MPD: NATIVE: CPP: CrusherEffect::setParams: m=" << m << std::endl;
+//    std::cout << "MPD: NATIVE: CPP: CrusherEffect::setParams: m=" << m << std::endl;
 }
 
 const CrusherEffect::Parameters& CrusherEffect::getParams() const {
