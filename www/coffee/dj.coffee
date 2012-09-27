@@ -42,7 +42,7 @@ class dj
 			btnsBeatA = []
 			A = new BEATmatic.Btn $("#dj-beata"), "btn-beata", "#CACACA", ->
 				for btn in btnsBeatA
-					btn.toggle()
+					btn.btnFunction()
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
@@ -59,7 +59,7 @@ class dj
 			btnsBeatB = []
 			B = new BEATmatic.Btn $("#dj-beatb"), "btn-beatb", "#CACACA", ->
 				for btn in btnsBeatB
-					btn.toggle()
+					btn.btnFunction()
 			
 			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917"
 			@btns.push btn
