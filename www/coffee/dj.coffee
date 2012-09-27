@@ -8,17 +8,86 @@ class dj
 		
 	setup: ->
 		unless @isSetUp
+			
+			#drums
+			@addGroup "dj-drums", 5, 10, 2
+			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2"
+			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1"
+			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"
+			
+			@addGroup "dj-beata", 100, 10, 1
+			btnsBeatA = []
+			@btns.push new BEATmatic.Btn $("#dj-beata"), "btn-beata", "#CACACA", ->
+				for btn in btnsBeatA
+					btn.toggle()
+			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917"
+			@btns.push btn
+			btnsBeatA.push btn
+			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26"
+			@btns.push btn
+			btnsBeatA.push btn
+			@addHeadline $("#dj-beata"), "Scene A", "#CACACA"
+			
+			@addGroup "dj-beatb", 100, 80, 1
+			btnsBeatB = []
+			@btns.push new BEATmatic.Btn $("#dj-beatb"), "btn-beatb", "#CACACA", ->
+				for btn in btnsBeatB
+					btn.toggle()
+			
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917"
+			@btns.push btn
+			btnsBeatB.push btn
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26"
+			@btns.push btn
+			btnsBeatB.push btn
+			@addHeadline $("#dj-beatb"), "Scene B", "#CACACA"
+			
+			@addGroup "dj-perc", 5, 165, 1
+			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933"
+			@addHeadline $("#dj-perc"), "Percussion", "#339933"
+			
+			@addGroup "dj-fill", 5, 232, 1
+			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8"
+			@addHeadline $("#dj-fill"), "DrumFill", "#E671B8"
+			
+			@addGroup "dj-voc", 100, 165, 2
+			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9"
+			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9"
+			@addHeadline $("#dj-voc"), "Vocals", "#00ABA9"
+			
+			@addGroup "dj-ear", 195, 165, 2
+			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400"
+			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400"
+			@addHeadline $("#dj-ear"), "EarCandy", "#E51400"
+			
+			@addGroup "dj-fx", 290, 165, 2
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
+			@addHeadline $("#dj-fx"), "EarCandy", "#AD31FF"
+			
+			@addGroup "dj-xx", 385, 10, 4
+			@btns.push new BEATmatic.Btn $("#dj-xx"), "btn-back", "#CACACA", ->
+				BEATmatic.ui.switch "main"
+			@btns.push new BEATmatic.SoundBtn $("#dj-xx"), "btn-drums", "#24A2E2"
+			@btns.push new BEATmatic.SoundBtn $("#dj-xx"), "btn-drums", "#24A2E2"
+			@btns.push new BEATmatic.SoundBtn $("#dj-xx"), "btn-fwd", "#24A2E2"
+			@addHeadline $("#dj-xx"), "todo", "#24A2E2"
+			
+			###
 			for x in [1..10]
 				@btns.push new BEATmatic.SoundBtn $("#music2"), "btn-drum", "#24A2E2"
 			@addHeadline $("#music2"), "blue!", "#24A2E2"
 			
 			@btns.push new BEATmatic.SoundBtn $("#music"), "btn-drum", "#FF0097"
 			@addHeadline $("#music"), "magenta!", "#FF0097"
-			
+			###
 			@isSetUp = true
 			
-		@playAll()
-		
+		#@playAll()
+	
+	addGroup: (id, x, y, rows) ->
+		$("#dj").append """<div id="#{id}" style="position: absolute; top: #{x}px; left: #{y}px; width: #{rows * 67}px; border: 0px solid blue;"></div>"""
+	
 	addHeadline: (div, text, color) ->			
 		div.append """
 		<div class="heading" style="border-bottom: 1px solid #{color};">

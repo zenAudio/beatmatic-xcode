@@ -4,6 +4,44 @@ data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,7
 
 retina = (if window.devicePixelRatio > 1 then "@2x" else "")
 
+class BEATmatic.Btn
+	@instances: 1
+	instanceID: null
+	color: "#24A2E2"
+	playing: false
+	
+	constructor: (partentDiv, ico, color, btnFunction) ->
+		@instanceID = BEATmatic.SoundBtn.instances++
+		if btnFunction
+			@btnFunction = btnFunction
+		else
+			@btnFunction = @clickHandler
+		
+		@partentDiv = partentDiv.append """
+		<div id="SB#{@instanceID}" class="canvBtn #{ico}" style="background-image: url(img/#{ico}#{retina}.png);">
+			<canvas id="SBC#{@instanceID}"></canvas>
+		</div>
+		"""
+		
+		@color = color if color
+		
+		$("#SBC#{@instanceID}").swipe
+			
+			click: (e, target) =>
+				#BEATmatic.dj.clickHandler(e)
+				@btnFunction()
+	
+	clickHandler: =>
+		if @playing
+			@stop()
+			@playing = false
+		else	
+			@play()
+			@playing = true
+			
+		@soundGroup = "synth"
+		@soundID = 0 
+
 class BEATmatic.SoundBtn
 	@instances: 1
 	instanceID: null
@@ -27,14 +65,17 @@ class BEATmatic.SoundBtn
 	#div, color, sample, playFunction?
 	ms: 125
 	timeout: false
+	playing: false
 	
 	
 	#div, "btn-drum", "#24A2E2"
-	constructor: (partentDiv, ico, color, soundGroup, soundID) ->
+	constructor: (partentDiv, ico, color, btnFunction) ->
 		#@retina = window.devicePixelRatio > 1 ? "@2x" : ""
 		@instanceID = BEATmatic.SoundBtn.instances++
-		@soundGroup = soundGroup if soundGroup
-		@soundID = soundID if soundID
+		if btnFunction
+			@btnFunction = btnFunction
+		else
+			@btnFunction = @clickHandler
 		#@instanceID = BEATmatic.SoundBtn.instances
 		
 		@partentDiv = partentDiv.append """
@@ -42,6 +83,7 @@ class BEATmatic.SoundBtn
 			<canvas id="SBC#{@instanceID}"></canvas>
 		</div>
 		"""
+		@length = data.length
 		
 		@color = color if color
 		#@div = div
@@ -65,12 +107,19 @@ class BEATmatic.SoundBtn
 		
 	
 	clickHandler: =>
+		if @playing
+			@stop()
+			
+		else	
+			@play()
+			
 		@soundGroup = "synth"
 		@soundID = 0 
 		
 		try
 			console.log "Playing sample in group #{@soundGroup} with ID #{@soundID}"
-			BEATmatic.audioEngine.toggleLoop @soundGroup, @soundID
+			#BEATmatic.audioEngine.toggleLoop @soundGroup, @soundID
+			BEATmatic.audioEngine.toggleLoop("Bass", 0)
 		catch e
 			console.log "Failed playing sample in group #{@soundGroup} with ID #{@soundID}"
 			console.log e.message
@@ -78,33 +127,39 @@ class BEATmatic.SoundBtn
 	delay: (ms, func) ->
 		setTimeout func, ms	
 	
+	toggle: =>
+		if @playing
+			@stop()
+		else
+			@play()
+	
 	play: ->
-		@playOne(0)
-		###
-		timeout = 0
-		for points, i in data
-			timeout = timeout + 125#(1000 / FPS)
-			@timedDrawCircle timeout, points
+		unless @playing
+			@playOne(-1)
+			@playing = true
 		
-		@timedEndCircle timeout + 50
-		###
-		
-	playOne: (i = 0) ->
+	playOne: (i) =>
 		i++
 		@drawCircle data[i]
 		
-		unless i is data.lenth
+		unless i is (@length - 1)
+			#console.log "playing "+i
+			#console.log "of "+data[i]
+			#console.log "of "+data.length
+			
 			@timeout = @delay @ms, =>
 				@playOne i
 		else
 			#finish
+			#console.log "finished!!!"
 			@timeout = @delay @ms, =>
 				@clearCircle()
 	
 	stop: ->
 		clearTimeout @timeout
 		@clearCircle()
-	
+		@playing = false
+	###
 	timedDrawCircle: (timeout, todo) ->
 		#console.log timeout
 		@delay timeout, =>
@@ -114,8 +169,9 @@ class BEATmatic.SoundBtn
 	timedEndCircle: (timeout) ->
 		@delay timeout, =>
 			@clearCircle()
-	
+	###
 	clearCircle: ->
+		@playing = false
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
 		
 		@c.lineWidth = @RING_THICKNESS
@@ -129,7 +185,7 @@ class BEATmatic.SoundBtn
 		@c.arc(@CX, @CY, @radius, 0, Math.PI*2, true);
 		#@c.lineWidth = 10
 		@c.stroke();
-	
+	###
 	initCircle: (circumference) ->
 		#circumference = 1 - (data[0].t - now) / INIT_TIME
 		#circumference = Math.min(1, circumference)
@@ -141,7 +197,7 @@ class BEATmatic.SoundBtn
 		@c.beginPath()
 		@c.arc @CX, @CY, @radius - @RING_THICKNESS / 2, Math.PI / 2 * circumference, Math.PI * 2 * circumference + Math.PI / 2 * circumference, false
 		@c.stroke()	
-		
+	###	
 	drawCircle: (points) ->
 		#console.log "drawCircle::" + points
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
