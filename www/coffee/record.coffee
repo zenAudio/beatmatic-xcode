@@ -45,7 +45,7 @@ class rec
 		
 		#console.log "deviceready"
 
-		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
+		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/loopmachine/betapak/preset.json", =>
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
 				@showMicLevel level
 

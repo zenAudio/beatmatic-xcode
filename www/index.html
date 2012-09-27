@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <link rel="stylesheet" type="text/css" href="css/retina.css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" />
 
-        <title>BEATmatic</title>
+        <title>BETmatic</title>
     </head>
     <body>
     <div id="ui" class="ui">
@@ -34,7 +34,7 @@
         </div>
         <div id="synth" class="uitab ">
         	<div data-role="header" data-theme="b" data-position="inline" class="ui-header ui-bar-b" role="banner">
-				<h1 class="ui-title" role="heading" aria-level="1">correct beat</h1>
+				<h1 class="ui-title" role="heading" aria-level="1">Edit beat</h1>
 				<a href="#" id="sback" data-rel="back" data-icon="arrow-l" data-theme="b" class="ui-btn-left ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Back</span><span class="ui-ui-icon--l ui--shadow">&nbsp;</span></span></a>
 				<a href="#" id="snext" data-theme="b" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Next</span></span></a>
 			</div>
@@ -55,6 +55,10 @@
         	</div>
         
         </div>-->
+
+				<div id="simpledj" class="uitab">
+					<input type="button" id="djTest" value="Bass A" />
+				</div>
         
         <div id="dj" class="uitab active">
         	<div id="music" style="position: absolute; top: 5px; left: 5px; width: 67px; height: 200px; border: 1px solid blue;">
@@ -139,16 +143,13 @@
         <script type="text/javascript" src="coffee/play.js"></script>
         <script type="text/javascript" src="coffee/dj.js"></script>
 
-        <!--MPD: I ADDED THIS TO DEBUG:
 				<script type="text/javascript">
 					$(function () {
-						$("#testToneBtn").bind("touchstart", function () {
-							//alert("HELLO");
-							BEATmatic.audioEngine.playTestTone();
+						$("#djTest").bind("touchstart", function () {
+							BEATmatic.audioEngine.toggleLoop("Bass", 0);
 						});
 					});
 				</script>
-        -->
 
     </body>
 </html>

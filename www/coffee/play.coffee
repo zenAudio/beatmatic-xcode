@@ -14,7 +14,7 @@ class play
 	constructor: ->
 		
 		$("#snext").click =>
-			BEATmatic.ui.switch("dj")
+			BEATmatic.ui.switch("simpledj")
 			false
 		
 		$("#sback").click =>

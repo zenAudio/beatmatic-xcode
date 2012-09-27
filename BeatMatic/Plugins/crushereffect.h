@@ -20,7 +20,7 @@ public:
         Parameters() {
             rate = 0.5;
             bits = 6;
-			std::cout << "MPD: NATIVE: CPP: CrusherEffect::Parameters::Parameters: rate=" << rate << "; bits=" << bits << std::endl;
+//			std::cout << "MPD: NATIVE: CPP: CrusherEffect::Parameters::Parameters: rate=" << rate << "; bits=" << bits << std::endl;
         }
         float rate;
         int bits;

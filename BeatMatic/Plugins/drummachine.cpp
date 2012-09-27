@@ -98,7 +98,7 @@ void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
 }
 
 void DrumMachine::setDrumPattern(const char *const patternJson) {
-    std::cout << "MPD: CPP: DrumMachine::setDrumPattern: pattern is " << patternJson << std::endl;
+//    std::cout << "MPD: CPP: DrumMachine::setDrumPattern: pattern is " << patternJson << std::endl;
     var pattern = JSON::parse(patternJson);
     auto& obj = *(pattern.getDynamicObject());
     
@@ -136,11 +136,11 @@ void DrumMachine::setDrumPattern(const char *const patternJson) {
     
     float bpm = obj.getProperty("bpm");
     audioEngine.getTransport().setBpm(bpm);
-    std::cout << "MPD: CPP: DrumMachine::setDrumPattern: set bpm to " << bpm << std::endl;
+//    std::cout << "MPD: CPP: DrumMachine::setDrumPattern: set bpm to " << bpm << std::endl;
 }
 
 void DrumMachine::setDrumPreset(const char * const presetFilename) {
-    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: setting drum preset to: " << presetFilename << std::endl;
+//    std::cout << "MPD: CPP: DrumMachine::setDrumPreset: setting drum preset to: " << presetFilename << std::endl;
     
     File presetFile(presetFilename);
     File presetDir = presetFile.getParentDirectory();

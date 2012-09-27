@@ -1,0 +1,36 @@
+{
+  "preset": "Beta Pak",
+  "createdBy": "Beatmatic",
+  "origBpm": 120,
+  "preview": "Preview"
+  "groups": [
+    {
+      "name": "Bass",
+      "assets": ["Bassline_A.wav" /*, "Bassline_A.caf", "Bassline_D.caf"*/]
+    },
+    {
+      "name": "Ear Candy",
+      "assets": ["Ear_Candy_C.caf", "Ear_Candy_E.caf"]
+    },
+    {
+      "name": "Lead",
+      "loops": ["Melodic_A.caf", "Melodic_D.caf"]
+    },
+    {
+      "name": "Pad",
+      "loops": ["Pads_A.caf", "Pads_D.caf"]
+    },
+    {
+      "name": "Percussion",
+      "loops": ["Percussion_A.caf"]
+    },
+    {
+      "name": "Fills",
+      "loops": ["Percussion_F.caf"]
+    },
+    {
+      "name": "Vocals",
+      "loops": ["Vocals_B.caf", "Vocals_E.caf"]
+    },
+  ]
+} 

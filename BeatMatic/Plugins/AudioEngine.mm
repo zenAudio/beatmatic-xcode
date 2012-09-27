@@ -17,7 +17,7 @@
 - (void) initialise: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     cursorCallbackId = nil;
     
-	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Reading drum preset.");
+//	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Reading drum preset.");
     NSString* callbackID = [arguments pop];
     [callbackID retain];
     
@@ -32,7 +32,7 @@
     
     NSString* path = [NSString stringWithFormat:@"%@/%@", basePath, drumMachinePresetPath];
     [path retain];
-    NSLog(@"MPD: NATIVE:AudioEngine::initialize drum machine preset from %@.", path);
+//    NSLog(@"MPD: NATIVE:AudioEngine::initialize drum machine preset from %@.", path);
     if ([[NSFileManager defaultManager] fileExistsAtPath : path])
     {
         engine.setDrumPreset([path UTF8String]);
@@ -41,14 +41,14 @@
     
     path = [NSString stringWithFormat:@"%@/%@", basePath, looperPresetPath];
     [path retain];
-    NSLog(@"MPD: NATIVE:AudioEngine::initialize looper preset from %@.", path);
+//    NSLog(@"MPD: NATIVE:AudioEngine::initialize looper preset from %@.", path);
     if ([[NSFileManager defaultManager] fileExistsAtPath : path])
     {
         engine.setLooperPreset([path UTF8String]);
     }
     [path release];
     
-    NSLog(@"MPD: NATIVE: AudioEngine::initialize: Initializing audio engine.");
+//    NSLog(@"MPD: NATIVE: AudioEngine::initialize: Initializing audio engine.");
     engine.init(self);
     
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -66,7 +66,7 @@
 }
 
 - (void) playTestTone: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-	NSLog(@"MPD: NATIVE: Playing test tone");
+//	NSLog(@"MPD: NATIVE: Playing test tone");
     engine.playTestTone();
 }
 
@@ -77,7 +77,7 @@
     NSString *drumSound = [arguments pop];
     [drumSound retain];
     
-	NSLog(@"MPD: NATIVE: Auditioning drum: %@", drumSound);
+//	NSLog(@"MPD: NATIVE: Auditioning drum: %@", drumSound);
     engine.auditionDrum(String([drumSound UTF8String]));
     
     [drumSound release];
@@ -91,7 +91,7 @@
     NSString *patternJson = [arguments pop];
     [patternJson retain];
     
-	NSLog(@"MPD: NATIVE: AudioEngine::setDrumPattern: setting drum pattern to: %@", patternJson);
+//	NSLog(@"MPD: NATIVE: AudioEngine::setDrumPattern: setting drum pattern to: %@", patternJson);
     engine.setDrumPattern([patternJson UTF8String]);
     
     // the pattern is sent simply in the form of JSON for now.
@@ -100,12 +100,12 @@
 }
 
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-	NSLog(@"MPD: NATIVE: AudioEngine::play");
+//	NSLog(@"MPD: NATIVE: AudioEngine::play");
     engine.getTransport().play();
 }
 
 - (void) stop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-	NSLog(@"MPD: NATIVE: AudioEngine::stop");
+//	NSLog(@"MPD: NATIVE: AudioEngine::stop");
     engine.getTransport().stop();
 } 
 
@@ -116,7 +116,7 @@
     cursorCallbackId = [arguments pop];
     [cursorCallbackId retain];  // do we need this?
     
-	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
+//	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
     engine.setCursorUpdateCallback([cursorCallbackId UTF8String]);
     
     [cursorCallbackId release];
@@ -126,7 +126,7 @@
     NSString* callbackId = [arguments pop];
     [callbackId retain];  // do we need this?
     
-	NSLog(@"MPD: NATIVE: Obj-c: Setting audio input level callback.");
+//	NSLog(@"MPD: NATIVE: Obj-c: Setting audio input level callback.");
     engine.getInputMeter().setPhoneGapCallbackId([callbackId UTF8String]);
     
     [callbackId release];
@@ -139,7 +139,7 @@
     NSString *patternJson = [arguments pop];
     [patternJson retain];
     
-	NSLog(@"MPD: NATIVE: AudioEngine::setDrumPattern: setting drum pattern to: %@", patternJson);
+//	NSLog(@"MPD: NATIVE: AudioEngine::setDrumPattern: setting drum pattern to: %@", patternJson);
     engine.setDrumPattern([patternJson UTF8String]);
     
     // the pattern is sent simply in the form of JSON for now.
@@ -160,7 +160,7 @@
     int ix = [oix intValue];
     [oix release];
     
-	NSLog(@"MPD: NATIVE: AudioEngine::toggleLoop: setting to: %@, %d", group, ix);
+//	NSLog(@"MPD: NATIVE: AudioEngine::toggleLoop: setting to: %@, %d", group, ix);
     engine.toggleLoop([group UTF8String], ix);
     
     [group release];
@@ -187,7 +187,7 @@
     NSString *filename = [arguments pop];
     [filename retain];
     
-    NSLog(@"MPD: NATIVE: AudioEngine::: recording audio to %@", filename);
+//    NSLog(@"MPD: NATIVE: AudioEngine::: recording audio to %@", filename);
     engine.recordAudioStart([filename UTF8String]);
     
     [filename release];
@@ -197,7 +197,7 @@
     NSString* callbackId = [arguments pop];
     [callbackId retain];
     
-    NSLog(@"MPD: NATIVE: AudioEngine::: recording audio STOP, callback id: %@",callbackId);
+//    NSLog(@"MPD: NATIVE: AudioEngine::: recording audio STOP, callback id: %@",callbackId);
     engine.recordAudioStop([callbackId UTF8String]);
     
     [callbackId release];
@@ -210,7 +210,7 @@
     NSString *filename = [arguments pop];
     [filename retain];
     
-    NSLog(@"MPD: NATIVE: AudioEngine::: playing audio recording %@", filename);
+//    NSLog(@"MPD: NATIVE: AudioEngine::: playing audio recording %@", filename);
     engine.playSample([filename UTF8String], [callbackId UTF8String]);
    
     [filename release];
@@ -220,7 +220,7 @@
 - (void) stopSample:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
     [arguments pop];
     
-    NSLog(@"MPD: NATIVE: AudioEngine::: stopping audio sample playback.");
+//    NSLog(@"MPD: NATIVE: AudioEngine::: stopping audio sample playback.");
     engine.stopSample();
 }
 
@@ -237,7 +237,7 @@
 }
 
 - (void) cursorCb {
-    NSLog(@"HALLO");
+//    NSLog(@"HALLO");
 }
 
 void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const char* const jsonMsg) {
@@ -255,7 +255,7 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     
     NSString* opts = [arguments pop];
     [opts retain];
-    NSLog(@"MPD: NATIVE: Obj-C: setMasterFilter: %@", opts);
+//    NSLog(@"MPD: NATIVE: Obj-C: setMasterFilter: %@", opts);
     var filtParms = JSON::parse(String([opts UTF8String]));
     String type = filtParms["type"];
     
@@ -302,7 +302,7 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     
     NSString* opts = [arguments pop];
     [opts retain];
-    NSLog(@"MPD: NATIVE: Obj-C: setMasterVerb: %@", opts);
+//    NSLog(@"MPD: NATIVE: Obj-C: setMasterVerb: %@", opts);
     
     var parms = JSON::parse(String([opts UTF8String]));
     
@@ -327,7 +327,7 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     NSString* optsObj = [arguments pop];
     [optsObj retain];
     
-    NSLog(@"MPD: NATIVE: Obj-c: AudioEngine::setMasterCrusher");
+//    NSLog(@"MPD: NATIVE: Obj-c: AudioEngine::setMasterCrusher");
     auto& crusher = *engine.getMixer().getMasterCrusher();
     var opts = JSON::parse(String([optsObj UTF8String]));
     
