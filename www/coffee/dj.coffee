@@ -1,9 +1,24 @@
 class dj
+	btns: []
+	
 	constructor: ->
 		""
-	
-
-
+		
+	setup: ->
+		for x in [1..9]
+			@btns.push new BEATmatic.SoundBtn $("#music2"), "btn-drum", "#24A2E2"
+		#@btns
+		@playAll()			
+			
+	playAll: ->
+		for btn in @btns
+			btn.play()
+		
+		
+	stop: ->
+		for btn in @btns
+			btn.stop()
+		console.log "BTNS stopped"
 
 class djOLD
 	swipeSampleLayover: false
@@ -273,4 +288,4 @@ class djOLD
 	
 
 $ ->
-	BEATmatic.dj = new djOLD()
+	BEATmatic.dj = new dj()

@@ -48,15 +48,18 @@ class ui
 			BEATmatic.audioEngine.stop()
 			BEATmatic.rec.startLevelMeter()
 			BEATmatic.play.stopHighlight()
+			BEATmatic.dj.stop()
 		
 		if tabid is "synth"
 			BEATmatic.play.setup()
 			BEATmatic.rec.stopLevelMeter()
 			BEATmatic.audioEngine.play()
+			BEATmatic.dj.stop()
 			
 		
 		if tabid is "dj"
 			BEATmatic.play.stopHighlight()
+			BEATmatic.dj.setup()
 
 			
 $ ->

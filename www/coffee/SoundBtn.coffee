@@ -23,7 +23,8 @@ class BEATmatic.SoundBtn
 	#BEZIER_WIDTH: @radius * 0.05
 	
 	#div, color, sample, playFunction?
-	
+	ms: 125
+	timeout: false
 	
 	
 	#div, "btn-drum", "#24A2E2"
@@ -58,13 +59,27 @@ class BEATmatic.SoundBtn
 		setTimeout func, ms	
 	
 	play: ->
+		@playOne(0)
+		###
 		timeout = 0
 		for points, i in data
 			timeout = timeout + 125#(1000 / FPS)
 			@timedDrawCircle timeout, points
 		
 		@timedEndCircle timeout + 50
+		###
 		
+	playOne: (i = 0) ->
+		i++
+		@drawCircle data[i]
+		
+		unless i is data.lenth
+			@timeout = @delay @ms, =>
+				@playOne i
+	
+	stop: ->
+		clearTimeout @timeout
+		@clearCircle()
 	
 	timedDrawCircle: (timeout, todo) ->
 		#console.log timeout

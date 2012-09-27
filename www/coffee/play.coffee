@@ -141,7 +141,7 @@ class play
 				container: $("#bars")
 				
 				onEnter: (element, position) ->
-					console?.log "entering " + element.id[4...]
+					#console?.log "entering " + element.id[4...]
 					#console?.log element
 					#$("body").css "background-color", element.id
 					BEATmatic.play.highlightScroll element.id[4...]
