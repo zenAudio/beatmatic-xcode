@@ -2,6 +2,8 @@
 
 data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,75,9,0,17,107,0,0,0,88,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1111,920,680,287,0,246,116,361,134,0,210,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] unless data
 
+retina = (if window.devicePixelRatio > 1 then "@2x" else "")
+
 class BEATmatic.SoundBtn
 	@instances: 1
 	instanceID: null
@@ -28,13 +30,15 @@ class BEATmatic.SoundBtn
 	
 	
 	#div, "btn-drum", "#24A2E2"
-	constructor: (partentDiv, ico, color) ->
+	constructor: (partentDiv, ico, color, soundGroup, soundID) ->
+		#@retina = window.devicePixelRatio > 1 ? "@2x" : ""
 		@instanceID = BEATmatic.SoundBtn.instances++
+		@soundGroup = soundGroup if soundGroup
+		@soundID = soundID if soundID
 		#@instanceID = BEATmatic.SoundBtn.instances
 		
 		@partentDiv = partentDiv.append """
-		<div id="SB#{@instanceID}" class="canvBtn">
-			<img src="img/#{ico}.png" alt="" style="position: absolute"/>
+		<div id="SB#{@instanceID}" class="canvBtn #{ico}" style="background-image: url(img/#{ico}#{retina}.png);">
 			<canvas id="SBC#{@instanceID}"></canvas>
 		</div>
 		"""
@@ -51,9 +55,25 @@ class BEATmatic.SoundBtn
 		@VALUE_MULTIPLIER = Math.min(@WIDTH, @HEIGHT) / 15000
 		@BEZIER_WIDTH = @radius * 0.05
 		
-		
-		
 		@clearCircle()
+		
+		$("#SBC#{@instanceID}").swipe
+			
+			click: (e, target) =>
+				#BEATmatic.dj.clickHandler(e)
+				@clickHandler()
+		
+	
+	clickHandler: =>
+		@soundGroup = "synth"
+		@soundID = 0 
+		
+		try
+			console.log "Playing sample in group #{@soundGroup} with ID #{@soundID}"
+			BEATmatic.audioEngine.toggleLoop @soundGroup, @soundID
+		catch e
+			console.log "Failed playing sample in group #{@soundGroup} with ID #{@soundID}"
+			console.log e.message
 		
 	delay: (ms, func) ->
 		setTimeout func, ms	
@@ -76,6 +96,10 @@ class BEATmatic.SoundBtn
 		unless i is data.lenth
 			@timeout = @delay @ms, =>
 				@playOne i
+		else
+			#finish
+			@timeout = @delay @ms, =>
+				@clearCircle()
 	
 	stop: ->
 		clearTimeout @timeout

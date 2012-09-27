@@ -1,14 +1,30 @@
 class dj
 	btns: []
+	isSetUp: false
 	
 	constructor: ->
 		""
+		@setup()
 		
 	setup: ->
-		for x in [1..9]
-			@btns.push new BEATmatic.SoundBtn $("#music2"), "btn-drum", "#24A2E2"
-		#@btns
-		@playAll()			
+		unless @isSetUp
+			for x in [1..10]
+				@btns.push new BEATmatic.SoundBtn $("#music2"), "btn-drum", "#24A2E2"
+			@addHeadline $("#music2"), "blue!", "#24A2E2"
+			
+			@btns.push new BEATmatic.SoundBtn $("#music"), "btn-drum", "#FF0097"
+			@addHeadline $("#music"), "magenta!", "#FF0097"
+			
+			@isSetUp = true
+			
+		@playAll()
+		
+	addHeadline: (div, text, color) ->			
+		div.append """
+		<div class="heading" style="border-bottom: 1px solid #{color};">
+		  <h1 style="color: #{color};">#{text}</h1>
+		</div>
+		"""
 			
 	playAll: ->
 		for btn in @btns

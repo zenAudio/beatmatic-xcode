@@ -68,13 +68,36 @@ canvas {
 	float: left; 
 	width: 66px; 
 	height: 66px;
+	background-repeat:no-repeat;
 }
 
+@media (-webkit-min-device-pixel-ratio : 1.5), (min-device-pixel-ratio : 1.5) {
+	.canvBtn {
+		background-size: 100%;
+	}
+}
 
+//.heading:before { content: "."; float:right; padding-left:6ex; visibility:hidden; }
+.heading {
+  text-align: center;
+  border-bottom: 1px solid #d5d5d5;
+  clear: left;
+  height: 7px;
+}
 
-#table {display: table;}
-.row {display: table-row;}
-.cell {display: table-cell;}
+.heading h1 {
+  display: inline-block;
+  //font-family:Georgia, "Times New Roman", Times, serif;
+  //font-weight:100;
+  //font-size:36px;
+  position: relative;
+  //top:18px;
+  background: #fff;
+  padding: 0 10px;
+  font-size: 0.8em;
+  //display: block;
+  //float: left
+}
 
 .obars {
 	//overflow: none;
