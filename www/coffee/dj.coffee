@@ -1,12 +1,11 @@
-class dj2
-	constructor
+class dj
+	constructor: ->
+		""
 	
 
 
-$ ->
-	BEATmatic.dj2 = new dj2()
 
-class dj
+class djOLD
 	swipeSampleLayover: false
 	swipeVolumeLayover: false
 	
@@ -153,6 +152,8 @@ class dj
 			
 		
 			swipeStatus: (e, phase, direction, distance) =>
+				console.log direction
+				console.log distance
 				#swipeCount++
 				if phase is "cancel" or phase is "end"
 					@direction = false
@@ -272,4 +273,4 @@ class dj
 	
 
 $ ->
-	BEATmatic.dj = new dj()
+	BEATmatic.dj = new djOLD()

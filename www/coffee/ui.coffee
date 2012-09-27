@@ -13,65 +13,10 @@ class ui
 			
 		$("#tutorialBtn").click =>
 			@playTutorial()
-			#@switch "tutorialVideo"
-			#$("#tutorialVideoE")[0].play()
-			#$("video").bind "ended", =>
-			#   @switch "main"
-		
-		#$("#tutorialVideoE").click =>
-		#	$("#tutorialVideoE")[0].stop()
-		#	@switch "main"
 			
+		#delay 300, =>
+		#	@switch "synth"
 		
-			
-		#$("#recordBtn").click =>	
-		#	BEATmatic.play.setup("demo")
-		#	BEATmatic.ui.switch "synth2"
-			
-			
-		###
-		$(".color").each (i) ->
-			position = $(this).position()
-			console.log position
-			console.log "min: " + position.top + " / max: " + parseInt(position.top + $(this).height())
-			$(this).scrollspy
-				min: position.top
-				max: position.top + $(this).height()
-				onEnter: (element, position) ->
-					console.log "entering " + element.id  if console
-					$("body").css "background-color", element.id
-	
-				onLeave: (element, position) ->
-					console.log "leaving " + element.id  if console
-		###
-		
-		
-		#	$('body').css('background-color','#eee');
-		###
-		$("#bars").scrollspy
-			#min: $("#bars").offset().top
-			onEnter: (element, position) ->
-				console?.log "2entering " + element.id
-				#$("#nav").addClass "fixed"
-		
-		#XXXX
-		#bar
-		$(".wrapper").each (i) ->
-			position = $(this).position()
-			console.log position
-			$("#bars").scrollspy
-				#min: $("#bars").offset().top
-				onEnter: (element, position) ->
-					console?.log "entering " + element.id
-					#$("#nav").addClass "fixed"
-		###
-		#btn = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
-		#btn.play()
-		###
-		for x in [1..9]
-			btn = new BEATmatic.SoundBtn($("#music2"), "btn-drum", "#24A2E2")
-			btn.play()
-		###
 
 	playTutorial: (layer) ->
 		$(".tutor").show()
@@ -90,12 +35,6 @@ class ui
 				$("#tutor"+nr).css("opacity", 1)
 			else
 				$("#tutor"+nr).css("opacity", 0.5)		
-	
-	#playTutorialVideo: ->
-	#	DJvideo = $("#tutorialVideoE")[0]
-		#$("#DJvideo").prop 'muted', true
-		#DJvideo.playbackRate = 1.2
-	#	DJvideo.play()	
 
 	switch: (tabid) ->
 		for tab in $("#ui").children()
@@ -112,19 +51,13 @@ class ui
 		
 		if tabid is "synth"
 			BEATmatic.play.setup()
-			#BEATmatic.play.Highlight()
 			BEATmatic.rec.stopLevelMeter()
 			BEATmatic.audioEngine.play()
 			
 		
 		if tabid is "dj"
 			BEATmatic.play.stopHighlight()
-			""
-			#BEATmatic.dj2.setup()
-		
-		#if tabid is "tutorialVideo"
-		#	@playTutorialVideo()
-			#BEATmatic.dj.playVideo()
+
 			
 $ ->
 	BEATmatic.ui = new ui()

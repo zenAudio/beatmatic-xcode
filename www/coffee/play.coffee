@@ -22,8 +22,12 @@ class play
 			false
 		
 		
-		$("#bars").click (e) =>
-			@clickOnHit(e)# unless @noClick
+		#$("#bars").click (e) =>
+		#	@clickOnHit(e)# unless @noClick
+			
+		$("#bars").swipe			
+			click: (e, target) =>
+				@clickOnHit(e)
 		###
 		$("#bars").bind 'touchstart',  (e) =>
 			@noClick = true

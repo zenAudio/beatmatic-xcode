@@ -46,19 +46,11 @@ class rec
 		#console.log "deviceready"
 
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
-
-			
-
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
 				@showMicLevel level
 
-			#console.log "MPD:HTML:onDeviceReady: initialized drum preset."
-			#console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
 			BEATmatic.audioEngine.applyDrumPattern()
-			#console.log "MPD:HTML:onDeviceReady:set drum pattern."
-			
-			#BEATmatic.audioEngine.play()
-	
+				
 	startLevelMeter: =>
 		if @deviceready
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
@@ -103,38 +95,18 @@ class rec
 		
 	uploadSuccess: (result) =>
 		console.log "uploadSuccess"
-		console.log result
+		#console.log result
 		data = decodeURIComponent result.response
 		console.log "SERVER RESPONSE"
-		console.log data
+		#console.log data
 		resultData = JSON.parse data
 		console.log resultData
 		
-		#drumData = 
-		#	bpm: resultData.bpm
-		#	tracks: resultData.tracks
 		
 		BEATmatic.drumPattern.bpm = resultData.bpm
 		BEATmatic.drumPattern.tacks = resultData.tracks
 		BEATmatic.audioEngine.applyDrumPattern()
-		
-		###
-		BEATmatic.audioEngine.drumPattern =
-				bpm: 120
-				tracks: [
-					name: "kick drum"
-					score: [100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 100]
-				,
-					name: "snare drum"
-					score: [0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0]
-				,
-					name: "hi-hat"
-					score: [0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0, 100, 0]
-				]
-		{"project":"Untitled beat","bpm":273,"tracks":[{"name":"kick drum","sample":"kick01.wav","icon":"kickdrum.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"name":"snare drum","sample":"snare01.wav","icon":"snaredrum.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"name":"hi-hat","sample":"hihat01.wav","icon":"hihat.png","score":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]}
-		###
-		
-		
+				
 		BEATmatic.ui.switch("synth")
 		
 		
@@ -144,16 +116,13 @@ class rec
 		console.log error
 		alert "Error uploading file to get processed. No Network?"
 		
-	# onError Callback 
-	#
+		
 	onError: (error) ->
 		alert "code: " + error.code + "\n" + "message: " + error.message + "\n"
 	
-	# Set audio position
-	# 
+	
 	setAudioPosition: (position) ->
 		document.getElementById("audio_position").innerHTML = position
 
-#window.BEATmatic = {}
 $ ->
 	BEATmatic.rec = new rec()
