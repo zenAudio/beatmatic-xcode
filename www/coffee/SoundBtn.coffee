@@ -66,6 +66,7 @@ class BEATmatic.SoundBtn
 	ms: 125
 	timeout: false
 	playing: false
+	animations: false
 	
 	
 	#div, "btn-drum", "#24A2E2"
@@ -131,8 +132,13 @@ class BEATmatic.SoundBtn
 	
 	play: ->
 		unless @playing
-			@playOne(-1)
+			if @animations
+				@playOne(-1)
+			else
+				@RING_THICKNESS = 4
+				@clearCircle()
 			@playing = true
+		
 		
 	playOne: (i) =>
 		i++
@@ -153,6 +159,7 @@ class BEATmatic.SoundBtn
 	
 	stop: ->
 		clearTimeout @timeout
+		@RING_THICKNESS = 2
 		@clearCircle()
 		@playing = false
 	###
