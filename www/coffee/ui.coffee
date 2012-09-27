@@ -67,11 +67,11 @@ class ui
 		###
 		#btn = new BEATmatic.SoundBtn($("#music"), "btn-drum", "#24A2E2")
 		#btn.play()
-		
+		###
 		for x in [1..9]
 			btn = new BEATmatic.SoundBtn($("#music2"), "btn-drum", "#24A2E2")
 			btn.play()
-		
+		###
 
 	playTutorial: (layer) ->
 		$(".tutor").show()
@@ -105,8 +105,22 @@ class ui
 			else
 				jtab.hide()
 		
+		if tabid is "main"
+			BEATmatic.audioEngine.stop()
+			BEATmatic.rec.startLevelMeter()
+			BEATmatic.play.stopHighlight()
+		
+		if tabid is "synth"
+			BEATmatic.play.setup()
+			#BEATmatic.play.Highlight()
+			BEATmatic.rec.stopLevelMeter()
+			BEATmatic.audioEngine.play()
+			
+		
 		if tabid is "dj"
-			BEATmatic.dj.resetButtons()
+			BEATmatic.play.stopHighlight()
+			""
+			#BEATmatic.dj2.setup()
 		
 		#if tabid is "tutorialVideo"
 		#	@playTutorialVideo()

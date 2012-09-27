@@ -26,9 +26,7 @@ class rec
 				BEATmatic.rec.uploadFile()
 				
 		$("#demoBtn").click =>	
-			BEATmatic.play.setup2()
-			BEATmatic.ui.switch "synth2"
-			BEATmatic.audioEngine.play()
+			BEATmatic.ui.switch "synth"
 			
 
 	switchButtons: (buttonToShow) ->
@@ -39,6 +37,7 @@ class rec
 				$("#"+button).hide()
 	
 	deviceready: =>
+		@deviceready = true
 		window.requestFileSystem LocalFileSystem.PERSISTENT, 0, @gotFS, @nothing
 		#document.querySelector("#deviceready .pending").className += " hide"
 		#completeElem = document.querySelector("#deviceready .complete")
@@ -48,24 +47,25 @@ class rec
 
 		BEATmatic.audioEngine.init "sounds/drummachine/defpreset/preset.json", "sounds/looper/defpreset/preset.json", =>
 
-			BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
-				#console.log "TFD:"+cursorPosJson
-				time = JSON.parse(cursorPosJson)
-				#{"bars": 6, "beats": 4, "ticks": 2}
-				#console.log "ticks: #{(time.beats - 1 )* 4 + time.ticks}"
-				BEATmatic.play.highlightTick (time.beats - 1 ) * 4 + time.ticks
-				#$("#timeKeeper").text time.bars + "." + time.beats + "." + time.ticks
+			
 
 			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
 				@showMicLevel level
 
-			console.log "MPD:HTML:onDeviceReady: initialized drum preset."
+			#console.log "MPD:HTML:onDeviceReady: initialized drum preset."
 			#console.log "MPD:HTML:onDeviceReady: about to set drum pattern to " + json
 			BEATmatic.audioEngine.applyDrumPattern()
-			console.log "MPD:HTML:onDeviceReady:set drum pattern."
+			#console.log "MPD:HTML:onDeviceReady:set drum pattern."
 			
-			BEATmatic.audioEngine.play()
-
+			#BEATmatic.audioEngine.play()
+	
+	startLevelMeter: =>
+		if @deviceready
+			BEATmatic.audioEngine.setAudioInputLevelCallback (level) =>
+				@showMicLevel level
+	
+	stopLevelMeter: =>
+		BEATmatic.audioEngine.setAudioInputLevelCallback false
 		
 	
 	showMicLevel: (percent) ->
@@ -135,8 +135,8 @@ class rec
 		###
 		
 		
-		BEATmatic.ui.switch("synth2")
-		BEATmatic.audioEngine.play()
+		BEATmatic.ui.switch("synth")
+		
 		
 	uploadError: (error) =>
 		console.log "uploadError"

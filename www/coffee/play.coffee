@@ -14,17 +14,11 @@ class play
 	constructor: ->
 		
 		$("#snext").click =>
-			#@stopLoop()
 			BEATmatic.ui.switch("dj")
-			#BEATmatic.sequencer.highlightPlayer = false
 			false
 		
 		$("#sback").click =>
-			#@stopLoop()
-			#BEATmatic.sequencer.stopCoreLoop()
-			BEATmatic.audioEngine.stop()
 			BEATmatic.ui.switch("main")
-			#BEATmatic.sequencer.highlightPlayer = false
 			false
 		
 		
@@ -85,9 +79,16 @@ class play
 		BEATmatic.sequencer.highlightPlayer = true
 		#@loopTracks()
 	###
-	setup2: () =>		
-		@generateHTML()	
+	setup: =>		
+		@generateHTML()
+		
+		BEATmatic.audioEngine.setCursorCallback (cursorPosJson) =>
+			time = JSON.parse(cursorPosJson)
+			BEATmatic.play.highlightTick (time.beats - 1 ) * 4 + time.ticks
 	
+	stopHighlight: ->
+		BEATmatic.audioEngine.setCursorCallback false
+		
 	generateHTML: =>
 		bars = ""
 		playbar = ""
