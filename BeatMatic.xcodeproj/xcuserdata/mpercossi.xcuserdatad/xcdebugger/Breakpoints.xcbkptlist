@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370555348.631303"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "555"
-         endingLineNumber = "555"
+         startingLineNumber = "485"
+         endingLineNumber = "485"
          landmarkName = "LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo&amp; bufferToFill)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -121,11 +121,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "394"
-         endingLineNumber = "394"
+         startingLineNumber = "403"
+         endingLineNumber = "403"
          landmarkName = "DiracDataProviderCb(float **chdata, long numFrames, void *userData)"
          landmarkType = "7">
       </FileBreakpoint>
@@ -134,11 +134,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "403"
-         endingLineNumber = "403"
+         startingLineNumber = "412"
+         endingLineNumber = "412"
          landmarkName = "DiracDataProviderCb(float **chdata, long numFrames, void *userData)"
          landmarkType = "7">
       </FileBreakpoint>
@@ -160,11 +160,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "132"
-         endingLineNumber = "132"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
          landmarkName = "LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -186,11 +186,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "152"
-         endingLineNumber = "152"
+         startingLineNumber = "159"
+         endingLineNumber = "159"
          landmarkName = "LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -199,12 +199,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370559600.671846"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "617"
-         endingLineNumber = "617"
-         landmarkName = "LoopMachine::addLoop(String groupName, File loopFile)"
+         startingLineNumber = "551"
+         endingLineNumber = "551"
+         landmarkName = "LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType type, int length)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -212,37 +212,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "616"
-         endingLineNumber = "616"
-         landmarkName = "LoopMachine::addLoop(String groupName, File loopFile)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370451861.051297"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "613"
-         endingLineNumber = "613"
-         landmarkName = "LoopMachine::addLoop(String groupName, File loopFile)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370452435.202144"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
+         startingLineNumber = "126"
+         endingLineNumber = "126"
          landmarkName = "LoopMachine::toggleLoop(String group, int loopIx)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -251,11 +225,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370452480.202953"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "93"
-         endingLineNumber = "93"
+         startingLineNumber = "100"
+         endingLineNumber = "100"
          landmarkName = "LoopMachine::toggleLoop(int groupIx, int loopIx)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -264,12 +238,38 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370453109.575422"
+         timestampString = "370546164.365009"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "125"
-         endingLineNumber = "125"
+         startingLineNumber = "132"
+         endingLineNumber = "132"
          landmarkName = "LoopMachine::groupIx(String groupName)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
+         timestampString = "370559600.671846"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "548"
+         endingLineNumber = "548"
+         landmarkName = "LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType type, int length)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "BeatMatic/Plugins/loopmachine2.cpp"
+         timestampString = "370546164.365009"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "388"
+         endingLineNumber = "388"
+         landmarkName = "LoopMachine::processBlock(int groupIx, int loopIx, int destOffset, int numSamples, const AudioSourceChannelInfo&amp; bufferToFill)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

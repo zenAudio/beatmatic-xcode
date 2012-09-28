@@ -18,6 +18,18 @@ class AudioEngineImpl;
 
 extern long DiracDataProviderCb(float **chdata, long numFrames, void *userData);
 
+enum LoopType {
+	ONE_SHOT,
+	LOOP
+};
+
+struct LoopInfo {
+	AudioFormatReaderSource* reader;
+	float gain;
+	int length;
+	LoopType type;
+};
+
 class LoopMachine : public AudioSource {
 public:
     static const int FADE_TIME_MS=50;
@@ -40,7 +52,7 @@ public:
     void toggleLoop(String loopName, int loopIx);
     void toggleLoop(int groupIx, int loopIx);
     int groupIx(String groupName);
-    
+
     void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate);
     void releaseResources();
     
@@ -49,10 +61,11 @@ public:
     void getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& bufferToFill);
     
 private:
+	void setReaderPos(int groupIx, int state, float fadeStartTicks, float frameStartTicks);
     void printState(String name, int state[]);
     void printRingBuffer();
     
-    void addLoop(String groupName, File loopFile);
+	void addLoop(String groupName, File loopFile, float gain, LoopType type, int length);
     
     void drainRingBuffer();
     
@@ -81,7 +94,7 @@ private:
     AudioTransport fixedBpmTransport;
     
     int expectedBufferSize;
-    Array<Array<AudioFormatReaderSource *> *> groupIxToAudioSource;
+	Array<Array<LoopInfo> *> groupIxToLoopInfo;
     int userState[MAX_NUM_GROUPS];              // the loops playing as seen by the user, these react to changes first!
     int audioState[MAX_NUM_GROUPS];             // the actual loops playing in the audio thread, these are triggered only on tick frames.
     int prevAudioState[MAX_NUM_GROUPS];

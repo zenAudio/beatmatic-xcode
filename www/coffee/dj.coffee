@@ -28,7 +28,6 @@ class dj
 					BEATmatic.drumPattern.tracks[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 				BEATmatic.audioEngine.applydrumPattern()
 			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", ->
-				alert "BAAAAAAAAAR"
 				#UGLY -> there should be a way to mute a drum track
 				if @drumPatternC
 					BEATmatic.drumPattern.tracks[2] = @drumPatternC
@@ -46,13 +45,11 @@ class dj
 				for btn in btnsBeatA
 					btn.btnFunction()
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", ->
-				console.log "BAAAAAAAAAR"
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
 			@btns.push btn
 			btnsBeatA.push btn
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26", ->
-				console.log "BAAAAAAAAAR"
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Lead", 0)
 			@btns.push btn

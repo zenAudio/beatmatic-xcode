@@ -6,31 +6,108 @@
   "groups": [
     {
       "name": "Bass",
-      "loops": ["Bassline_A.caf", "Bassline_D.caf"]
+      "loops": [
+		{
+			"file": "Bassline_A.caf", 
+			"gain": 1.0,
+			"type": "loop",
+			"length": 32
+		}, 
+		{
+			"file": "Bassline_D.caf",
+			"gain": 0.6,
+			"type": "loop",
+			"length": 32
+		} 
+	  ]
     },
     {
       "name": "Ear Candy",
-      "loops": ["Ear_Candy_C.caf", "Ear_Candy_E.caf"]
+      "loops": [
+		{
+			"file": "Ear_Candy_C.caf", 
+			"gain": 1.0,
+			"type": "one-shot"
+		}, 
+		{
+			"file": "Ear_Candy_E.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 4
+		}
+	  ]
     },
     {
       "name": "Lead",
-      "loops": ["Melodic_A.caf", "Melodic_D.caf"]
+      "loops": [
+		{
+			"file": "Melodic_A.caf", 
+			"gain": 1.0,
+			"type": "loop",
+			"length": 32
+		}, 
+		{
+			"file": "Melodic_D.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 64
+		}
+	  ]
     },
     {
       "name": "Pad",
-      "loops": ["Pads_A.caf", "Pads_D.caf"]
+      "loops": [
+		{
+			"file": "Pads_A.caf", 
+			"gain": 1.0,
+			"type": "loop",
+			"length": 32
+		}, 
+		{
+			"file": "Pads_D.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 32
+		}
+	  ]
     },
     {
       "name": "Percussion",
-      "loops": ["Percussion_A.caf"]
+      "loops": [
+		{
+			"file": "Percussion_A.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 16
+		}
+	  ]
     },
     {
       "name": "Fills",
-      "loops": ["Percussion_F.caf"]
+      "loops": [
+		{ 
+			"file": "Percussion_F.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 32
+		}
+	  ]
     },
     {
       "name": "Vocals",
-      "loops": ["Vocals_B.caf", "Vocals_E.caf"]
+      "loops": [
+		{ 
+			"file": "Vocals_B.caf", 
+			"gain": 1.0,
+			"type": "one-shot"
+		},
+		{
+			"file": "Vocals_E.caf",
+			"gain": 1.0,
+			"type": "loop",
+			"length": 64
+		}
+	  ]
     }
   ]
 } 
