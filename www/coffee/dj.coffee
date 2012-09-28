@@ -15,26 +15,35 @@ class dj
 			
 			#drums
 			@addGroup "dj-drums", 5, 10, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", ->
+			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", ->
 				#UGLY -> there should be a way to mute a drum track
-				alert "FOOOOO"
+				@toggle()
 				if @drumPatternA
-					BEATmatic.drumPattern.tracks[0] = @drumPatternA
-					BEATmatic.drumPattern.tracks[1] = @drumPatternB
+					BEATmatic.drumPattern.tracks[0].score = @drumPatternA
+					BEATmatic.drumPattern.tracks[1].score = @drumPatternB
+					@drumPatternA = false
 				else
-					@drumPatternA = BEATmatic.drumPattern.tracks[0]
-					@drumPatternB = BEATmatic.drumPattern.tracks[1]
-					BEATmatic.drumPattern.tracks[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-					BEATmatic.drumPattern.tracks[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applydrumPattern()
-			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", ->
+					@drumPatternA = BEATmatic.drumPattern.tracks[0].score
+					@drumPatternB = BEATmatic.drumPattern.tracks[1].score
+					BEATmatic.drumPattern.tracks[0].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+					BEATmatic.drumPattern.tracks[1].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+				BEATmatic.audioEngine.applyDrumPattern()
+			btn.animations = false
+			btn.play()
+			@btns.push btn	
+			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", ->
 				#UGLY -> there should be a way to mute a drum track
+				@toggle()
 				if @drumPatternC
-					BEATmatic.drumPattern.tracks[2] = @drumPatternC
+					BEATmatic.drumPattern.tracks[2].score = @drumPatternC
+					@drumPatternC = false
 				else
-					@drumPatternC = BEATmatic.drumPattern.tracks[2]
-					BEATmatic.drumPattern.tracks[2] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applydrumPattern()
+					@drumPatternC = BEATmatic.drumPattern.tracks[2].score
+					BEATmatic.drumPattern.tracks[2].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+				BEATmatic.audioEngine.applyDrumPattern()
+			btn.animations = false
+			btn.play()
+			@btns.push btn	
 			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"
 			
 			
@@ -129,6 +138,8 @@ class dj
 			@addHeadline $("#music"), "magenta!", "#FF0097"
 			###
 			@isSetUp = true
+		else
+			@stop()
 			
 		#@playAll()
 	
