@@ -17,6 +17,7 @@ class dj
 			@addGroup "dj-drums", 5, 10, 2
 			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", ->
 				#UGLY -> there should be a way to mute a drum track
+				@toggle()
 				if @drumPatternA
 					BEATmatic.drumPattern.tracks[0] = @drumPatternA
 					BEATmatic.drumPattern.tracks[1] = @drumPatternB
@@ -26,8 +27,10 @@ class dj
 					BEATmatic.drumPattern.tracks[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 					BEATmatic.drumPattern.tracks[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 				BEATmatic.audioEngine.applydrumPattern()
+				
 			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", ->
 				#UGLY -> there should be a way to mute a drum track
+				@toggle()
 				if @drumPatternC
 					BEATmatic.drumPattern.tracks[2] = @drumPatternC
 				else
@@ -109,6 +112,8 @@ class dj
 			@addHeadline $("#music"), "magenta!", "#FF0097"
 			###
 			@isSetUp = true
+		else
+			@stop()
 			
 		#@playAll()
 	

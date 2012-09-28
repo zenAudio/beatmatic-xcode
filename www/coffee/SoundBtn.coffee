@@ -66,7 +66,7 @@ class BEATmatic.SoundBtn
 	ms: 125
 	timeout: false
 	playing: false
-	animations: false
+	animations: true
 	
 	
 	#div, "btn-drum", "#24A2E2"
@@ -101,7 +101,6 @@ class BEATmatic.SoundBtn
 		@clearCircle()
 		
 		$("#SBC#{@instanceID}").swipe
-			
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
 				@btnFunction()
