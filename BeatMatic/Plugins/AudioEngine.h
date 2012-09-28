@@ -22,6 +22,7 @@
 - (void) play: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setCursorCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) turnOffCursorCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setBpm: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) getBpm: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
@@ -38,6 +39,8 @@
 - (void) playSample: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stopSample: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setAudioInputLevelCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) turnOffAudioInputLevelCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
 
 // FX
 - (void) setMasterFilter: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;

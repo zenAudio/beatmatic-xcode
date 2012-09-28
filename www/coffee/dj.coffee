@@ -17,6 +17,7 @@ class dj
 			@addGroup "dj-drums", 5, 10, 2
 			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", ->
 				#UGLY -> there should be a way to mute a drum track
+				alert "FOOOOO"
 				if @drumPatternA
 					BEATmatic.drumPattern.tracks[0] = @drumPatternA
 					BEATmatic.drumPattern.tracks[1] = @drumPatternB
@@ -27,6 +28,7 @@ class dj
 					BEATmatic.drumPattern.tracks[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 				BEATmatic.audioEngine.applydrumPattern()
 			@btns.push new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", ->
+				alert "BAAAAAAAAAR"
 				#UGLY -> there should be a way to mute a drum track
 				if @drumPatternC
 					BEATmatic.drumPattern.tracks[2] = @drumPatternC
@@ -44,11 +46,15 @@ class dj
 				for btn in btnsBeatA
 					btn.btnFunction()
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", ->
+				console.log "BAAAAAAAAAR"
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
 			@btns.push btn
 			btnsBeatA.push btn
-			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26"
+			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26", ->
+				console.log "BAAAAAAAAAR"
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Lead", 0)
 			@btns.push btn
 			btnsBeatA.push btn
 			@addHeadline $("#dj-beata"), "Scene A", "#CACACA"
@@ -61,36 +67,53 @@ class dj
 				for btn in btnsBeatB
 					btn.btnFunction()
 			
-			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917"
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Bass", 1)
 			@btns.push btn
 			btnsBeatB.push btn
-			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26"
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Lead", 1)
 			@btns.push btn
 			btnsBeatB.push btn
 			@addHeadline $("#dj-beatb"), "Scene B", "#CACACA"
 			
 			@addGroup "dj-perc", 5, 165, 1
-			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933"
+			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Percussion", 0)
 			@addHeadline $("#dj-perc"), "Percussion", "#339933"
 			
 			@addGroup "dj-fill", 5, 232, 1
-			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8"
-			@addHeadline $("#dj-fill"), "DrumFill", "#E671B8"
+			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Fills", 0)
+			@addHeadline $("#dj-fill"), "Fill", "#E671B8"
 			
 			@addGroup "dj-voc", 100, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9"
-			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9"
+			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Vocals", 0)
+
+			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Vocals", 1)
 			@addHeadline $("#dj-voc"), "Vocals", "#00ABA9"
 			
 			@addGroup "dj-ear", 195, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400"
-			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400"
-			@addHeadline $("#dj-ear"), "EarCandy", "#E51400"
+			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Ear Candy", 0)
+			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", ->
+				@toggle()
+				BEATmatic.audioEngine.toggleLoop("Ear Candy", 1)
+			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
 			@addGroup "dj-fx", 290, 165, 2
 			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
 			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
-			@addHeadline $("#dj-fx"), "EarCandy", "#AD31FF"
+			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
 			
 			@addGroup "dj-xx", 385, 10, 4
 			X = new BEATmatic.Btn $("#dj-xx"), "btn-back", "#CACACA", ->

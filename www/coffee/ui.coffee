@@ -56,9 +56,9 @@ class ui
 			BEATmatic.audioEngine.play()
 			BEATmatic.dj.stop()
 			
-		
 		if tabid is "dj"
 			BEATmatic.play.stopHighlight()
+			BEATmatic.rec.stopLevelMeter()
 			BEATmatic.dj.setup()
 
 			

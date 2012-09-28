@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/AudioEngine.mm"
-         timestampString = "369661344.579739"
+         timestampString = "370468486.605968"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "222"
-         endingLineNumber = "222"
+         startingLineNumber = "236"
+         endingLineNumber = "236"
          landmarkName = "-stopSample:withDict:"
          landmarkType = "5">
       </FileBreakpoint>

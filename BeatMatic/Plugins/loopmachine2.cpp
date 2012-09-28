@@ -108,7 +108,7 @@ void LoopMachine::toggleLoop(int groupIx, int loopIx) {
 //        std::cout << "MPD: CPP: LoopMachine::toggleLoop sleeping, ix=" << ix << ", commitIx:" << commitIx.get() << std::endl;
         Thread::sleep(20);
     }
-    printRingBuffer();
+//    printRingBuffer();
     
     ++commitIx;
     
@@ -429,7 +429,7 @@ void LoopMachine::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferTo
         throw AudioEngineException("Dirac filled less samples than expected");
     
 //    std::cout << "MPD: NATIVE: CPP: LoopMachine::getNextAudioBlock: ending." << std::endl;
-    bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.5);
+    bufferToFill.buffer->applyGain(0, 0, bufferToFill.numSamples, 0.35);
     bufferToFill.buffer->copyFrom(1, 0, *bufferToFill.buffer, 0, 0, bufferToFill.numSamples);
 }
 

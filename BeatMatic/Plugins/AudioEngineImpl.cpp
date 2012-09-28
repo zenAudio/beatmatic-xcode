@@ -31,8 +31,8 @@ AudioInputMeter::AudioInputMeter(AudioEngineImpl& audioEngine) : callbackId(Stri
 }
 
 void AudioInputMeter::setPhoneGapCallbackId(const char* const callbackId) {
-//    std::cout << "MPD: NATIVE: CPP: AudioInputMeter::setPhoneGapCallbackId" << std::endl;
-    this->callbackId = callbackId;
+//    std::cout << "MPD: NATIVE: CPP: AudioInputMeter::setPhoneGapCallbackId: " << ((callbackId!=nullptr)?callbackId:"null") << std::endl;
+    this->callbackId = callbackId != nullptr ? callbackId : String::empty;
 }
 
 AudioInputMeter::~AudioInputMeter() {}
@@ -108,10 +108,14 @@ void AudioEngineImpl::init(void * objcSelf) {
 
 void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
     static char buffer[JSON_BUFFER];
-    
+
+    if (cursorUpdateCb == String::empty)
+		return;
+	
+//	std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked" << std::endl;
+	
     if (source == &transport) {
-        if (cursorUpdateCb != String::empty && transport.isPlaying()) {
-//            std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked while playing!" << std::endl;
+        if (transport.isPlaying()) {
             
             // we're stopped, so send back zero.
             float fticks = transport.getFrameStartTicks();
@@ -128,10 +132,8 @@ void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
             InvokePhoneGapCallback(objcSelf, cursorUpdateCb.toUTF8(), "{\"bars\": 1, \"beats\": 1, \"ticks\": 1}");
         }
     } else if (source == mixer.getAudioPlayer()) {
-        if (playSampleCb != String::empty) {
-//            std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: finished playing sample." << std::endl;
-            InvokePhoneGapCallback(objcSelf, playSampleCb.toUTF8(), "success");
-        }
+//		std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: finished playing sample." << std::endl;
+		InvokePhoneGapCallback(objcSelf, playSampleCb.toUTF8(), "success");
     }
 }
 
@@ -205,6 +207,6 @@ void AudioEngineImpl::stopSample() {
 
 void AudioEngineImpl::setCursorUpdateCallback(const char* const callbackId) {
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setCursorUpdateCallback: setting timer updates to " << CURSOR_UPDATE_INTERVAL_MS << " millis" << std::endl;
-    cursorUpdateCb = String(callbackId);
-//    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setCursorUpdateCallback: " << callbackId << std::endl;
+    cursorUpdateCb = callbackId != nullptr ? callbackId : String::empty;
+//    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setCursorUpdateCallback: " << (callbackId?callbackId:"null") << std::endl;
 }
