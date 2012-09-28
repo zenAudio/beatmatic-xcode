@@ -116,10 +116,18 @@
     cursorCallbackId = [arguments pop];
     [cursorCallbackId retain];  // do we need this?
     
-//	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
+	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
     engine.setCursorUpdateCallback([cursorCallbackId UTF8String]);
     
     [cursorCallbackId release];
+}
+
+// TODO: we need to set up a path through which the C++ sequencer code, from the sequencer thread,
+// can invoke the callback below. That means we need to learn how to have a C++ object call a
+// method on an Objective-C object!
+- (void) turnOffCursorCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback OFF");
+    engine.setCursorUpdateCallback(nullptr);
 }
 
 - (void) setAudioInputLevelCallback:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
@@ -131,6 +139,12 @@
     
     [callbackId release];
 }
+
+- (void) turnOffAudioInputLevelCallback:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options {
+	//	NSLog(@"MPD: NATIVE: Obj-c: Setting audio input level callback.");
+    engine.getInputMeter().setPhoneGapCallbackId(nullptr);
+}
+
 
 - (void) setLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSString* callbackId = [arguments pop];

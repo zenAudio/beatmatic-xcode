@@ -67,11 +67,17 @@ class AudioEngine
 
 	setCursorCallback: (callbackFn) ->
 		#console.log "MPD: JS: AudioEngine:setCursorCallback"
-		Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setCursorCallback", [])
+		if callbackFn == false
+			Cordova?.exec(@nop, @nop, "AudioEngine", "turnOffCursorCallback", [])
+		else
+			Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setCursorCallback", [])
 
 	setAudioInputLevelCallback: (callbackFn) ->
 		#console.log "MPD: JS: AudioEngine:setAudioInputLevelCallback"
-		Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
+		if callbackFn == false
+			Cordova?.exec(@nop, @nop, "AudioEngine", "turnOffAudioInputLevelCallback", [])
+		else
+			Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
 
 	recordAudioStart: (filename) ->
 		#console.log "MPD: JS: AudioEngine:recordAudioStart"

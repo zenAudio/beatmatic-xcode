@@ -58,7 +58,6 @@ class rec
 	
 	stopLevelMeter: =>
 		BEATmatic.audioEngine.setAudioInputLevelCallback false
-		
 	
 	showMicLevel: (percent) ->
 		level = 100 - percent
