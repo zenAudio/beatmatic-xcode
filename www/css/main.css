@@ -53,6 +53,9 @@ canvas {
   height: 66px;
   background-repeat: no-repeat;
 }
+.canvBtn:active {
+  background: #aaaaaa;
+}
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5) {
   .canvBtn {
     background-size: 100%;
