@@ -117,8 +117,8 @@ class dj
 			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
 			@addGroup "dj-fx", 290, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx1", "#AD31FF"
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx2", "#AD31FF"
 			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
 			
 			@addGroup "dj-xx", 385, 10, 4

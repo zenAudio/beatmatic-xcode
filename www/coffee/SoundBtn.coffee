@@ -134,8 +134,8 @@ class BEATmatic.SoundBtn
 			if @animations
 				@playOne(-1)
 			else
-				@RING_THICKNESS = 4
-				@clearCircle()
+				#@RING_THICKNESS = 4
+				@clearCircle(true)
 			@playing = true
 		
 		
@@ -158,7 +158,7 @@ class BEATmatic.SoundBtn
 	
 	stop: ->
 		clearTimeout @timeout
-		@RING_THICKNESS = 2
+		#@RING_THICKNESS = 2
 		@clearCircle()
 		@playing = false
 	###
@@ -172,11 +172,23 @@ class BEATmatic.SoundBtn
 		@delay timeout, =>
 			@clearCircle()
 	###
-	clearCircle: ->
-		@playing = false
+	clearCircle: (playing = false) ->
+		#@playing = false
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
 		
-		@c.lineWidth = @RING_THICKNESS
+		#@c.lineWidth = @RING_THICKNESS
+		
+		if playing
+			@c.lineWidth = 4
+			@c.shadowOffsetX = 0
+			@c.shadowOffsetY = 0
+			@c.shadowBlur = 4
+			@c.shadowColor = @color
+		else
+			@c.lineWidth = @RING_THICKNESS
+			@c.shadowBlur = 0
+		#else
+			
 		#ctx.fillStyle = "black";
 		#ctx.fillRect(0,0,100,100);
 		@c.strokeStyle = @color#"#24A2E2";
