@@ -46,6 +46,9 @@
 		5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5502DE9E160729DB00BC4E7E /* crushereffect.cpp */; };
 		553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 553F60B316028B0300A59E7E /* audioplayer.cpp */; };
 		5543660F16012272000AA306 /* recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5543660D16012271000AA306 /* recorder.cpp */; };
+		555E870F16198A74001E4421 /* filtereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 555E870D16198A74001E4421 /* filtereffect.cpp */; };
+		5566CDA8161707BB00E03A93 /* GyroController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5566CDA7161707BB00E03A93 /* GyroController.mm */; };
+		5566CDAA161708F300E03A93 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5566CDA9161708F300E03A93 /* CoreMotion.framework */; };
 		5567A39E15F7A0F9000072C0 /* DiracAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39B15F7A0F9000072C0 /* DiracAudioPlayer.mm */; };
 		5567A39F15F7A0F9000072C0 /* DiracAudioPlayerBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39C15F7A0F9000072C0 /* DiracAudioPlayerBase.mm */; };
 		5567A3A015F7A0F9000072C0 /* DiracFxAudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5567A39D15F7A0F9000072C0 /* DiracFxAudioPlayer.mm */; };
@@ -152,6 +155,11 @@
 		5543660D16012271000AA306 /* recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = recorder.cpp; sourceTree = "<group>"; };
 		5543660E16012271000AA306 /* recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = recorder.h; sourceTree = "<group>"; };
 		55436614160129BC000AA306 /* objctrampoline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objctrampoline.h; sourceTree = "<group>"; };
+		555E870D16198A74001E4421 /* filtereffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = filtereffect.cpp; sourceTree = "<group>"; };
+		555E870E16198A74001E4421 /* filtereffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filtereffect.h; sourceTree = "<group>"; };
+		5566CDA6161707BB00E03A93 /* GyroController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GyroController.h; sourceTree = "<group>"; };
+		5566CDA7161707BB00E03A93 /* GyroController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GyroController.mm; sourceTree = "<group>"; };
+		5566CDA9161708F300E03A93 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		5567A39B15F7A0F9000072C0 /* DiracAudioPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracAudioPlayer.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracAudioPlayer.mm"; sourceTree = "<group>"; };
 		5567A39C15F7A0F9000072C0 /* DiracAudioPlayerBase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracAudioPlayerBase.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracAudioPlayerBase.mm"; sourceTree = "<group>"; };
 		5567A39D15F7A0F9000072C0 /* DiracFxAudioPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiracFxAudioPlayer.mm; path = "Dirac3 LE/Dirac3-Mobile/Common Files/DiracAudioPlayer/DiracFxAudioPlayer.mm"; sourceTree = "<group>"; };
@@ -666,6 +674,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5566CDAA161708F300E03A93 /* CoreMotion.framework in Frameworks */,
 				55EDA27B1613381E00D0EC3B /* libCordova.a in Frameworks */,
 				55C40D4C15FC0F9A00063503 /* CoreMIDI.framework in Frameworks */,
 				5500619415F7A0AE003A2E7E /* Accelerate.framework in Frameworks */,
@@ -731,6 +740,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				5566CDA9161708F300E03A93 /* CoreMotion.framework */,
 				E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */,
 				55C40D4D15FC11DD00063503 /* Dirac Library Code */,
 				55C40D4915FC0E9800063503 /* Juce Library Code */,
@@ -831,6 +841,10 @@
 				55E803081604CCD800A69C82 /* audioringbuffer.h */,
 				5502DE9E160729DB00BC4E7E /* crushereffect.cpp */,
 				5502DE9F160729DB00BC4E7E /* crushereffect.h */,
+				5566CDA6161707BB00E03A93 /* GyroController.h */,
+				5566CDA7161707BB00E03A93 /* GyroController.mm */,
+				555E870D16198A74001E4421 /* filtereffect.cpp */,
+				555E870E16198A74001E4421 /* filtereffect.h */,
 			);
 			name = Plugins;
 			path = BeatMatic/Plugins;
@@ -1989,6 +2003,8 @@
 				55E803031604BE4500A69C82 /* limitereffect.cpp in Sources */,
 				55E803091604CCD900A69C82 /* audioringbuffer.cpp in Sources */,
 				5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */,
+				5566CDA8161707BB00E03A93 /* GyroController.mm in Sources */,
+				555E870F16198A74001E4421 /* filtereffect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

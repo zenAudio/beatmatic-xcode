@@ -23,6 +23,7 @@ void Mixer::init() {
     addInputSource(&drumMachine, true);
     
     masterCrusher = new CrusherEffect(this, true);
+	masterCrusher->setEnabled(false);
     masterVerb = new ReverbAudioSource(masterCrusher, true);
 	Reverb::Parameters p;
 	p.damping = 0.1;
@@ -31,7 +32,8 @@ void Mixer::init() {
 	p.dryLevel = 0.8;
 	p.width = 1.2;
 	masterVerb->setParameters(p);
-    masterFilter = new IIRFilterAudioSource(masterVerb, true);
+    masterFilter = new FilterEffect(masterVerb, true);
+	masterFilter->setEnabled(false);
 //    masterLimiter = new LimiterEffect(masterFilter, true);
     
     player.setSource(masterFilter);
@@ -51,7 +53,7 @@ AudioPlayer* Mixer::getAudioPlayer() {
     return samplePlayer;
 }
 
-IIRFilterAudioSource* Mixer::getMasterFilter() {
+FilterEffect* Mixer::getMasterFilter() {
     return masterFilter;
 }
 

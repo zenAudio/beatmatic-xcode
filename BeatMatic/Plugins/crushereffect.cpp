@@ -46,6 +46,9 @@ void CrusherEffect::releaseResources() {
 
 void CrusherEffect::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) {
     src->getNextAudioBlock(bufferToFill);
+	
+	if (!enabled)
+		return;
     
 //    std::cout << "MPD: NATIVE: CPP: CrusherEffect::getNextAudioBlock: starting.." << std::endl;
     int i0 = bufferToFill.startSample;
@@ -76,4 +79,15 @@ void CrusherEffect::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill
 //    std::cout << "MPD: NATIVE: CPP: CrusherEffect::getNextAudioBlock: done; y=" << y << "; sum=" << sum << "; sum2=" << sum2 << "; m = " << m << std::endl;
     
 }
+
+void CrusherEffect::setEnabled(bool enabled) {
+	this->enabled = enabled;
+//    std::cout << "MPD: NATIVE: CPP: CrusherEffect::setEnabled: " << enabled << std::endl;
+}
+
+bool CrusherEffect::isEnabled() const {
+	return enabled;
+}
+
+
 

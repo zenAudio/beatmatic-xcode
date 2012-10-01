@@ -9,13 +9,22 @@
 #import "AudioEngine.h"
 #import "AudioEngineImpl.h"
 #import "objctrampoline.h"
+#import "GyroController.h"
 
 @implementation AudioEngine {
     AudioEngineImpl engine;
 }
 
+//@synthesize gyroController;
+
 - (void) initialise: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     cursorCallbackId = nil;
+	
+	NSLog(@"MPD: NATIVE: AudioEngine::initializing gyro.");
+	gyroController = [[GyroController alloc] init];
+	[gyroController retain];
+	[gyroController setAudioEngine:&engine];
+	[gyroController toggleUpdates];
     
 //	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Reading drum preset.");
     NSString* callbackID = [arguments pop];
@@ -276,7 +285,7 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     IIRFilter filter;
     
     var fopt = filtParms["options"];
-    
+    /*
     if (type.equalsIgnoreCase("inactive")) {
         filter.makeInactive();
     } else if (type.equalsIgnoreCase("lp")) {
@@ -293,8 +302,10 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
         filter.makeHighShelf(engine.getTransport().getSampleRate(), fopt["cutoff"],
                              fopt["Q"], fopt["gain"]);
     }
-    
-    engine.getMixer().getMasterFilter()->setFilterParameters(filter);
+	*/
+	FilterEffect::Parameters p;
+	p.cutoff = fopt["cutoff"];
+    engine.getMixer().getMasterFilter()->setParams(p);
     [opts release];
 }
 
@@ -352,6 +363,39 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
     crusher.setParams(parms);
     
     [optsObj release];
+}
+
+- (void) setMasterCrusherEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    [arguments pop];
+	
+	NSNumber* onOffObj = [arguments pop];
+	[onOffObj retain];
+	
+	//    NSLog(@"MPD: NATIVE: Obj-c: AudioEngine::setMasterCrusher");
+    auto& crusher = *engine.getMixer().getMasterCrusher();
+	crusher.setEnabled([onOffObj intValue] == 0 ? false : true);
+	
+	[onOffObj release];
+}
+
+- (void) setMasterFilterEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	[arguments pop];
+	
+	NSNumber* onOffObj = [arguments pop];
+	[onOffObj retain];
+	
+	//    NSLog(@"MPD: NATIVE: Obj-c: AudioEngine::setMasterCrusher");
+    auto& crusher = *engine.getMixer().getMasterFilter();
+	crusher.setEnabled([onOffObj intValue] == 0 ? false : true);
+	
+	[onOffObj release];
+}
+
+- (void) setOneShotFinishedPlayingCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	NSString* callbackId = [arguments pop];
+    [callbackId retain];
+    engine.getMixer().getLoopMachine().setOneShotFinishedPlayingCallback([callbackId UTF8String]);
+    [callbackId release];
 }
 
 @end

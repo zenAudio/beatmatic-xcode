@@ -35,12 +35,12 @@ class BEATmatic.Btn
 		if @playing
 			@stop()
 			@playing = false
-		else	
+		else
 			@play()
 			@playing = true
 			
 		@soundGroup = "synth"
-		@soundID = 0 
+		@soundID = 0
 
 class BEATmatic.SoundBtn
 	@instances: 1
@@ -173,7 +173,7 @@ class BEATmatic.SoundBtn
 			@clearCircle()
 	###
 	clearCircle: ->
-		@playing = false
+		#@playing = false
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
 		
 		@c.lineWidth = @RING_THICKNESS

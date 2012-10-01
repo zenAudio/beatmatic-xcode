@@ -16,6 +16,7 @@
 #include "loopmachine2.h"
 #include "limitereffect.h"
 #include "crushereffect.h"
+#include "filtereffect.h"
 
 class AudioEngineImpl;
 class AudioPlayer;
@@ -35,7 +36,7 @@ public:
     DrumMachine& getDrumMachine();
     LoopMachine& getLoopMachine();
     AudioPlayer* getAudioPlayer();
-    IIRFilterAudioSource* getMasterFilter();
+    FilterEffect* getMasterFilter();
     ReverbAudioSource* getMasterVerb();
     CrusherEffect* getMasterCrusher();
     
@@ -69,7 +70,7 @@ private:
     DrumMachine drumMachine;
     AudioPlayer* samplePlayer;
     ScopedPointer<CrusherEffect> masterCrusher;
-    ScopedPointer<IIRFilterAudioSource> masterFilter;
+    ScopedPointer<FilterEffect> masterFilter;
     ScopedPointer<ReverbAudioSource> masterVerb;
     ScopedPointer<LimiterEffect> masterLimiter;
 };

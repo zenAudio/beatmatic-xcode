@@ -88,16 +88,28 @@ class AudioEngine
 		Cordova?.exec(recordFinishedCb, recordFinishedCb, "AudioEngine", "recordAudioStop", [])
 
 	setMasterFilter: (filterParams) ->
-		#console.log "MPD: JS: AudioEngine:setMasterFilter"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilter", [JSON.stringify(filterParams)])
-
+		#console.log "MPD: JS: AudioEngine:setMasterFilter: #{filterParams}"
+		if filterParams is false or filterParams is true
+			v = 0
+			if filterParams is true
+				v = 1
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilterEnabled", [v])
+		else
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilter", [JSON.stringify(filterParams)])
+	
 	setMasterVerb: (params) ->
 		#console.log "MPD: JS: AudioEngine:setMasterFilter"
 		Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterVerb", [JSON.stringify(params)])
 
 	setMasterCrusher: (params) ->
-		#console.log "MPD: JS: AudioEngine:setMasterCrusher"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [JSON.stringify(params)])
+		#console.log "MPD: JS: AudioEngine:setMasterCrusher: #{params}"
+		if params is false or params is true
+			v = 0
+			if params is true
+				v = 1
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusherEnabled", [v])
+		else
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [JSON.stringify(params)])
 
 	nop: () ->
 		# no op

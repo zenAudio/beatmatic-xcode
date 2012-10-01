@@ -52,6 +52,8 @@ public:
     void toggleLoop(String loopName, int loopIx);
     void toggleLoop(int groupIx, int loopIx);
     int groupIx(String groupName);
+	
+	void setOneShotFinishedPlayingCallback(String callbackId);
 
     void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate);
     void releaseResources();
@@ -82,6 +84,7 @@ private:
                       const AudioSourceChannelInfo& bufferToFill);
 
 private:
+	String oneShotFinishedPlayingCallbackId;
     void * dirac;
     AudioSampleBuffer diracInputBuffer;
     AudioSampleBuffer diracOutputBuffer;

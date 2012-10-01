@@ -117,8 +117,13 @@ class dj
 			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
 			@addGroup "dj-fx", 290, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF"
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", ->
+				@toggle()
+				#@playing = not @playing
+				BEATmatic.audioEngine.setMasterFilter(@playing)
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", ->
+				@toggle()
+				BEATmatic.audioEngine.setMasterCrusher(@playing)
 			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
 			
 			@addGroup "dj-xx", 385, 10, 4
@@ -160,7 +165,6 @@ class dj
 	stop: ->
 		for btn in @btns
 			btn.stop()
-		console.log "BTNS stopped"
 
 class djOLD
 	swipeSampleLayover: false

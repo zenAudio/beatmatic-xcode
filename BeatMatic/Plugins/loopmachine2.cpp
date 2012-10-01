@@ -17,7 +17,8 @@ LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserve
     commitIx(-1), drainIx(0), expectedBufferSize(0), wasPlaying(false), dirac(nullptr),
     diracInputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
     diracOutputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
-    diracMonoBuffer(1, DIRAC_AUDIO_BUF_SIZE)
+    diracMonoBuffer(1, DIRAC_AUDIO_BUF_SIZE),
+	oneShotFinishedPlayingCallbackId(String::empty)
 {
     for (int i = 0; i < MAX_NUM_GROUPS; i++) {
         userState[i] = LOOP_INACTIVE;
@@ -556,3 +557,8 @@ void LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType 
     src->setLooping(type == LoopType::LOOP);
 	groupInfo.add({src, gain, length, type});
 }
+
+void LoopMachine::setOneShotFinishedPlayingCallback(String callbackId) {
+	oneShotFinishedPlayingCallbackId = callbackId;
+}
+

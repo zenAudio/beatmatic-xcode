@@ -36,6 +36,9 @@ public:
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate);
     void releaseResources();
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill);
+	
+	void setEnabled(bool enabled);
+	bool isEnabled() const;
 
 private:
     float decimate(float i);
@@ -44,6 +47,7 @@ private:
     long long m;
 	int decimation;
     float y, cnt;
+	bool enabled;
     
     bool deleteInputWhenDeleted;
     AudioSource* src;

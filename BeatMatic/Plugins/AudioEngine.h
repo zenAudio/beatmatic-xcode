@@ -9,10 +9,15 @@
 #import <Cordova/CDVPlugin.h>
 #import "objctrampoline.h"
 
+@class GyroController;
+
 @interface AudioEngine : CDVPlugin {
     NSString* cursorCallbackId;
     NSTimer * timer;
+	GyroController* gyroController;
 }
+
+//@property (nonatomic, retain) GyroController *gyroController;
 
 // Initialization/Test
 - (void) initialise: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
@@ -32,6 +37,7 @@
 
 // Looper
 - (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setOneShotFinishedPlayingCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 // Recorder
 - (void) recordAudioStart: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
@@ -46,6 +52,8 @@
 - (void) setMasterFilter: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setMasterVerb: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setMasterCrusher:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
+- (void) setMasterCrusherEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) setMasterFilterEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 // Trampoline (objctrampoline.h)
 - (void) invokePhoneGapCallback:(NSString *)callbackId withResponse:(NSString*)jsonResponse;
