@@ -150,6 +150,12 @@ class dj
 			@btns.push new BEATmatic.SoundBtn $("#music"), "btn-drum", "#FF0097"
 			@addHeadline $("#music"), "magenta!", "#FF0097"
 			###
+			###
+			$("#SBC#{@instanceID}").swipe
+				click: (e, target) =>
+					#BEATmatic.dj.clickHandler(e)
+					@btnFunction()
+			###
 			@isSetUp = true
 		else
 			@stop()
