@@ -134,8 +134,10 @@ void DrumMachine::setDrumPattern(const char *const patternJson) {
         patternLength = score.size();
     }
     
-    float bpm = obj.getProperty("bpm");
-    audioEngine.getTransport().setBpm(bpm);
+	// FIXME: remove following two lines of code once we have DIRAC WORKING.
+//    float bpm = obj.getProperty("bpm");
+//    audioEngine.getTransport().setBpm(bpm);
+	
 //    std::cout << "MPD: CPP: DrumMachine::setDrumPattern: set bpm to " << bpm << std::endl;
 }
 
