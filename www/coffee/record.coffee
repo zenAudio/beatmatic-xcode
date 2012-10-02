@@ -103,7 +103,15 @@ class rec
 		
 		
 		BEATmatic.drumPattern.bpm = resultData.bpm
-		BEATmatic.drumPattern.tacks = resultData.tracks
+		#console.log "DP before"
+		#console.log BEATmatic.drumPattern.tracks
+		
+		#console.log "setting it to"
+		#console.log resultData.tracks
+		
+		BEATmatic.drumPattern.tracks = resultData.tracks
+		#console.log "DP after"
+		#console.log BEATmatic.drumPattern.tracks
 		BEATmatic.audioEngine.applyDrumPattern()
 				
 		BEATmatic.ui.switch("synth")
