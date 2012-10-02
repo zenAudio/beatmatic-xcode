@@ -277,11 +277,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370791749.717765"
+         timestampString = "370863873.048714"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "71"
-         endingLineNumber = "71"
+         startingLineNumber = "74"
+         endingLineNumber = "74"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -303,11 +303,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370792227.212489"
+         timestampString = "370863873.048714"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
+         startingLineNumber = "82"
+         endingLineNumber = "82"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -316,11 +316,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370792299.696645"
+         timestampString = "370863873.048714"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
+         startingLineNumber = "95"
+         endingLineNumber = "95"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -329,11 +329,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370792301.28525"
+         timestampString = "370863873.048714"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "100"
-         endingLineNumber = "100"
+         startingLineNumber = "103"
+         endingLineNumber = "103"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>

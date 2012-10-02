@@ -54,11 +54,14 @@
 -(void)doGyroUpdate {
 	while (true) {
 		float pitch = motionManager.deviceMotion.attitude.pitch;
-		float x = 2.0 * pitch / 3.1415;
+		float PI = 3.1415297;
+		float x = 2.0 * (pitch - 0.5*PI) / 1.5 / PI;
 		if (x > 1)
 			x = 1;
 		if (x < 0)
 			x = 0;
+		
+//		float y = 
 		
 		float newX = motionManager.deviceMotion.userAcceleration.x;
 		float newY = motionManager.deviceMotion.userAcceleration.y;

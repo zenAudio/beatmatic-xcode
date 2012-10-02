@@ -14,10 +14,10 @@
 			"length": 32
 		}, 
 		{
-			"file": "Bassline_D.caf",
+			"file": "Bass_New.caf",
 			"gain": 0.6,
 			"type": "loop",
-			"length": 32
+			"length": 64
 		} 
 	  ]
     },
@@ -30,10 +30,10 @@
 			"type": "one-shot"
 		}, 
 		{
-			"file": "Ear_Candy_E.caf",
+			"file": "Ear_Candy_New.caf",
 			"gain": 1.0,
 			"type": "loop",
-			"length": 4
+			"length": 192
 		}
 	  ]
     },
@@ -47,7 +47,7 @@
 			"length": 32
 		}, 
 		{
-			"file": "Melodic_D.caf",
+			"file": "Lead_1.caf",
 			"gain": 1.0,
 			"type": "loop",
 			"length": 64
