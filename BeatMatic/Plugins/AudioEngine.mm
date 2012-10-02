@@ -20,7 +20,7 @@
 - (void) initialise: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     cursorCallbackId = nil;
 	
-	NSLog(@"MPD: NATIVE: AudioEngine::initializing gyro.");
+//	NSLog(@"MPD: NATIVE: AudioEngine::initializing gyro.");
 	gyroController = [[GyroController alloc] init];
 	[gyroController retain];
 	[gyroController setAudioEngine:&engine];
@@ -125,7 +125,7 @@
     cursorCallbackId = [arguments pop];
     [cursorCallbackId retain];  // do we need this?
     
-	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
+//	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback.");
     engine.setCursorUpdateCallback([cursorCallbackId UTF8String]);
     
     [cursorCallbackId release];
@@ -135,7 +135,7 @@
 // can invoke the callback below. That means we need to learn how to have a C++ object call a
 // method on an Objective-C object!
 - (void) turnOffCursorCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback OFF");
+//	NSLog(@"MPD: NATIVE: Obj-c: Setting cursor callback OFF");
     engine.setCursorUpdateCallback(nullptr);
 }
 
@@ -392,9 +392,22 @@ void InvokePhoneGapCallback(void *objcSelf, const char* const callbackId, const 
 }
 
 - (void) setOneShotFinishedPlayingCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
-	NSString* callbackId = [arguments pop];
+    NSString* callbackId = [arguments pop];
     [callbackId retain];
-    engine.getMixer().getLoopMachine().setOneShotFinishedPlayingCallback([callbackId UTF8String]);
+    
+    NSString *group = [arguments pop];
+    [group retain];
+    
+    NSNumber *oix = [arguments pop];
+    [oix retain];
+    int ix = [oix intValue];
+    [oix release];
+    
+//	NSLog(@"MPD: NATIVE: AudioEngine::setOneShotFinishedPlayingCallback: setting to: %@, %d", group, ix);
+	LoopMachine& lm = engine.getMixer().getLoopMachine();
+    lm.setOneShotFinishedPlayingCallback(lm.groupIx([group UTF8String]), ix, String([callbackId UTF8String]));
+    
+    [group release];
     [callbackId release];
 }
 

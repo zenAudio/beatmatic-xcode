@@ -79,6 +79,9 @@ class AudioEngine
 		else
 			Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setAudioInputLevelCallback", [])
 
+	setOneShotFinishedPlayingCallback: (groupName, loopIx, callbackFn) ->
+		Cordova?.exec(callbackFn, callbackFn, "AudioEngine", "setOneShotFinishedPlayingCallback", [groupName, loopIx])
+
 	recordAudioStart: (filename) ->
 		#console.log "MPD: JS: AudioEngine:recordAudioStart"
 		Cordova?.exec(@nop, @nop, "AudioEngine", "recordAudioStart", [filename])

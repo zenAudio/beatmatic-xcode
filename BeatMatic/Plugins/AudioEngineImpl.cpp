@@ -94,6 +94,7 @@ AudioInputMeter& AudioEngineImpl::getInputMeter() {
 void AudioEngineImpl::init(void * objcSelf) {
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: starting: " << Time::currentTimeMillis() << std::endl;
     transport.addChangeListener(this);
+	mixer.getLoopMachine().addChangeListener(this);
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: audio engine listening to messages: " << Time::currentTimeMillis() << std::endl;
     audioMgr.initialise(1 /* mono input */, 2 /* stereo output */, nullptr, true, String::empty, nullptr);
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::init: audio manager initialized: " << Time::currentTimeMillis() << std::endl;
@@ -109,7 +110,7 @@ void AudioEngineImpl::init(void * objcSelf) {
 void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
     static char buffer[JSON_BUFFER];
 
-    if (cursorUpdateCb == String::empty)
+    if (source == &transport && cursorUpdateCb == String::empty)
 		return;
 	
 //	std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked" << std::endl;
@@ -134,7 +135,30 @@ void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
     } else if (source == mixer.getAudioPlayer()) {
 //		std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: finished playing sample." << std::endl;
 		InvokePhoneGapCallback(objcSelf, playSampleCb.toUTF8(), "success");
-    }
+    } else if (source == &mixer.getLoopMachine()) {
+		// need to interpret the messages.
+		
+		auto& lm = mixer.getLoopMachine();
+//		std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked from loop machine. " << std::endl; 
+		
+		int limit = lm.endCommitIx;
+		while (lm.endDrainIx <= limit) {
+			int groupIx = lm.endringbuf[lm.endDrainIx][0];
+			int loopIx = lm.endringbuf[lm.endDrainIx][1];
+			
+			auto callbackId = (*lm.groupIxToLoopInfo[groupIx])[loopIx]->callbackId;
+//			std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked from loop machine: " << groupIx << ", " << loopIx << ", callback: " << callbackId << std::endl;
+			if (callbackId != String::empty) {
+				InvokePhoneGapCallback(objcSelf, callbackId.toUTF8(), "");
+
+			}
+			
+			//audioState[groupIx] = loopIx;
+			lm.endDrainIx++;
+		}
+		
+
+	}
 }
 
 Mixer& AudioEngineImpl::getMixer() {

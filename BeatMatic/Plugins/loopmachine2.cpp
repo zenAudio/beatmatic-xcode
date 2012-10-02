@@ -9,6 +9,7 @@
 #include "loopmachine2.h"
 #include "AudioEngineImpl.h"
 
+
 // MPD: This is a dreadful fucking hack: but I have no alternative, as the provider callback
 // for Dirac seems to be passed garbage instead of the correct user data variable. Very strange.
 static LoopMachine* mthis = nullptr;
@@ -18,7 +19,8 @@ LoopMachine::LoopMachine(AudioEngineImpl& engine) : audioEngine(engine), reserve
     diracInputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
     diracOutputBuffer(NUM_OUTPUT_CHANNELS, DIRAC_AUDIO_BUF_SIZE),
     diracMonoBuffer(1, DIRAC_AUDIO_BUF_SIZE),
-	oneShotFinishedPlayingCallbackId(String::empty)
+	oneShotFinishedPlayingCallbackId(String::empty),
+	endReserveIx(-1), endCommitIx(-1), endDrainIx(0)
 {
     for (int i = 0; i < MAX_NUM_GROUPS; i++) {
         userState[i] = LOOP_INACTIVE;
@@ -146,7 +148,7 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
     for (int i = 0; i < groupIxToLoopInfo.size(); i++) {
         for (int j = 0; j < groupIxToLoopInfo[i]->size(); j++) {
 //            std::cout << "MPD: CPP: LoopMachine::prepareToPlay:group " << i << ", sample " << j << std::endl;
-            (*groupIxToLoopInfo[i])[j].reader->prepareToPlay(samplesPerBlockExpected, sampleRate);
+            (*groupIxToLoopInfo[i])[j]->reader->prepareToPlay(samplesPerBlockExpected, sampleRate);
         }
     }
     if (!dirac) {
@@ -173,7 +175,7 @@ void LoopMachine::prepareToPlay(int samplesPerBlockExpected, double sampleRate) 
 void LoopMachine::releaseResources() {
     for (int i = 0; i < groupIxToLoopInfo.size(); i++) {
         for (int j = 0; j < groupIxToLoopInfo[i]->size(); j++) {
-            (*groupIxToLoopInfo[i])[j].reader->releaseResources();
+            (*groupIxToLoopInfo[i])[j]->reader->releaseResources();
         }
     }
 }
@@ -374,8 +376,8 @@ void LoopMachine::processFade(int groupIx, int loopIx, float startGain, float en
     // we need to tell the audio format reader source how many samples we need fetching.
     frameBuffer.numSamples = numSamples;
     // now grab them, storing them into our temporary buffer.
-    src.reader->getNextAudioBlock(frameBuffer);
-	frameBuffer.buffer->applyGain(frameBuffer.startSample, frameBuffer.numSamples, src.gain);
+    src->reader->getNextAudioBlock(frameBuffer);
+	frameBuffer.buffer->applyGain(frameBuffer.startSample, frameBuffer.numSamples, src->gain);
     
     // finally, we can add these to our main output buffer.
     for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); channel++) {
@@ -391,8 +393,8 @@ void LoopMachine::processBlock(int groupIx, int loopIx, int destOffset, int numS
     // we need to tell the audio format reader source how many samples we need fetching.
     frameBuffer.numSamples = numSamples;
     // now grab them, storing them into our temporary buffer.
-    src.reader->getNextAudioBlock(frameBuffer);
-	frameBuffer.buffer->applyGain(frameBuffer.startSample, frameBuffer.numSamples, src.gain);
+    src->reader->getNextAudioBlock(frameBuffer);
+	frameBuffer.buffer->applyGain(frameBuffer.startSample, frameBuffer.numSamples, src->gain);
     
     // finally, we can add these to our main output buffer.
     for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); channel++) {
@@ -493,13 +495,40 @@ void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& buffer
                 // we're playing the same thing as in the last period.
 				if (!wasPlaying) {
                     auto src = (*groupIxToLoopInfo[groupIx])[state];
-                    src.reader->setNextReadPosition(0);
+                    src->reader->setNextReadPosition(0);
                 }
                processBlock(groupIx, state, 0, bufferToFill.numSamples, bufferToFill);
             }
         }
         
         if (frameStartTicks < fadeEndTicks && frameEndTicks >= fadeEndTicks) {
+			bool changes = false;
+			for (int groupIx = 0; groupIx < groupIxToLoopInfo.size(); groupIx++) {
+				int state = audioState[groupIx];
+				
+				if (state != LOOP_INACTIVE) {
+					auto type = (*groupIxToLoopInfo[groupIx])[state]->type;
+					auto src = (*groupIxToLoopInfo[groupIx])[state]->reader;
+					
+					if (type == LoopType::ONE_SHOT && audioState[groupIx] != LOOP_INACTIVE && src != nullptr && src->getNextReadPosition() >= src->getTotalLength()) {
+						// (groupIx, prevState) is done playing.
+						// now we need to plop a message in the ring buffer
+						
+						audioState[groupIx] = LOOP_INACTIVE;
+						userState[groupIx] = LOOP_INACTIVE;
+						int ix = ++endReserveIx & RINGBUF_SIZE_M1; // == ++reserveIx % RINGBUF_SIZE
+						endringbuf[ix][0] = groupIx;
+						endringbuf[ix][1] = state;
+						endCommitIx++;
+						changes = true;
+						src->setNextReadPosition(0);
+//						std::cout << "MPD: handling messaages audio thread" << std::endl;
+					}
+				}
+			}
+			if (changes)
+				sendChangeMessage();
+			
             std::memcpy(prevAudioState, audioState, sizeof(audioState));
             wasPlaying = true;
         }
@@ -517,20 +546,20 @@ void LoopMachine::getNextAudioBlockFixedBpm(const AudioSourceChannelInfo& buffer
 void LoopMachine::setReaderPos(int groupIx, int state, float fadeStartTicks, float frameStartTicks) {
 	auto src = (*groupIxToLoopInfo[groupIx])[state];
 	
-	int loopCount = (int) (fadeStartTicks/(float) src.length / 4.0);	// length is in BEATS.
-	int loopStartTicks = loopCount * src.length * 4;
+	int loopCount = (int) (fadeStartTicks/(float) src->length / 4.0);	// length is in BEATS.
+	int loopStartTicks = loopCount * src->length * 4;
 	
 	float dTicks = fadeStartTicks - loopStartTicks;
 	int dSamples = fixedBpmTransport.ticksToSamples(dTicks);
-	int length = fixedBpmTransport.ticksToSamples(4*src.length);
+	int length = fixedBpmTransport.ticksToSamples(4*src->length);
 	
 //	std::cout << "src.length: " << src.length*4 << "; dTicks: " << dTicks << std::endl;
 	
 	if (frameStartTicks == 0 || frameStartTicks <= fadeStartTicks) {
-		if (src.type == LoopType::LOOP && length > 0)
-			src.reader->setNextReadPosition(dSamples % length);
+		if (src->type == LoopType::LOOP && length > 0)
+			src->reader->setNextReadPosition(dSamples % length);
 		else
-			src.reader->setNextReadPosition(0);
+			src->reader->setNextReadPosition(0);
 	}
 }
 
@@ -539,7 +568,7 @@ void LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType 
     if (!groupNameToIx.contains(groupName)) {
         groupIx = groupNameToIx.size();
         groupNameToIx.set(groupName, groupIx);
-		groupIxToLoopInfo.add(new Array<LoopInfo>);
+		groupIxToLoopInfo.add(new Array<LoopInfo *>);
     } else {
         groupIx = groupNameToIx[groupName];
     }
@@ -555,10 +584,13 @@ void LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType 
 	auto& groupInfo = *groupIxToLoopInfo[groupIx];
     auto src = new AudioFormatReaderSource(reader, true);
     src->setLooping(type == LoopType::LOOP);
-	groupInfo.add({src, gain, length, type});
+	groupInfo.add(new LoopInfo{src, gain, length, type, String::empty});
 }
 
-void LoopMachine::setOneShotFinishedPlayingCallback(String callbackId) {
-	oneShotFinishedPlayingCallbackId = callbackId;
+void LoopMachine::setOneShotFinishedPlayingCallback(int groupIx, int loopIx, String callbackId) {
+	auto info = (*groupIxToLoopInfo[groupIx])[loopIx];
+	info->callbackId = callbackId;
+//	std::cout << "Setting callback to : " << callbackId << std::endl;
+//	std::cout << (*groupIxToLoopInfo[groupIx])[loopIx]->callbackId << std::endl;
 }
 

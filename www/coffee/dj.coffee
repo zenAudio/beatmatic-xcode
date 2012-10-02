@@ -98,9 +98,13 @@ class dj
 			@addHeadline $("#dj-fill"), "Fill", "#E671B8"
 			
 			@addGroup "dj-voc", 100, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", ->
+			btn = new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Vocals", 0)
+			vocb = btn
+			BEATmatic.audioEngine.setOneShotFinishedPlayingCallback "Vocals", 0, ->
+				vocb.toggle()
+			@btns.push btn
 
 			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", ->
 				@toggle()
@@ -108,9 +112,13 @@ class dj
 			@addHeadline $("#dj-voc"), "Vocals", "#00ABA9"
 			
 			@addGroup "dj-ear", 195, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", ->
+			btn = new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Ear Candy", 0)
+			ecb = btn
+			BEATmatic.audioEngine.setOneShotFinishedPlayingCallback "Ear Candy", 0, ->
+				ecb.toggle()
+			@btns.push ecb
 			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Ear Candy", 1)

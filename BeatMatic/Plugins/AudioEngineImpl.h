@@ -90,7 +90,7 @@ public:
     int useTimeSlice();
     void changeListenerCallback(ChangeBroadcaster* source);
 
-private:
+private:	
     AudioDeviceManager audioMgr;
     Mixer mixer;
     AudioTransport transport;

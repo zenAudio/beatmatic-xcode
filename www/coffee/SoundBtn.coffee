@@ -113,7 +113,7 @@ class BEATmatic.SoundBtn
 		@soundID = 0 
 		
 		try
-			console.log "Playing sample in group #{@soundGroup} with ID #{@soundID}"
+			#console.log "Playing sample in group #{@soundGroup} with ID #{@soundID}"
 			#BEATmatic.audioEngine.toggleLoop @soundGroup, @soundID
 			BEATmatic.audioEngine.toggleLoop("Bass", 0)
 		catch e
@@ -124,6 +124,7 @@ class BEATmatic.SoundBtn
 		setTimeout func, ms	
 	
 	toggle: =>
+		#console.log "Called toggle"
 		if @playing
 			@stop()
 		else
