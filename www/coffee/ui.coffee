@@ -1,4 +1,5 @@
 window.BEATmatic = {}
+BEATmatic.sampleVis = {}
 
 delay = (ms, func) ->
 	setTimeout func, ms
