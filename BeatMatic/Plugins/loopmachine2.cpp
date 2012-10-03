@@ -573,6 +573,7 @@ void LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType 
         groupIx = groupNameToIx[groupName];
     }
 	AudioFormatReader* reader;
+//	std::cout << "Loop file: " << loopFile.getFullPathName() << std::endl;
     if (loopFile.getFileName().endsWith("wav")) {
 		reader = wavFormat.createReaderFor(new FileInputStream(loopFile), true);
 	} else if (loopFile.getFileName().endsWith("caf")) {

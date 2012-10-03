@@ -199,11 +199,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370828376.878366"
+         timestampString = "370880203.195361"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "580"
-         endingLineNumber = "580"
+         startingLineNumber = "581"
+         endingLineNumber = "581"
          landmarkName = "LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType type, int length)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -251,11 +251,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370828376.878366"
+         timestampString = "370880203.195361"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "577"
-         endingLineNumber = "577"
+         startingLineNumber = "578"
+         endingLineNumber = "578"
          landmarkName = "LoopMachine::addLoop(String groupName, File loopFile, float gain, LoopType type, int length)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -277,11 +277,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370863873.048714"
+         timestampString = "370880791.027948"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
+         startingLineNumber = "75"
+         endingLineNumber = "75"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -303,11 +303,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370863873.048714"
+         timestampString = "370880791.027948"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
+         startingLineNumber = "83"
+         endingLineNumber = "83"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -316,11 +316,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370863873.048714"
+         timestampString = "370880791.027948"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "95"
-         endingLineNumber = "95"
+         startingLineNumber = "96"
+         endingLineNumber = "96"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -329,11 +329,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/GyroController.mm"
-         timestampString = "370863873.048714"
+         timestampString = "370880791.027948"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
+         startingLineNumber = "104"
+         endingLineNumber = "104"
          landmarkName = "-doGyroUpdate"
          landmarkType = "5">
       </FileBreakpoint>
@@ -381,11 +381,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "BeatMatic/Plugins/loopmachine2.cpp"
-         timestampString = "370828376.878366"
+         timestampString = "370880203.195361"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "592"
-         endingLineNumber = "592"
+         startingLineNumber = "593"
+         endingLineNumber = "593"
          landmarkName = "LoopMachine::setOneShotFinishedPlayingCallback(int groupIx, int loopIx, String callbackId)"
          landmarkType = "5">
       </FileBreakpoint>
