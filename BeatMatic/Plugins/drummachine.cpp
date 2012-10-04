@@ -134,7 +134,7 @@ void DrumMachine::setDrumPattern(const char *const patternJson) {
         patternLength = score.size();
     }
     
-	// FIXME: remove following two lines of code once we have DIRAC WORKING.
+	// FIXME: remove following two lines of code once we have DIRAC WORKING.k
 //    float bpm = obj.getProperty("bpm");
 //    audioEngine.getTransport().setBpm(bpm);
 	
