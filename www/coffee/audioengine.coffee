@@ -59,7 +59,10 @@ class AudioEngine
 
 	getBpm: () ->
 		#console.log "MPD: JS: AudioEngine:getBpm"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "getBpm", [])
+		if Cordova?
+			return Cordova.exec(@nop, @nop, "AudioEngine", "getBpm", [])
+		else
+			return 120
 
 	stop: () ->
 		#console.log "MPD: JS: AudioEngine:stop"
@@ -119,4 +122,3 @@ class AudioEngine
 
 $ ->
 	BEATmatic.audioEngine = new AudioEngine()
-
