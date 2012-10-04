@@ -44,6 +44,7 @@
 		5500619415F7A0AE003A2E7E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619215F7A0AE003A2E7E /* Accelerate.framework */; };
 		5500619515F7A0AE003A2E7E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5500619315F7A0AE003A2E7E /* CoreAudio.framework */; };
 		5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5502DE9E160729DB00BC4E7E /* crushereffect.cpp */; };
+		550F41C3161B4BF600185A8D /* moogfiltereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550F41C1161B4BF600185A8D /* moogfiltereffect.cpp */; };
 		553F60B516028B0300A59E7E /* audioplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 553F60B316028B0300A59E7E /* audioplayer.cpp */; };
 		5543660F16012272000AA306 /* recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5543660D16012271000AA306 /* recorder.cpp */; };
 		555E870F16198A74001E4421 /* filtereffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 555E870D16198A74001E4421 /* filtereffect.cpp */; };
@@ -152,6 +153,8 @@
 		5500619315F7A0AE003A2E7E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		5502DE9E160729DB00BC4E7E /* crushereffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crushereffect.cpp; sourceTree = "<group>"; };
 		5502DE9F160729DB00BC4E7E /* crushereffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crushereffect.h; sourceTree = "<group>"; };
+		550F41C1161B4BF600185A8D /* moogfiltereffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moogfiltereffect.cpp; sourceTree = "<group>"; };
+		550F41C2161B4BF600185A8D /* moogfiltereffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moogfiltereffect.h; sourceTree = "<group>"; };
 		553F60B316028B0300A59E7E /* audioplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audioplayer.cpp; sourceTree = "<group>"; };
 		553F60B416028B0300A59E7E /* audioplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = audioplayer.h; sourceTree = "<group>"; };
 		5543660D16012271000AA306 /* recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = recorder.cpp; sourceTree = "<group>"; };
@@ -851,6 +854,8 @@
 				5566CDA7161707BB00E03A93 /* GyroController.mm */,
 				555E870D16198A74001E4421 /* filtereffect.cpp */,
 				555E870E16198A74001E4421 /* filtereffect.h */,
+				550F41C1161B4BF600185A8D /* moogfiltereffect.cpp */,
+				550F41C2161B4BF600185A8D /* moogfiltereffect.h */,
 			);
 			name = Plugins;
 			path = BeatMatic/Plugins;
@@ -2013,6 +2018,7 @@
 				5502DEA0160729DB00BC4E7E /* crushereffect.cpp in Sources */,
 				5566CDA8161707BB00E03A93 /* GyroController.mm in Sources */,
 				555E870F16198A74001E4421 /* filtereffect.cpp in Sources */,
+				550F41C3161B4BF600185A8D /* moogfiltereffect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
