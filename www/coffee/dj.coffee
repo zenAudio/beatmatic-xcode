@@ -7,7 +7,7 @@ class dj
 	
 	constructor: ->
 		""
-		@setup()
+		#@setup()
 		
 		
 	setup: ->
@@ -63,7 +63,7 @@ class dj
 				BEATmatic.audioEngine.toggleLoop("Lead", 0)
 			@btns.push btn
 			btnsBeatA.push btn
-			@addHeadline $("#dj-beata"), "Scene A", "#CACACA"
+			@addHeadline $("#dj-beata"), "Scene A", "#000000"
 			
 			
 			#Scene B
@@ -83,7 +83,7 @@ class dj
 				BEATmatic.audioEngine.toggleLoop("Lead", 1)
 			@btns.push btn
 			btnsBeatB.push btn
-			@addHeadline $("#dj-beatb"), "Scene B", "#CACACA"
+			@addHeadline $("#dj-beatb"), "Scene B", "#000000"
 			
 			@addGroup "dj-perc", 5, 165, 1
 			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933", ->
@@ -134,13 +134,17 @@ class dj
 				BEATmatic.audioEngine.setMasterCrusher(@playing)
 			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
 			
-			@addGroup "dj-xx", 385, 10, 4
-			X = new BEATmatic.Btn $("#dj-xx"), "btn-back", "#CACACA", ->
-				BEATmatic.ui.switch "main"
-			@btns.push new BEATmatic.SoundBtn $("#dj-xx"), "btn-drums", "#24A2E2"
-			@btns.push new BEATmatic.SoundBtn $("#dj-xx"), "btn-drums", "#24A2E2"
-			X = new BEATmatic.SoundBtn $("#dj-xx"), "btn-fwd", "#24A2E2"
-			@addHeadline $("#dj-xx"), "todo", "#24A2E2"
+			@addGroup "dj-controls", 385, 10, 4
+			#back
+			X = new BEATmatic.Btn $("#dj-controls"), "btn-back", "#CACACA", ->
+				BEATmatic.ui.switch "synth"
+			@btns.push new BEATmatic.Btn $("#dj-controls"), "btn-help", "#CACACA", ->
+				alert "todo: help"
+			@btns.push new BEATmatic.Btn $("#dj-controls"), "btn-bpm", "#CACACA", ->
+				alert "todo: bpm help"
+			X = new BEATmatic.Btn $("#dj-controls"), "btn-fwd", "#CACACA", ->
+				alert "todo: sharing your song"
+			@addHeadline $("#dj-controls"), "Controls", "#CACACA"
 			
 			###
 			for x in [1..10]

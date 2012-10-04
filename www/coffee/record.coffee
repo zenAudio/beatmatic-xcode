@@ -93,7 +93,7 @@ class rec
 		ft.upload @recordFile.fullPath, @url, @uploadSuccess, @uploadError, {fileName: @recordFile.name}
 		
 	uploadSuccess: (result) =>
-		console.log "uploadSuccess"
+		#console.log "uploadSuccess"
 		#console.log result
 		data = decodeURIComponent result.response
 		console.log "SERVER RESPONSE"
