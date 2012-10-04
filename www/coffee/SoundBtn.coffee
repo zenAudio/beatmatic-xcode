@@ -25,7 +25,7 @@ class BEATmatic.Btn
 		
 		@color = color if color
 		
-		$("SB#{@instanceID}").data "btn", 111
+		$("#SB#{@instanceID}").data "btn", @
 		
 		$("#SBC#{@instanceID}").swipe
 			
@@ -102,13 +102,17 @@ class BEATmatic.SoundBtn
 		
 		@clearCircle()
 		
-		$("SB#{@instanceID}").data "btn", 222
+		$("#SB#{@instanceID}").data "btn", @
 		#console.log 
 		
 		$("#SBC#{@instanceID}").swipe
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
 				@btnFunction()
+				
+		BEATmatic.audioEngine.bind "bpm", (bpm) =>
+			@ms = Math.floor 15000 / bpm
+			#console.log "changed to #{@ms} in btn #{@instanceID}"
 	
 	clickHandler: =>
 		@toggle()

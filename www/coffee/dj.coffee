@@ -214,6 +214,7 @@ class dj
 				return if distance <= 5
 				#console.log distance
 				
+				###
 				if direction is "left" or direction is "right"
 					
 					
@@ -230,7 +231,15 @@ class dj
 						@samplebase = false
 					
 					
-					console.log window.b1 = e.target
+					#console.log window.b1 = e.target
+					target = $(e.target)
+					btn = target.data "btn"
+					unless btn
+						btn = target.parent().data "btn"
+						return false unless btn
+					console.log window.b2 = btn	
+					
+					
 					return
 					#btn = e.target.data "btn" 
 					
@@ -241,54 +250,8 @@ class dj
 					#return unless @originalTarget.childElementCount is 1
 					
 					BEATmatic.dj.changeSample e, @originalTarget, (distance < 0)
-					###	
-					if direction is "left"
-						
-					
-					if direction is "right"
-
-					unless @lastLeftRightDirection is direction
-						@lastDistance = distance
-						@lastLeftRightDirection = direction
-					
-					move = distance - @lastDistance
-					
-					
-					#mouse move above 10px or below -10
-					if (move <= 10) and (move > -10)
-						#console.log "did not move enough"
-						#console.log move
-						return
-							
-					@lastDistance = distance
-					
-					BEATmatic.dj.changeSample e, (distance < 0)
-					return
-					track = e.target.parentNode.rowIndex
-					sample = BEATmatic.sequencer.drumTracks.tracks[track].sample
-					i = sample.indexOf "0"
-					n = Number sample[i+1]
-					unless @samplebase
-						@samplebase = sample[...i]
-					
-					
-					
-					if direction is "left"
-						n++ unless n >= 7
-						
-					
-					if direction is "right"
-						n-- unless n <= 1
-						
-					
-					newsample = @samplebase + 0 + n + sample[i+2...]
-					#return
-					BEATmatic.sequencer.playAudio BEATmatic.sequencer.folder + "drums/" +  newsample
-					BEATmatic.sequencer.drumTracks.tracks[track].sample = newsample
-					
-					$("#swipeDJSampleLayover").html(newsample)
-					###
-						
+				###
+				
 				if direction is "up" or direction is "down"
 					@direction = "updown" unless @direction
 					return if "updown" != @direction
