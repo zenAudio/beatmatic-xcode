@@ -88,6 +88,8 @@
 		55EDA27B1613381E00D0EC3B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F252851611F12500436A3E /* libCordova.a */; };
 		E217E2E81619B67C005EA3A0 /* ico_electro2.png in Resources */ = {isa = PBXBuildFile; fileRef = E217E2E71619B67C005EA3A0 /* ico_electro2.png */; };
 		E217E2EA1619B67E005EA3A0 /* ico_electro2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E217E2E91619B67E005EA3A0 /* ico_electro2@2x.png */; };
+		E273488C161F434E00EAFA4F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488B161F434E00EAFA4F /* Default.png */; };
+		E273488E161F474600EAFA4F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488D161F474600EAFA4F /* Default@2x.png */; };
 		E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -673,6 +675,8 @@
 		8D1107310486CEB800E47090 /* BeatMatic-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "BeatMatic-Info.plist"; path = "../BeatMatic-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		E217E2E71619B67C005EA3A0 /* ico_electro2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ico_electro2.png; sourceTree = "<group>"; };
 		E217E2E91619B67E005EA3A0 /* ico_electro2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_electro2@2x.png"; sourceTree = "<group>"; };
+		E273488B161F434E00EAFA4F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		E273488D161F474600EAFA4F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -747,6 +751,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				E273488D161F474600EAFA4F /* Default@2x.png */,
+				E273488B161F434E00EAFA4F /* Default.png */,
 				5566CDA9161708F300E03A93 /* CoreMotion.framework */,
 				E217E2E91619B67E005EA3A0 /* ico_electro2@2x.png */,
 				E217E2E71619B67C005EA3A0 /* ico_electro2.png */,
@@ -1962,6 +1968,8 @@
 				E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */,
 				E217E2E81619B67C005EA3A0 /* ico_electro2.png in Resources */,
 				E217E2EA1619B67E005EA3A0 /* ico_electro2@2x.png in Resources */,
+				E273488C161F434E00EAFA4F /* Default.png in Resources */,
+				E273488E161F474600EAFA4F /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
