@@ -1,6 +1,7 @@
 .recordui {
   background: url(../img/RecordScreen@2x.png);
   background-size: 100%;
+  background-position: center;
 }
 #tutor1 {
   background-image: url(../img/tutor1@2x.png);
@@ -12,5 +13,9 @@
 }
 #tutor3 {
   background-image: url(../img/tutor3@2x.png);
+  background-size: 100%;
+}
+#recordLevelBack {
+  background-image: url(../img/RecordBackElectro@2x.png);
   background-size: 100%;
 }

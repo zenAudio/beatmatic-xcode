@@ -279,7 +279,7 @@ canvas {
 }
 
 .ui {
-	 height:100%;
+	 height: 100%;
 	 width: 100%;
 }
 
@@ -287,14 +287,6 @@ canvas {
 	 height:100%;
 	 width: 100%;
 	 display: none;
-}
-
-.tutor {
-	position: absolute;
-	 height:100%;
-	 width: 100%;
-	 display: none;
-	 //opacity: 0.5;
 }
 
 .active {
@@ -322,11 +314,19 @@ canvas {
 }
 
 .recordui {
-	 background-image:url(../img/RecordScreen.png);
-	 background-repeat:no-repeat;
 	 position: absolute;
-	 
-	 //z-index: 10;
+	 background-image:url(../img/RecordScreen.png);
+	 background-repeat: no-repeat;
+	 background-position: center;
+}
+
+.tutor {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	display: none;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #tutor1 {
@@ -343,9 +343,9 @@ canvas {
 
 .btn {
 	//-webkit-border-radius: 4px;
-	border: 1px solid rgba(255,255,255,0.2);
+	border: 1px solid #339933;//rgba(255,255,255,0.2);
 	text-decoration: none;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	//text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 	padding: 10px 25px;
 	margin-bottom: 0;
 	font-size: 14px;
@@ -353,8 +353,8 @@ canvas {
 	vertical-align: middle;
 	cursor: pointer;
 	border-radius: 4px;
-	color: white;
-	background-color: rgba(255,255,255,0.2);
+	color: #339933;
+	//background-color: rgba(255,255,255,0.2);
 	//-webkit-appearance: button;
 }
 
@@ -403,16 +403,35 @@ canvas {
 	left: 100px;
 	top: 120px;
 }
-#recordLevel {
-	position: absolute;
-	//background-color: red;
-	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 100%,rgba(167,250,248,1) 100%);
 
-	left: 100px;
-	top: 120px;
-	width: 150px;
-	height: 165px;
-	//z-index: 1;
+#recordLevelCenter {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#recordLevelBack {
+	position: absolute;
+	background-image: url(../img/RecordBackElectro.png);
+	background-repeat: no-repeat;
+	background-position: center; 
+	//top:  -65px;
+	//bottom: 0px;
+	//width: 100%;
+	top: 50%;
+	left: 50%;
+	height: 160px;
+	width: 75px;
+	margin-top: -112px; /* Half the height + 65*/
+	margin-left: -38px;
+	
+	//height: 100%;
+}
+
+#recordLevel {	
+	background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 0%);
+	height: 100%;
+	width: 100%;
 }
 
 

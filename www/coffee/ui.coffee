@@ -50,6 +50,7 @@ class ui
 			BEATmatic.rec.startLevelMeter()
 			BEATmatic.play.stopHighlight()
 			BEATmatic.dj.stop()
+			BEATmatic.rec.switchButtons "recordBtn"
 		
 		if tabid is "synth"
 			BEATmatic.play.setup()

@@ -177,12 +177,6 @@ canvas {
   width: 100%;
   display: none;
 }
-.tutor {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: none;
-}
 .active {
   display: block;
 }
@@ -203,9 +197,18 @@ canvas {
   width: 275px;
 }
 .recordui {
+  position: absolute;
   background-image: url(../img/RecordScreen.png);
   background-repeat: no-repeat;
+  background-position: center;
+}
+.tutor {
   position: absolute;
+  height: 100%;
+  width: 100%;
+  display: none;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #tutor1 {
   background-image: url(../img/tutor1.png);
@@ -217,9 +220,8 @@ canvas {
   background-image: url(../img/tutor3.png);
 }
 .btn {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #339933;
   text-decoration: none;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   padding: 10px 25px;
   margin-bottom: 0;
   font-size: 14px;
@@ -227,8 +229,7 @@ canvas {
   vertical-align: middle;
   cursor: pointer;
   border-radius: 4px;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.2);
+  color: #339933;
 }
 #demoBtn {
   float: right;
@@ -264,13 +265,29 @@ canvas {
   left: 100px;
   top: 120px;
 }
-#recordLevel {
+#recordLevelCenter {
   position: absolute;
-  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 100%, #a7faf8 100%);
-  left: 100px;
-  top: 120px;
-  width: 150px;
-  height: 165px;
+  width: 100%;
+  height: 100%;
+}
+#recordLevelBack {
+  position: absolute;
+  background-image: url(../img/RecordBackElectro.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 50%;
+  left: 50%;
+  height: 160px;
+  width: 75px;
+  margin-top: -112px;
+  /* Half the height + 65*/
+
+  margin-left: -38px;
+}
+#recordLevel {
+  background: -webkit-linear-gradient(bottom, #ffffff 0%, rgba(255, 255, 255, 0) 0%, #ffffff 0%);
+  height: 100%;
+  width: 100%;
 }
 h1 {
   font-size: 2em;
