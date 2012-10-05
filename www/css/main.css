@@ -27,6 +27,10 @@ body {
 	 */
 
 }
+.blink {
+  animation: fade 3000ms infinite;
+  -webkit-animation: fade 3000ms infinite;
+}
 html {
   display: table;
 }
@@ -229,6 +233,7 @@ canvas {
   vertical-align: middle;
   cursor: pointer;
   border-radius: 4px;
+  text-align: center;
   color: #339933;
 }
 #demoBtn {
@@ -252,6 +257,9 @@ canvas {
   margin-left: -61px;
   bottom: 20px;
   padding: 25px;
+  background: red;
+  color: white;
+  border: none;
 }
 #processingBtn {
   position: absolute;
@@ -259,6 +267,8 @@ canvas {
   margin-left: -61px;
   bottom: 20px;
   padding: 25px;
+  background: #339933;
+  color: white;
 }
 #micHome {
   position: absolute;
