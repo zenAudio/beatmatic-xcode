@@ -28,7 +28,7 @@ class BEATmatic.Btn
 		$("#SB#{@instanceID}").data "btn", @
 		
 		$("#SBC#{@instanceID}").swipe
-			threshold: 100
+			threshold: 200
 			
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
@@ -87,7 +87,7 @@ class BEATmatic.SoundBtn
 			<canvas id="SBC#{@instanceID}"></canvas>
 		</div>
 		"""
-		@length = data.length
+		
 		
 		@color = color if color
 		#@div = div
@@ -100,7 +100,7 @@ class BEATmatic.SoundBtn
 		
 		@CX = @WIDTH / 2
 		@CY = @HEIGHT / 2
-		@VALUE_MULTIPLIER = Math.min(@WIDTH, @HEIGHT) / 15000
+		@VALUE_MULTIPLIER = Math.min(@WIDTH, @HEIGHT) / 15000 #0,01
 		@BEZIER_WIDTH = @radius * 0.05
 		
 		@clearCircle()
@@ -122,6 +122,8 @@ class BEATmatic.SoundBtn
 			@visData = sample
 		else
 			@visData = data
+		
+		@length = @visData.length
 			#console.log "Setting Visualization Data to Demo Data"
 			
 			
@@ -161,7 +163,7 @@ class BEATmatic.SoundBtn
 		
 	playOne: (i) =>
 		i++
-		@drawCircle data[i]
+		@drawCircle @visData[i]
 		
 		unless i is (@length - 1)
 			#console.log "playing "+i
@@ -244,10 +246,12 @@ class BEATmatic.SoundBtn
 		
 		while j < points.length
 			angle = Math.PI * 2 / points.length * j + Math.PI / 2
+			#console.log points[j]
 			newAmp = points[j] * @VALUE_MULTIPLIER
 			
 			# If new movement is greater than @MAX_MOVE, throttle it
 			newAmp = @prevPoints[j].amp - @MAX_MOVE  if @prevPoints[j]? and @prevPoints[j].amp > newAmp + @MAX_MOVE
+			#console.log newAmp
 			x = @CX + Math.cos(angle) * (@radius + newAmp)
 			y = @CY + Math.sin(angle) * (@radius + newAmp)
 			@prevPoints[j] =

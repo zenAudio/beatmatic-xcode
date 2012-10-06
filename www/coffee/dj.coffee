@@ -53,14 +53,28 @@ class dj
 			A = new BEATmatic.Btn $("#dj-beata"), "btn-beata", "#CACACA", ->
 				for btn in btnsBeatA
 					btn.btnFunction()
-			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bass_new, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
 			@btns.push btn
 			btnsBeatA.push btn
-			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26", BEATmatic.sampleVis.Melodic_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Lead", 0)
+				###
+				Bass_new: Array[63]
+				Bassline_A: Array[127]
+				Ear_Candy_C: Array[5]
+				Ear_Candy_New: Array[255]
+				Lead_1: Array[63]
+				Melodic_A: Array[127]
+				Pads_A: Array[127]
+				Pads_D: Array[127]
+				Percussion_A: Array[63]
+				Percussion_F: Array[127]
+				Vocals_B: Array[9]
+				Vocals_E: Array[255]
+				###
 			@btns.push btn
 			btnsBeatA.push btn
 			@addHeadline $("#dj-beata"), "Scene A", "#000000"
@@ -73,12 +87,12 @@ class dj
 				for btn in btnsBeatB
 					btn.btnFunction()
 			
-			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bassline_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 1)
 			@btns.push btn
 			btnsBeatB.push btn
-			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26", BEATmatic.sampleVis.Lead_1, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Lead", 1)
 			@btns.push btn
@@ -187,6 +201,7 @@ class dj
 			
 	enableSwipe: =>	
 		$("#dj").swipe
+			threshold: 200
 			#click: (e, target) =>
 			#	true
 			
