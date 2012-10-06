@@ -201,7 +201,7 @@ class dj
 			
 	enableSwipe: =>	
 		$("#dj").swipe
-			threshold: 200
+			#threshold: 200
 			#click: (e, target) =>
 			#	true
 			
