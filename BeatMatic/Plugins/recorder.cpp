@@ -39,7 +39,7 @@ void AudioRecorder::startRecording(const File& file)
             // Now create a WAV writer object that writes to our output stream...
             WavAudioFormat wavFormat;
 			OggVorbisAudioFormat oggFormat;
-            AudioFormatWriter* writer = wavFormat.createWriterFor (fileStream, sampleRate, 1, 16, StringPairArray(), 0);
+            AudioFormatWriter* writer = oggFormat.createWriterFor (fileStream, sampleRate, 1, 16, StringPairArray(), 0);
             
             if (writer != 0)
             {

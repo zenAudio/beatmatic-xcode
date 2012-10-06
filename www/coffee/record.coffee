@@ -79,7 +79,7 @@ class rec
 	
 	gotFS: (fileSystem) =>
 		@fileSystem = fileSystem
-		@src = "test.wav"#@getFilePath() + "myrecording.wav"
+		@src = "test.ogg"#@getFilePath() + "myrecording.wav"
 		@fileSystem.root.getFile(@src, {create: true}, @fileReady, @nothing)
 		
 	fileReady: (fileEntry) =>
@@ -90,7 +90,7 @@ class rec
 		#console.log "nothing"
 		
 	recordAudio3: (fileEntry) =>
-		@switchButtons "stopBtn"		
+		@switchButtons "stopBtn"
 		BEATmatic.audioEngine.recordAudioStart @recordFile.fullPath
 
 	uploadFile: =>
