@@ -25,7 +25,8 @@ class rec
 				console.log "recordAudioStop - uploading"
 				BEATmatic.rec.uploadFile()
 				
-		$("#demoBtn").click =>	
+		$("#demoBtn").click =>
+			BEATmatic.drumPattern.setDemoPattern()
 			BEATmatic.ui.switch "synth"
 			
 		#@showMicLevel 50
@@ -118,7 +119,7 @@ class rec
 		#console.log BEATmatic.drumPattern.tracks
 		BEATmatic.audioEngine.applyDrumPattern()
 				
-		BEATmatic.ui.switch("synth")
+		BEATmatic.ui.switch "synth"
 		
 		
 	uploadError: (error) =>

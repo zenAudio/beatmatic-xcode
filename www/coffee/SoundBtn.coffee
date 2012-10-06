@@ -72,7 +72,7 @@ class BEATmatic.SoundBtn
 	
 	
 	#div, "btn-drum", "#24A2E2"
-	constructor: (partentDiv, ico, color, btnFunction) ->
+	constructor: (partentDiv, ico, color, visData, btnFunction) ->
 		#@retina = window.devicePixelRatio > 1 ? "@2x" : ""
 		@instanceID = BEATmatic.SoundBtn.instances++
 		if btnFunction
@@ -90,6 +90,8 @@ class BEATmatic.SoundBtn
 		
 		@color = color if color
 		#@div = div
+
+		@setVisualizationData visData
 		
 		@c = $('#SBC'+@instanceID)[0].getContext("2d");
 		
@@ -114,6 +116,14 @@ class BEATmatic.SoundBtn
 			@ms = Math.floor 15000 / bpm
 			#console.log "changed to #{@ms} in btn #{@instanceID}"
 	
+	setVisualizationData: (sample) ->
+		if $.isArray sample
+			@visData = sample
+		else
+			@visData = data
+			console.log "Setting Visualization Data to Demo Data"
+			
+			
 	clickHandler: =>
 		@toggle()
 			

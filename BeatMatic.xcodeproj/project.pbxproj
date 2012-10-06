@@ -32,8 +32,6 @@
 		3088BBBE154F3926009F9C59 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBB8154F3926009F9C59 /* Default-Landscape~ipad.png */; };
 		3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBB9154F3926009F9C59 /* Default-Portrait@2x~ipad.png */; };
 		3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBA154F3926009F9C59 /* Default-Portrait~ipad.png */; };
-		3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBB154F3926009F9C59 /* Default@2x~iphone.png */; };
-		3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3088BBBC154F3926009F9C59 /* Default~iphone.png */; };
 		308D05371370CCF300D202BF /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052E1370CCF300D202BF /* icon-72.png */; };
 		308D05381370CCF300D202BF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D052F1370CCF300D202BF /* icon.png */; };
 		308D05391370CCF300D202BF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D05301370CCF300D202BF /* icon@2x.png */; };
@@ -88,9 +86,9 @@
 		55EDA27B1613381E00D0EC3B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55F252851611F12500436A3E /* libCordova.a */; };
 		E217E2E81619B67C005EA3A0 /* ico_electro2.png in Resources */ = {isa = PBXBuildFile; fileRef = E217E2E71619B67C005EA3A0 /* ico_electro2.png */; };
 		E217E2EA1619B67E005EA3A0 /* ico_electro2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E217E2E91619B67E005EA3A0 /* ico_electro2@2x.png */; };
-		E273488C161F434E00EAFA4F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488B161F434E00EAFA4F /* Default.png */; };
-		E273488E161F474600EAFA4F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488D161F474600EAFA4F /* Default@2x.png */; };
-		E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */; };
+		E270234A161F66A700240477 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2AF52B4160CAB16003551C5 /* Default-568h@2x.png */; };
+		E270234B161F66B100240477 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488D161F474600EAFA4F /* Default@2x.png */; };
+		E270234C161F66B500240477 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E273488B161F434E00EAFA4F /* Default.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1951,8 +1949,6 @@
 				3088BBBE154F3926009F9C59 /* Default-Landscape~ipad.png in Resources */,
 				3088BBBF154F3926009F9C59 /* Default-Portrait@2x~ipad.png in Resources */,
 				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
-				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
-				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				55C40C7215FC0E8400063503 /* juce_module_info in Resources */,
 				55C40C8615FC0E8400063503 /* juce_module_info in Resources */,
 				55C40C9D15FC0E8400063503 /* Flac Licence.txt in Resources */,
@@ -1965,11 +1961,11 @@
 				55C40CEA15FC0E8400063503 /* juce_module_info in Resources */,
 				55C40D3215FC0E8400063503 /* README in Resources */,
 				55C40D3D15FC0E8400063503 /* juce_module_info in Resources */,
-				E2AF52B5160CAB16003551C5 /* Default-568h@2x.png in Resources */,
 				E217E2E81619B67C005EA3A0 /* ico_electro2.png in Resources */,
 				E217E2EA1619B67E005EA3A0 /* ico_electro2@2x.png in Resources */,
-				E273488C161F434E00EAFA4F /* Default.png in Resources */,
-				E273488E161F474600EAFA4F /* Default@2x.png in Resources */,
+				E270234A161F66A700240477 /* Default-568h@2x.png in Resources */,
+				E270234B161F66B100240477 /* Default@2x.png in Resources */,
+				E270234C161F66B500240477 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
