@@ -28,6 +28,7 @@ class BEATmatic.Btn
 		$("#SB#{@instanceID}").data "btn", @
 		
 		$("#SBC#{@instanceID}").swipe
+			threshold: 100
 			
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
@@ -121,7 +122,7 @@ class BEATmatic.SoundBtn
 			@visData = sample
 		else
 			@visData = data
-			console.log "Setting Visualization Data to Demo Data"
+			#console.log "Setting Visualization Data to Demo Data"
 			
 			
 	clickHandler: =>
