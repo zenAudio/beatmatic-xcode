@@ -120,12 +120,20 @@ class BEATmatic.SoundBtn
 	setVisualizationData: (sample) ->
 		if $.isArray sample
 			@visData = sample
+			@length = @visData.length
 		else
-			@visData = data
-		
-		@length = @visData.length
-			#console.log "Setting Visualization Data to Demo Data"
+			if sample is "none"
+				@animations = false
+				console.log "Setting Visualization Data to None"
+			else
+				@visData = data
+				@length = @visData.length
+				console.log "Setting Visualization Data to Demo Data"
+				console.log sample
 			
+		
+		
+						
 			
 	clickHandler: =>
 		@toggle()
@@ -156,7 +164,6 @@ class BEATmatic.SoundBtn
 			if @animations
 				@playOne(-1)
 			else
-				#@RING_THICKNESS = 4
 				@clearCircle(true)
 			@playing = true
 		

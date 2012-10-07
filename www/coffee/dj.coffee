@@ -12,10 +12,9 @@ class dj
 		
 	setup: ->
 		unless @isSetUp
-			
 			#drums
 			@addGroup "dj-drums", 5, 10, 2
-			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", "demo", ->
+			@drumBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", "none", ->
 				#UGLY -> there should be a way to mute a drum track
 				@toggle()
 				if @drumPatternA
@@ -28,10 +27,9 @@ class dj
 					BEATmatic.drumPattern.tracks[0].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 					BEATmatic.drumPattern.tracks[1].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 				BEATmatic.audioEngine.applyDrumPattern()
-			btn.animations = false
 			btn.play()
 			@btns.push btn	
-			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "demo", ->
+			@hihatBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "none", ->
 				#UGLY -> there should be a way to mute a drum track
 				@toggle()
 				if @drumPatternC
@@ -41,7 +39,6 @@ class dj
 					@drumPatternC = BEATmatic.drumPattern.tracks[2].score
 					BEATmatic.drumPattern.tracks[2].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 				BEATmatic.audioEngine.applyDrumPattern()
-			btn.animations = false
 			btn.play()
 			@btns.push btn	
 			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"
@@ -100,19 +97,19 @@ class dj
 			@addHeadline $("#dj-beatb"), "Scene B", "#000000"
 			
 			@addGroup "dj-perc", 5, 165, 1
-			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-perc"), "btn-percussion", "#339933", BEATmatic.sampleVis.Percussion_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Percussion", 0)
 			@addHeadline $("#dj-perc"), "Percussion", "#339933"
 			
 			@addGroup "dj-fill", 5, 232, 1
-			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8", BEATmatic.sampleVis.Percussion_F, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Fills", 0)
 			@addHeadline $("#dj-fill"), "Fill", "#E671B8"
 			
 			@addGroup "dj-voc", 100, 165, 2
-			btn = new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", BEATmatic.sampleVis.Vocals_B, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Vocals", 0)
 			vocb = btn
@@ -120,30 +117,30 @@ class dj
 				vocb.toggle()
 			@btns.push btn
 
-			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-voc"), "btn-vocal", "#00ABA9", BEATmatic.sampleVis.Vocals_E, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Vocals", 1)
 			@addHeadline $("#dj-voc"), "Vocals", "#00ABA9"
 			
 			@addGroup "dj-ear", 195, 165, 2
-			btn = new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", "demo", ->
+			btn = new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", BEATmatic.sampleVis.Ear_Candy_C, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Ear Candy", 0)
 			ecb = btn
 			BEATmatic.audioEngine.setOneShotFinishedPlayingCallback "Ear Candy", 0, ->
 				ecb.toggle()
 			@btns.push ecb
-			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", BEATmatic.sampleVis.Ear_Candy_New, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Ear Candy", 1)
 			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
 			@addGroup "dj-fx", 290, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
 				@toggle()
 				#@playing = not @playing
 				BEATmatic.audioEngine.setMasterFilter(@playing)
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "demo", ->
+			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
 				@toggle()
 				BEATmatic.audioEngine.setMasterCrusher(@playing)
 			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
@@ -177,9 +174,9 @@ class dj
 			@enableSwipe()
 			@isSetUp = true
 		else
-			@stop()
-			
-		#@playAll()
+			#Make sure these are playing
+			@drumBtn.play()
+			@hihatBtn.play()
 	
 	addGroup: (id, x, y, rows) ->
 		$("#dj").append """<div id="#{id}" style="position: absolute; top: #{x}px; left: #{y}px; width: #{rows * 67}px; border: 0px solid blue;"></div>"""
