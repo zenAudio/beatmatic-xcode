@@ -41,6 +41,9 @@ class play
 		score = e.target.parentElement.id[4...]
 		cell =  $ e.target
 		
+		unless cell.hasClass "left1, left2, left3"
+			return
+			
 		if cell.hasClass "hit"
 			cell.removeClass "hit"
 			@changeScore track - 1, score - 1, 0
@@ -92,7 +95,15 @@ class play
 	
 	stopHighlight: ->
 		BEATmatic.audioEngine.setCursorCallback false
-		
+	
+	headline: (text) ->
+		color = "#CCCCCC"
+		"""
+		<div class="heading" style="border-bottom: 1px solid #{color}; padding-right: 20px; margin-right: 20px">
+		  <h1 style="color: #{color};">#{text}</h1>
+		</div>
+		"""
+	
 	generateHTML: =>
 		bars = ""
 		playbar = ""
@@ -108,7 +119,7 @@ class play
 			score2 = BEATmatic.drumPattern.tracks[1].score[index]
 			score3 = BEATmatic.drumPattern.tracks[2].score[index]
 			
-			bars = """#{bars}<div id="tick#{index+1}"class="wrapper">
+			bars = """#{bars}#{if (index % 4) is 0 and index != 0 then @headline "Beat#{(index)/4+1}" else ""}<div id="tick#{index+1}"class="wrapper">
 			     <div class="left1 #{if score1 then "hit" else ""}">
 			     </div>
 			     <div class="left2 #{if score2 then "hit" else ""}">

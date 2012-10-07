@@ -18,11 +18,13 @@ class dj
 				#UGLY -> there should be a way to mute a drum track
 				@toggle()
 				BEATmatic.audioEngine.muteDrumVoice "basic beat", not @playing
+			btn.animations = false
 			btn.play()
 			@btns.push btn
 			@hihatBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "demo", ->
 				@toggle()
 				BEATmatic.audioEngine.muteDrumVoice "hi-hat", not @playing
+			btn.animations = false
 			btn.play()
 			@btns.push btn
 			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"

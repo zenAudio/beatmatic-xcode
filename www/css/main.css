@@ -117,8 +117,11 @@ canvas {
   width: 100%;
   right: 20px;
 }
-.wrapper:nth-child(4n+4) {
+.wrapper:nth-child(5n+4) {
   border-bottom: 15px solid transparent;
+}
+.wrapper:nth-child(5n+6) {
+  border-top: 15px solid transparent;
 }
 .left1 {
   position: relative;
