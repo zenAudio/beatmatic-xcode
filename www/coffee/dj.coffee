@@ -18,34 +18,17 @@ class dj
 			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", "demo", ->
 				#UGLY -> there should be a way to mute a drum track
 				@toggle()
-				if @drumPatternA
-					BEATmatic.drumPattern.tracks[0].score = @drumPatternA
-					BEATmatic.drumPattern.tracks[1].score = @drumPatternB
-					@drumPatternA = false
-				else
-					@drumPatternA = BEATmatic.drumPattern.tracks[0].score
-					@drumPatternB = BEATmatic.drumPattern.tracks[1].score
-					BEATmatic.drumPattern.tracks[0].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-					BEATmatic.drumPattern.tracks[1].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applyDrumPattern()
+				BEATmatic.audioEngine.muteDrumVoice "basic beat", not @playing
 			btn.animations = false
 			btn.play()
-			@btns.push btn	
+			@btns.push btn
 			btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "demo", ->
-				#UGLY -> there should be a way to mute a drum track
 				@toggle()
-				if @drumPatternC
-					BEATmatic.drumPattern.tracks[2].score = @drumPatternC
-					@drumPatternC = false
-				else
-					@drumPatternC = BEATmatic.drumPattern.tracks[2].score
-					BEATmatic.drumPattern.tracks[2].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applyDrumPattern()
+				BEATmatic.audioEngine.muteDrumVoice "hi-hat", not @playing
 			btn.animations = false
 			btn.play()
-			@btns.push btn	
+			@btns.push btn
 			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"
-			
 			
 			#Scene A
 			@addGroup "dj-beata", 100, 10, 1

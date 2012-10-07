@@ -171,6 +171,30 @@
     
 }
 
+- (void) muteDrumVoice: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	[arguments pop];
+    
+    NSString *voice = [arguments pop];
+    [voice retain];
+	
+	NSNumber *state = [arguments pop];
+	[state retain];
+	
+	auto& dm = engine.getMixer().getDrumMachine();
+	
+	bool onOff = [state intValue] != 0;
+	
+	if ([voice isEqualToString: @"basic beat"]) {
+		dm.muteVoice("kick drum", onOff);
+		dm.muteVoice("snare drum", onOff);
+	} else {
+		dm.muteVoice([voice UTF8String], onOff);
+	}
+    
+	[state release];
+    [voice release];
+}
+
 - (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSString* callbackId = [arguments pop];
     [callbackId retain];

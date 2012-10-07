@@ -26,6 +26,7 @@ const FilterEffect::Parameters& FilterEffect::getParams() const {
 }
 
 void FilterEffect::prepareToPlay (int samplesPerBlockExpected, double sampleRate) {
+	
 	this->sampleRate = sampleRate;
 	impl.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }

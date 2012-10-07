@@ -34,6 +34,7 @@
 // Drum Machine
 - (void) setDrumPattern: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) auditionDrum: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) muteDrumVoice: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 // Looper
 - (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;

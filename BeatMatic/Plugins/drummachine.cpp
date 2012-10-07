@@ -12,8 +12,10 @@
 DrumMachine::DrumMachine(AudioEngineImpl& engine) : audioEngine(engine), lastNote(0) {
     std::memset(static_cast<void *>(pattern), 0, NUM_DRUM_HIT_TYPES*MAX_DRUM_PATTERN_LENGTH*sizeof(int));
     
-    for (int i = 0; i < NUM_DRUM_VOICES; i++)
+    for (int i = 0; i < NUM_DRUM_VOICES; i++) {
         synth.addVoice(new SamplerVoice);
+		mute[i] = false;
+	}
 }
 
 void DrumMachine::init() {
@@ -63,6 +65,8 @@ void DrumMachine::getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) 
                 int ntick = tick % patternLength;
                 
                 for (int voice = 0; voice < NUM_DRUM_VOICES; voice++) {
+					if (mute[voice])
+						continue;
                     if (pattern[voice][ntick] > 0) {
                         // we need to queue the appropriate note in the drum machine's synth.
                         int offset = transport.ticksToSamples(tick) - frameStartSamples;
@@ -207,4 +211,8 @@ void DrumMachine::noteOff(int note, float velocity) {
 
 void DrumMachine::audition(juce::String soundName) {
     noteOn(soundToNote[soundName], 1);
+}
+
+void DrumMachine::muteVoice(String voice, bool onOff) {
+	mute[soundToNote[voice]] = onOff;
 }
