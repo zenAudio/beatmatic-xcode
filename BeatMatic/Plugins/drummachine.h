@@ -29,6 +29,7 @@ public:
     void setDrumPreset(const char * const presetFilename);
     void setDrumPattern(const char* const patternJson);
     int getDrumPatternIx(String drumSound);
+	void muteVoice(String voice, bool onOff);
     
     void prepareToPlay (int /*samplesPerBlockExpected*/, double sampleRate);
     void releaseResources();
@@ -49,6 +50,7 @@ private:
     
     int pattern[NUM_DRUM_VOICES][MAX_DRUM_PATTERN_LENGTH];    // maximum four bars
     int patternLength;
+	bool mute[NUM_DRUM_VOICES];
     
     // hash map from sound name to midi note.
     HashMap<String, int> soundToNote;

@@ -31,12 +31,22 @@ struct LoopInfo {
 	String callbackId;
 };
 
+struct SceneInfo {
+	static const int MAX_NUM_LOOPS = 8;
+	int groups[MAX_NUM_LOOPS];
+	int loopIxs[MAX_NUM_LOOPS];
+	int numLoops;
+	SceneInfo() : numLoops(0) {
+	}
+};
+
 class LoopMachine : public AudioSource, public ChangeBroadcaster {
 public:
     static const int RINGBUF_SIZE = 128;
     static const int FADE_TIME_MS=50;
     static const int MAX_NUM_LOOPS = 16;
     static const int LOOP_INACTIVE = -1;
+    static const int MAX_NUM_SCENES = 8;
     static const int NO_SUCH_GROUP = -2;
     static const int MAX_NUM_GROUPS = 16;
     static const int RINGBUF_SIZE_M1 = RINGBUF_SIZE - 1;
@@ -54,6 +64,7 @@ public:
     void setPreset(const char* const presetFilename);
     void toggleLoop(String loopName, int loopIx);
     void toggleLoop(int groupIx, int loopIx);
+	void toggleLoopScene(String scene);
     int groupIx(String groupName);
 	
 	void setOneShotFinishedPlayingCallback(int groupIx, int loopIx, String callbackId);
@@ -85,6 +96,9 @@ private:
                         const AudioSourceChannelInfo& bufferToFill);
     void processBlock(int groupIx, int loopIx, int destOffset, int numSamples,
                       const AudioSourceChannelInfo& bufferToFill);
+	
+	int addScene(String scene);
+	void addSceneLoop(int sceneIx, int groupIx, int loopIx);
 
 private:
 	String oneShotFinishedPlayingCallbackId;
@@ -125,6 +139,10 @@ private:
     WavAudioFormat wavFormat;
 	CoreAudioFormat cafFormat;
     AudioEngineImpl& audioEngine;
+	
+	SceneInfo scenes[8];
+	HashMap<String, int> sceneNameToIx;
+	
 };
 
 #endif /* defined(__BeatMatic__loopmachine2__) */

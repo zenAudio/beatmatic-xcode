@@ -17,39 +17,21 @@ class dj
 			@drumBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-drums", "#24A2E2", "none", ->
 				#UGLY -> there should be a way to mute a drum track
 				@toggle()
-				if @drumPatternA
-					BEATmatic.drumPattern.tracks[0].score = @drumPatternA
-					BEATmatic.drumPattern.tracks[1].score = @drumPatternB
-					@drumPatternA = false
-				else
-					@drumPatternA = BEATmatic.drumPattern.tracks[0].score
-					@drumPatternB = BEATmatic.drumPattern.tracks[1].score
-					BEATmatic.drumPattern.tracks[0].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-					BEATmatic.drumPattern.tracks[1].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applyDrumPattern()
+				BEATmatic.audioEngine.muteDrumVoice "basic beat", not @playing
 			btn.play()
-			@btns.push btn	
-			@hihatBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "none", ->
-				#UGLY -> there should be a way to mute a drum track
+			@btns.push btn
+			@hihatBtn = btn = new BEATmatic.SoundBtn $("#dj-drums"), "btn-hihat", "#F523A1", "demo", ->
 				@toggle()
-				if @drumPatternC
-					BEATmatic.drumPattern.tracks[2].score = @drumPatternC
-					@drumPatternC = false
-				else
-					@drumPatternC = BEATmatic.drumPattern.tracks[2].score
-					BEATmatic.drumPattern.tracks[2].score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-				BEATmatic.audioEngine.applyDrumPattern()
+				BEATmatic.audioEngine.muteDrumVoice "hi-hat", not @playing
 			btn.play()
-			@btns.push btn	
+			@btns.push btn
 			@addHeadline $("#dj-drums"), "Basic Beat", "#24A2E2"
-			
 			
 			#Scene A
 			@addGroup "dj-beata", 100, 10, 1
 			btnsBeatA = []
 			A = new BEATmatic.Btn $("#dj-beata"), "btn-beata", "#CACACA", ->
-				for btn in btnsBeatA
-					btn.btnFunction()
+				BEATmatic.audioEngine.toggleLoopScene "A"
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bass_new, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
@@ -58,20 +40,6 @@ class dj
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-lead", "#8CBF26", BEATmatic.sampleVis.Melodic_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Lead", 0)
-				###
-				Bass_new: Array[63]
-				Bassline_A: Array[127]
-				Ear_Candy_C: Array[5]
-				Ear_Candy_New: Array[255]
-				Lead_1: Array[63]
-				Melodic_A: Array[127]
-				Pads_A: Array[127]
-				Pads_D: Array[127]
-				Percussion_A: Array[63]
-				Percussion_F: Array[127]
-				Vocals_B: Array[9]
-				Vocals_E: Array[255]
-				###
 			@btns.push btn
 			btnsBeatA.push btn
 			@addHeadline $("#dj-beata"), "Scene A", "#000000"
@@ -81,9 +49,7 @@ class dj
 			@addGroup "dj-beatb", 100, 80, 1
 			btnsBeatB = []
 			B = new BEATmatic.Btn $("#dj-beatb"), "btn-beatb", "#CACACA", ->
-				for btn in btnsBeatB
-					btn.btnFunction()
-			
+				BEATmatic.audioEngine.toggleLoopScene "B"
 			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bassline_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 1)

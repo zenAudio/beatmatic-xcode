@@ -171,9 +171,46 @@
     
 }
 
-- (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+- (void) muteDrumVoice: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+	[arguments pop];
+    
+    NSString *voice = [arguments pop];
+    [voice retain];
+	
+	NSNumber *state = [arguments pop];
+	[state retain];
+	
+	auto& dm = engine.getMixer().getDrumMachine();
+	
+	bool onOff = [state intValue] != 0;
+	
+	if ([voice isEqualToString: @"basic beat"]) {
+		dm.muteVoice("kick drum", onOff);
+		dm.muteVoice("snare drum", onOff);
+	} else {
+		dm.muteVoice([voice UTF8String], onOff);
+	}
+    
+	[state release];
+    [voice release];
+}
+
+- (void) toggleLoopScene: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
     NSString* callbackId = [arguments pop];
     [callbackId retain];
+    
+    NSString *group = [arguments pop];
+    [group retain];
+	
+	auto& lm = engine.getMixer().getLoopMachine();
+	lm.toggleLoopScene([group UTF8String]);
+    
+    [group release];
+    [callbackId release];
+}
+
+- (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    [arguments pop];
     
     NSString *group = [arguments pop];
     [group retain];
@@ -183,12 +220,10 @@
     int ix = [oix intValue];
     [oix release];
     
-//	NSLog(@"MPD: NATIVE: AudioEngine::toggleLoop: setting to: %@, %d", group, ix);
+	//	NSLog(@"MPD: NATIVE: AudioEngine::toggleLoop: setting to: %@, %d", group, ix);
     engine.toggleLoop([group UTF8String], ix);
     
     [group release];
-    [callbackId release];
-    
 }
 
 - (void) setBpm: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {

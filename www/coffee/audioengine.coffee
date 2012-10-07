@@ -87,6 +87,14 @@ class AudioEngine extends EventBase
 		#console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"
 		Cordova?.exec(@nop, @nop, "AudioEngine", "toggleLoop", [group, ix])
 
+	toggleLoopScene: (group) ->
+		#console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"
+		Cordova?.exec(@nop, @nop, "AudioEngine", "toggleLoopScene", [group])
+
+	muteDrumVoice: (group, state) ->
+		#console.log "MPD: JS: AudioEngine: toggling loop #{group}, index #{ix}"
+		Cordova?.exec(@nop, @nop, "AudioEngine", "muteDrumVoice", [group, state])
+
 	play: () ->
 		#console.log "MPD: JS: AudioEngine:play"
 		Cordova?.exec(@nop, @nop, "AudioEngine", "play", [])
@@ -168,6 +176,7 @@ class AudioEngine extends EventBase
 
 	nop: () ->
 		# no op
+
 
 $ ->
 	BEATmatic.audioEngine = new AudioEngine()
