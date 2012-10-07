@@ -38,6 +38,7 @@
 
 // Looper
 - (void) toggleLoop: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) toggleLoopScene: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setOneShotFinishedPlayingCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 // Recorder

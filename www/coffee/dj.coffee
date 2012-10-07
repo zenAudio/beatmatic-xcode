@@ -34,8 +34,7 @@ class dj
 			@addGroup "dj-beata", 100, 10, 1
 			btnsBeatA = []
 			A = new BEATmatic.Btn $("#dj-beata"), "btn-beata", "#CACACA", ->
-				for btn in btnsBeatA
-					btn.btnFunction()
+				BEATmatic.audioEngine.toggleLoopScene "A"
 			btn = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bass_new, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 0)
@@ -67,9 +66,7 @@ class dj
 			@addGroup "dj-beatb", 100, 80, 1
 			btnsBeatB = []
 			B = new BEATmatic.Btn $("#dj-beatb"), "btn-beatb", "#CACACA", ->
-				for btn in btnsBeatB
-					btn.btnFunction()
-			
+				BEATmatic.audioEngine.toggleLoopScene "B"
 			btn = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bassline_A, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Bass", 1)

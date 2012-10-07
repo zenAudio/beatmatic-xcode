@@ -78,6 +78,29 @@ void LoopMachine::setPreset(const char* const presetFilename) {
             addLoop(groupName, sample, gain, type, length);
         }
     }
+	
+	var scenes = obj.getProperty("scenes");
+	
+	for (int i = 0; i < scenes.size(); i++) {
+		var scene = scenes[i];
+		auto& obj = *scene.getDynamicObject();
+		
+		String name = obj.getProperty("name");
+		int sceneIx = addScene(name);
+		
+		var loops = obj.getProperty("loops");
+		for (int j = 0; j < loops.size(); j++) {
+			var obj2 = loops[j];
+			auto& info = *obj2.getDynamicObject();
+			
+			String group = info.getProperty("group");
+			int groupIx = groupNameToIx[group];
+			int loopIx = info.getProperty("loopIx");
+			
+			addSceneLoop(sceneIx, groupIx, loopIx);
+		}
+		
+	}
     
     prepareToPlay(expectedBufferSize, audioEngine.getTransport().getSampleRate());
 }
@@ -97,6 +120,16 @@ void LoopMachine::printRingBuffer() {
     }
     std::cout << "]" << std::endl;
     
+}
+
+void LoopMachine::toggleLoopScene(String scene) {
+	int sceneIx = sceneNameToIx[scene];
+	for (int i = 0; i < scenes[sceneIx].numLoops; i++) {
+		int groupIx = scenes[sceneIx].groups[i];
+		int loopIx = scenes[sceneIx].loopIxs[i];
+		if (userState[groupIx] != loopIx)
+			toggleLoop(scenes[sceneIx].groups[i], scenes[sceneIx].loopIxs[i]);
+	}
 }
 
 void LoopMachine::toggleLoop(int groupIx, int loopIx) {
@@ -593,5 +626,18 @@ void LoopMachine::setOneShotFinishedPlayingCallback(int groupIx, int loopIx, Str
 	info->callbackId = callbackId;
 //	std::cout << "Setting callback to : " << callbackId << std::endl;
 //	std::cout << (*groupIxToLoopInfo[groupIx])[loopIx]->callbackId << std::endl;
+}
+
+int LoopMachine::addScene(String scene) {
+	int ix = sceneNameToIx.size();
+	sceneNameToIx.set(scene, ix);
+	return ix;
+}
+
+void LoopMachine::addSceneLoop(int sceneIx, int groupIx, int loopIx) {
+	int ix = scenes[sceneIx].numLoops;
+	scenes[sceneIx].groups[ix] = groupIx;
+	scenes[sceneIx].loopIxs[ix] = loopIx;
+	scenes[sceneIx].numLoops++;
 }
 

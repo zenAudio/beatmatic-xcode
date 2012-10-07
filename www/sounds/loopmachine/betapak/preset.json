@@ -3,6 +3,34 @@
   "createdBy": "Beatmatic",
   "origBpm": 120,
   "preview": "Preview",
+  "scenes": [
+	{
+	  "name": "A",
+	  "loops": [
+		{
+			"group": "Bass",
+			"loopIx": 0
+		},
+		{
+			"group": "Lead",
+			"loopIx": 0
+		}
+	  ]
+	},
+	{
+	  "name": "B",
+	  "loops": [
+		{
+			"group": "Bass",
+			"loopIx": 1
+		},
+		{
+			"group": "Lead",
+			"loopIx": 1
+		}
+	  ]
+	}
+  ],
   "groups": [
     {
       "name": "Bass",
