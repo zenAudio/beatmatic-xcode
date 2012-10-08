@@ -41,7 +41,7 @@ class play
 		score = e.target.parentElement.id[4...]
 		cell =  $ e.target
 		
-		unless cell.hasClass "left1, left2, left3"
+		unless cell[0].className[0..3] is "left"
 			return
 			
 		if cell.hasClass "hit"
