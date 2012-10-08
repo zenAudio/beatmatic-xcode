@@ -1,4 +1,4 @@
-#@codekit-prepend visdata.coffee
+#@c  odekit-prepend visdata.coffee
 
 data = [[1056,1162,1117,1237,682,792,153,634,139,0,198,289,94,236,301,193,0,56,75,9,0,17,107,0,0,0,88,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1111,920,680,287,0,246,116,361,134,0,210,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] unless data
 
@@ -88,7 +88,7 @@ class BEATmatic.SoundBtn
 		</div>
 		"""
 		
-		
+		@prevPoints = []
 		@color = color if color
 		#@div = div
 
@@ -159,7 +159,7 @@ class BEATmatic.SoundBtn
 		else
 			@play()
 	
-	play: ->
+	play: =>
 		unless @playing
 			if @animations
 				@playOne(-1)
@@ -171,12 +171,7 @@ class BEATmatic.SoundBtn
 	playOne: (i) =>
 		i++
 		@drawCircle @visData[i]
-		
 		unless i is (@length - 1)
-			#console.log "playing "+i
-			#console.log "of "+data[i]
-			#console.log "of "+data.length
-			
 			@timeout = @delay @ms, =>
 				@playOne i
 		else
@@ -185,7 +180,7 @@ class BEATmatic.SoundBtn
 			@timeout = @delay @ms, =>
 				@clearCircle()
 	
-	stop: ->
+	stop: =>
 		clearTimeout @timeout
 		#@RING_THICKNESS = 2
 		@clearCircle()
@@ -242,12 +237,11 @@ class BEATmatic.SoundBtn
 		@c.stroke()	
 	###	
 	drawCircle: (points) ->
-		#console.log "drawCircle::" + points
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
 
 		# Outer shape
 		@c.fillStyle = @color#"#24A2E2"
-		@c.globalCompositeOperation = "source-over"
+		#@c.globalCompositeOperation = "source-over"
 		@c.beginPath()
 		j = 0
 		
@@ -274,6 +268,7 @@ class BEATmatic.SoundBtn
 				cp1y = @prevPoints[j - 1].y + Math.sin(prevAngle + Math.PI / 2) * @BEZIER_WIDTH
 				cp2x = x + Math.cos(angle - Math.PI / 2) * @BEZIER_WIDTH
 				cp2y = y + Math.sin(angle - Math.PI / 2) * @BEZIER_WIDTH
+				console.log "c.bezierCurveTo" + x + y
 				@c.bezierCurveTo cp1x, cp1y, cp2x, cp2y, x, y
 			if j is points.length - 1
 				prevAngle = angle
@@ -282,6 +277,7 @@ class BEATmatic.SoundBtn
 				cp1y = y + Math.sin(prevAngle + Math.PI / 2) * @BEZIER_WIDTH
 				cp2x = @prevPoints[0].x + Math.cos(angle - Math.PI / 2) * @BEZIER_WIDTH
 				cp2y = @prevPoints[0].y + Math.sin(angle - Math.PI / 2) * @BEZIER_WIDTH
+				console.log "c.bezierCurveTo" + @prevPoints[0].x + @prevPoints[0].y
 				@c.bezierCurveTo cp1x, cp1y, cp2x, cp2y, @prevPoints[0].x, @prevPoints[0].y
 			j++
 		@c.closePath()

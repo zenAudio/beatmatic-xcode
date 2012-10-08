@@ -8,7 +8,12 @@ class dj
 	constructor: ->
 		""
 		#@setup()
-		
+	
+	generateDemoSoundVis: ->
+		ret = []
+		for i in [1..120]
+			ret.push [1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0,1000,0]
+		return ret
 		
 	setup: ->
 		unless @isSetUp
@@ -73,6 +78,7 @@ class dj
 			@addGroup "dj-fill", 5, 232, 1
 			@btns.push new BEATmatic.SoundBtn $("#dj-fill"), "btn-fill", "#E671B8", BEATmatic.sampleVis.Percussion_F, ->
 				@toggle()
+				console.log @
 				BEATmatic.audioEngine.toggleLoop("Fills", 0)
 			@addHeadline $("#dj-fill"), "Fill", "#E671B8"
 			
