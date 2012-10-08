@@ -267,10 +267,6 @@ class dj
 				return
 				
 			allowPageScroll: "none"
-			#threshold: 50
-
-
-	
 
 $ ->
 	BEATmatic.dj = new dj()
