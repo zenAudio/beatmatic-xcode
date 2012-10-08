@@ -118,9 +118,11 @@ class dj
 			X = new BEATmatic.Btn $("#dj-controls"), "btn-back", "#CACACA", ->
 				BEATmatic.ui.switch "synth"
 			@btns.push new BEATmatic.Btn $("#dj-controls"), "btn-help", "#CACACA", ->
-				alert "todo: help"
+				BEATmatic.ui.showDJTutorial()
+				#alert "todo: help"
 			@btns.push new BEATmatic.Btn $("#dj-controls"), "btn-bpm", "#CACACA", ->
-				alert "todo: bpm help"
+				BEATmatic.ui.showDJTutorial()
+				#alert "todo: bpm help"
 			X = new BEATmatic.Btn $("#dj-controls"), "btn-fwd", "#CACACA", ->
 				alert "todo: sharing your song"
 			@addHeadline $("#dj-controls"), "Controls", "#CACACA"
