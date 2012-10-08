@@ -23,7 +23,7 @@ AudioRecorder::~AudioRecorder() {
 //==============================================================================
 void AudioRecorder::startRecording(const File& file)
 {
-    std::cout << "MPD: NATIVE: CPP: AudioRecorder::startRecording: attempt to record " << file.getFullPathName() << std::endl;
+//    std::cout << "MPD: NATIVE: CPP: AudioRecorder::startRecording: attempt to record " << file.getFullPathName() << std::endl;
     stop();
     
     this->outputFile = file;
@@ -37,7 +37,7 @@ void AudioRecorder::startRecording(const File& file)
         if (fileStream != 0)
         {
             // Now create a WAV writer object that writes to our output stream...
-            WavAudioFormat wavFormat;
+//            WavAudioFormat wavFormat;
 			OggVorbisAudioFormat oggFormat;
             AudioFormatWriter* writer = oggFormat.createWriterFor (fileStream, sampleRate, 1, 16, StringPairArray(), 0);
             
@@ -52,7 +52,7 @@ void AudioRecorder::startRecording(const File& file)
                 // And now, swap over our active writer pointer so that the audio callback will start using it..
                 const ScopedLock sl (writerLock);
                 activeWriter = threadedWriter;
-                    std::cout << "MPD: NATIVE: CPP: AudioRecorder::startRecording: record in progress: " << std::endl;
+//                    std::cout << "MPD: NATIVE: CPP: AudioRecorder::startRecording: record in progress: " << std::endl;
                 
             } else {
                 std::cout << "MPD: NATIVE: CPP: AudioRecorder::startRecording: record failed: null writer." << std::endl;

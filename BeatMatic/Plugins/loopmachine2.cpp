@@ -128,7 +128,7 @@ void LoopMachine::toggleLoopScene(String scene) {
 		int groupIx = scenes[sceneIx].groups[i];
 		int loopIx = scenes[sceneIx].loopIxs[i];
 		if (userState[groupIx] != loopIx)
-			toggleLoop(scenes[sceneIx].groups[i], scenes[sceneIx].loopIxs[i]);
+				toggleLoop(scenes[sceneIx].groups[i], scenes[sceneIx].loopIxs[i]);
 	}
 }
 

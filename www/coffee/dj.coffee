@@ -267,7 +267,7 @@ class dj
 				return
 				
 			allowPageScroll: "none"
-			threshold: 50
+			#threshold: 50
 
 
 	
