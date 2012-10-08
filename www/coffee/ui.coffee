@@ -32,8 +32,11 @@ class ui
 	
 	showDJTutorial: ->
 		$(".DJTutor").show()
-		$("#tutor4").click ->
-			$(".DJTutor").hide()
+		$("#tutor4").swipe			
+			click: (e, target) =>
+				$(".DJTutor").hide()
+		#$("#tutor4").click ->
+		#	$(".DJTutor").hide()
 	
 	switchTutorial: (tutorialNr) ->
 		for nr in [1, 2, 3]
