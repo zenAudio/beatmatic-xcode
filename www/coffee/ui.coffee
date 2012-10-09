@@ -64,6 +64,8 @@ class ui
 			BEATmatic.play.setup()
 			BEATmatic.rec.stopLevelMeter()
 			BEATmatic.audioEngine.play()
+			BEATmatic.audioEngine.muteDrumVoice "basic beat", false
+			BEATmatic.audioEngine.muteDrumVoice "hi-hat", false
 			
 		if tabid is "dj"
 			BEATmatic.play.stopHighlight()

@@ -12,7 +12,11 @@ class DrumPattern
 	]
 	
 	getAsJSON: ->
-		JSON.stringify {bpm: @bpm, tracks: @tracks}
+		try
+			JSON.stringify {bpm: @bpm, tracks: @tracks}
+		catch e
+			console.log "getAsJSON error in DrumPattern"
+			console.log @tracks
 	
 	setDemoPattern: ->
 		@bpm = 120
