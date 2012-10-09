@@ -42,9 +42,11 @@ class dj
 				if btnBass1.playing or btnLead1.playing
 					btnBass1.stop()
 					btnLead1.stop()
+					btnPiano1.stop()
 				else
 					btnBass1.play()
 					btnLead1.play()
+					btnPiano1.play()
 					
 			btnBass1 = new BEATmatic.SoundBtn $("#dj-beata"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bass_new, ->
 				@toggle()
@@ -56,6 +58,12 @@ class dj
 				BEATmatic.audioEngine.toggleLoop("Lead", 0)
 			@btns.push btnLead1
 			btnsBeatA.push btnLead1
+			
+			btnPiano1 = new BEATmatic.SoundBtn $("#dj-beata"), "btn-pinao", "#46002B", BEATmatic.sampleVis.Bassline_A, ->
+				@toggle()
+				#BEATmatic.audioEngine.toggleLoop("Bass", 1)
+			@btns.push btnPiano1
+			
 			@addHeadline $("#dj-beata"), "Scene A", "#000000"
 			
 			
@@ -67,9 +75,11 @@ class dj
 				if btnBass2.playing or btnLead2.playing
 					btnBass2.stop()
 					btnLead2.stop()
+					btnPiano2.stop()
 				else
 					btnBass2.play()
 					btnLead2.play()
+					btnPiano2.play()
 					
 			btnBass2 = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-bass", "#F19917", BEATmatic.sampleVis.Bassline_A, ->
 				@toggle()
@@ -77,11 +87,19 @@ class dj
 			@btns.push btnBass2
 			btnsBeatB.push btnBass2
 			
+			
+			
 			btnLead2 = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-lead", "#8CBF26", BEATmatic.sampleVis.Lead_1, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Lead", 1)
 			@btns.push btnLead2
 			btnsBeatB.push btnLead2
+			
+			btnPiano2 = new BEATmatic.SoundBtn $("#dj-beatb"), "btn-pinao", "#46002B", BEATmatic.sampleVis.Bassline_A, ->
+				@toggle()
+				#BEATmatic.audioEngine.toggleLoop("Bass", 1)
+			@btns.push btnPiano2
+			#btnsBeatB.push btnBass2
 			
 			
 			#Cross Refernece the Buttons
@@ -89,6 +107,8 @@ class dj
 			btnLead2.btnGroup.push btnLead1
 			btnBass1.btnGroup.push btnBass2
 			btnBass2.btnGroup.push btnBass1
+			btnPiano1.btnGroup.push btnPiano2
+			btnPiano2.btnGroup.push btnPiano1
 			
 			@addHeadline $("#dj-beatb"), "Scene B", "#000000"
 			
@@ -128,7 +148,7 @@ class dj
 			
 			@addHeadline $("#dj-voc"), "Vocals", "#00ABA9"
 			
-			@addGroup "dj-ear", 195, 165, 2
+			@addGroup "dj-ear", 199, 165, 2
 			btn1 = new BEATmatic.SoundBtn $("#dj-ear"), "btn-candy", "#E51400", BEATmatic.sampleVis.Ear_Candy_C, ->
 				@toggle()
 				BEATmatic.audioEngine.toggleLoop("Ear Candy", 0)
@@ -149,7 +169,7 @@ class dj
 			
 			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
-			@addGroup "dj-fx", 290, 165, 2
+			@addGroup "dj-fx", 298, 165, 2
 			filter = new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
 				@toggle()
 				#@playing = not @playing
