@@ -124,11 +124,16 @@ void LoopMachine::printRingBuffer() {
 
 void LoopMachine::toggleLoopScene(String scene) {
 	int sceneIx = sceneNameToIx[scene];
+	bool allOn = true;
+	auto& si = scenes[sceneIx];
+	for (int i = 0; i < scenes[sceneIx].numLoops; i++) {
+		allOn = allOn && (userState[si.groups[i]] == si.loopIxs[i]);
+	}
 	for (int i = 0; i < scenes[sceneIx].numLoops; i++) {
 		int groupIx = scenes[sceneIx].groups[i];
 		int loopIx = scenes[sceneIx].loopIxs[i];
-		if (userState[groupIx] != loopIx)
-				toggleLoop(scenes[sceneIx].groups[i], scenes[sceneIx].loopIxs[i]);
+		if (userState[groupIx] != loopIx || allOn)
+			toggleLoop(scenes[sceneIx].groups[i], scenes[sceneIx].loopIxs[i]);
 	}
 }
 

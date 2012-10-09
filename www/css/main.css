@@ -1671,3 +1671,15 @@ input.ui-input-text,
     background-size: 100px 250px;
   }
 }
+
+ul.looplist {
+	list-style-type:none;
+  font-size: 26px;
+	margin-left:0px;
+}
+
+ul.looplist li {
+  padding: 13px 0px;
+  font-size: 26px;
+}
+
