@@ -175,13 +175,13 @@ NSString* RESTRICTED = @"ACTION RESTRICTED FOR FX AUDIO";
     
     NSLog(@"MPD: NATIVE: DiracPlayer: changeDuration: %@", duration);
     
-    if (player != nil) {
-        [player changeDuration:[duration floatValue]];
+    if (player != nil && player != (id) [NSNull null] && duration != nil && duration != (id) [NSNull null]) {
+		[player changeDuration:[duration floatValue]];
+		[duration release];
     } else {
         NSLog(@"MPD: ERROR: DiracPlayer: changeDuration: player is null for sample: %@", sampleName);
     }
     
-    [duration release];
     [sampleName release];
     [callbackID release];
 }

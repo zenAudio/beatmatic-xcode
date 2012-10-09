@@ -231,11 +231,13 @@
     [callbackId retain];
     
     NSNumber *bpm = [arguments pop];
-    [bpm retain];
-    
-    engine.getTransport().setBpm([bpm floatValue]);
-    
-    [bpm release];
+	if (bpm != nil && bpm != (id) [NSNull null]) {
+		[bpm retain];
+		
+		engine.getTransport().setBpm([bpm floatValue]);
+		
+		[bpm release];
+	}
     [callbackId release];
 }
 
