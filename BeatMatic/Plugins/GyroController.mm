@@ -1,19 +1,24 @@
 #import "GyroController.h"
 #import "AudioEngineImpl.h"
+#import "objctrampoline.h"
 
 
 @implementation GyroController {
 	AudioEngineImpl* audioEngine;
+	id objcEngine;
 }
 
 //@synthesize image;
 
-- (void) setAudioEngine: (void *)engine {
+- (void) setAudioEngine: (void *)engine objc:(id) objcEngine_ {
 //	NSLog(@"Gyro: setting audio engine..");
 	audioEngine = (AudioEngineImpl*)engine;
+	objcEngine = objcEngine_;
+	[objcEngine retain];
 	motionManager = [[CMMotionManager alloc] init];
 	[motionManager retain];
 	lastX = lastY = lastZ = 0;
+	shakeCallbackId = nil;
 }
 
 -(void)toggleUpdates {
@@ -90,6 +95,7 @@
 				crusher->setEnabled(false);
 	//			NSLog(@"Setting CRUSHER off from motion");
 			}
+			audioEngine->shake();
 		}
 		
 		if (mixer.getMasterCrusher()->isEnabled()) {
@@ -121,6 +127,13 @@
 	[motionManager release];
 //	self.image = nil;
     [super dealloc];
+}
+
+- (void) setShakeCallback: (NSString *)callbackId {
+	//NSLog(@"Set SHAKE callback.");
+	[callbackId retain];
+	audioEngine->setShakeCallback(String([callbackId UTF8String]));
+	[callbackId release];
 }
 
 @end

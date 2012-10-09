@@ -110,14 +110,21 @@ class dj
 			@addHeadline $("#dj-ear"), "Ear Candy", "#E51400"
 			
 			@addGroup "dj-fx", 290, 165, 2
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
+			filter = new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
 				@toggle()
 				#@playing = not @playing
 				BEATmatic.audioEngine.setMasterFilter(@playing)
-			@btns.push new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
+			@btns.push filter
+			crusher = new BEATmatic.SoundBtn $("#dj-fx"), "btn-fx", "#AD31FF", "none", ->
 				@toggle()
 				BEATmatic.audioEngine.setMasterCrusher(@playing)
+			@btns.push crusher
 			@addHeadline $("#dj-fx"), "FX", "#AD31FF"
+			BEATmatic.audioEngine.setShakeCallback ->
+				if filter.playing
+					filter.toggle()
+				if crusher.playing
+					crusher.toggle()
 			
 			@addGroup "dj-controls", 385, 10, 4
 			#back

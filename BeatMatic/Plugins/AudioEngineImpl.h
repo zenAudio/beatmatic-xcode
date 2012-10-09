@@ -58,7 +58,7 @@ private:
     AudioInputMeter& operator= (const AudioInputMeter&);
 };
 
-class AudioEngineImpl : public ChangeListener {
+class AudioEngineImpl : public ChangeBroadcaster, public ChangeListener {
 public:
     const static int CURSOR_UPDATE_INTERVAL_MS = 10;
     
@@ -79,6 +79,9 @@ public:
     void setCursorUpdateCallback(const char* const callbackId);
     void playSample(const char* const filename, const char* const callbackId);
     void stopSample();
+	
+	void shake();
+	void setShakeCallback(String callback);
    
     // Utility
     AudioDeviceManager& getAudioMgr();
@@ -96,10 +99,11 @@ private:
     AudioTransport transport;
     AudioRecorder audioRecorder;
     AudioInputMeter inputMeter;
-    
+	    
     // these are needed to communicate with the GUI
     String cursorUpdateCb;
     String playSampleCb;
+	String shakeCb;
     
     void * objcSelf;
     

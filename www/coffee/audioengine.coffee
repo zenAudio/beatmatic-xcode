@@ -173,6 +173,9 @@ class AudioEngine extends EventBase
 			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusherEnabled", [v])
 		else
 			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [JSON.stringify(params)])
+	
+	setShakeCallback: (callbackFn) ->
+		Cordova?.exec(callbackFn, @nop, "audioEngine", "setShakeCallback", [])
 
 	nop: () ->
 		# no op

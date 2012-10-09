@@ -23,7 +23,7 @@
 //	NSLog(@"MPD: NATIVE: AudioEngine::initializing gyro.");
 	gyroController = [[GyroController alloc] init];
 	[gyroController retain];
-	[gyroController setAudioEngine:&engine];
+	[gyroController setAudioEngine: &engine objc: self];
 	[gyroController toggleUpdates];
     
 //	NSLog(@"MPD: NATIVE: AudioEngine::initialize: Reading drum preset.");
@@ -130,6 +130,16 @@
     
     [cursorCallbackId release];
 }
+
+- (void) setShakeCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options {
+    NSString *callbackId = [arguments pop];
+    [callbackId retain];  // do we need this?
+
+	[gyroController setShakeCallback:callbackId];
+    
+    [callbackId release];
+}
+
 
 // TODO: we need to set up a path through which the C++ sequencer code, from the sequencer thread,
 // can invoke the callback below. That means we need to learn how to have a C++ object call a
