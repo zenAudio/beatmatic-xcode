@@ -191,6 +191,9 @@ class AudioEngine extends EventBase
 				console.log "getAsJSON error in setMasterCrusher"
 				console.log @tracks
 			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [p])
+	
+	setShakeCallback: (callbackFn) ->
+		Cordova?.exec(callbackFn, @nop, "audioEngine", "setShakeCallback", [])
 
 	nop: () ->
 		# no op

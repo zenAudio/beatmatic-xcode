@@ -7,10 +7,12 @@
 	bool on;
 	float lastX, lastY, lastZ;
 	NSThread* thread;
+	NSString* shakeCallbackId;
 }
 
 -(void)toggleUpdates;
-- (void) setAudioEngine: (void *)engine;
+- (void) setAudioEngine:(void *)engine objc:(id) objcEngine_;
+- (void) setShakeCallback: (NSString *)callbackId;
 
 @end
 

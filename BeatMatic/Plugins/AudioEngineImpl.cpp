@@ -83,8 +83,9 @@ void AudioInputMeter::audioDeviceIOCallback(const float** inputChannelData, int 
 
 
 AudioEngineImpl::AudioEngineImpl() : mixer(*this), audioRecorder(*this),
-    cursorUpdateCb(String::empty), playSampleCb(String::empty), inputMeter(*this)
+cursorUpdateCb(String::empty), playSampleCb(String::empty), inputMeter(*this),shakeCb(String::empty)
 {
+	addChangeListener(this);
 }
 
 AudioInputMeter& AudioEngineImpl::getInputMeter() {
@@ -150,14 +151,14 @@ void AudioEngineImpl::changeListenerCallback(ChangeBroadcaster* source) {
 //			std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::changeListenerCallback: invoked from loop machine: " << groupIx << ", " << loopIx << ", callback: " << callbackId << std::endl;
 			if (callbackId != String::empty) {
 				InvokePhoneGapCallback(objcSelf, callbackId.toUTF8(), "");
-
 			}
 			
 			//audioState[groupIx] = loopIx;
 			lm.endDrainIx++;
 		}
-		
-
+	} else if (source == this && shakeCb != String::empty) {
+		// then this was caused by shake() method below!
+		InvokePhoneGapCallback(objcSelf, shakeCb.toUTF8(), "");
 	}
 }
 
@@ -233,4 +234,12 @@ void AudioEngineImpl::setCursorUpdateCallback(const char* const callbackId) {
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setCursorUpdateCallback: setting timer updates to " << CURSOR_UPDATE_INTERVAL_MS << " millis" << std::endl;
     cursorUpdateCb = callbackId != nullptr ? callbackId : String::empty;
 //    std::cout << "MPD: NATIVE: CPP: AudioEngineImpl::setCursorUpdateCallback: " << (callbackId?callbackId:"null") << std::endl;
+}
+
+void AudioEngineImpl::shake() {
+	sendChangeMessage();
+}
+
+void AudioEngineImpl::setShakeCallback(String callback) {
+	shakeCb = callback;
 }

@@ -57,6 +57,10 @@
 - (void) setMasterCrusherEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) setMasterFilterEnabled: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
+// Gyro/Accel
+- (void) setShakeCallback: (NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+
+
 // Trampoline (objctrampoline.h)
 - (void) invokePhoneGapCallback:(NSString *)callbackId withResponse:(NSString*)jsonResponse;
 //- (void) cursorCb;
