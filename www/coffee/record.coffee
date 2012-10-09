@@ -66,7 +66,8 @@ class rec
 		#level = 100 - percent
 		percent = percent + 10 unless percent is 0
 		#$("#recordLevel").css("background", "-webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) #{level}%,rgba(255,0,0,1) 100%)")#rgba(167,250,248,1)
-		$("#recordLevel").css("background", "-webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 0%,rgba(255,255,255,1) #{percent}%)")
+		#$("#recordLevel").css("background", "-webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 0%,rgba(255,255,255,1) #{percent}%)")
+		$("#recordLevel").css("background", "-webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 0%,rgba(255,255,255,0) #{percent}%)")
 		percent
 		
 		

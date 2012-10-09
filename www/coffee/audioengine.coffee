@@ -158,11 +158,23 @@ class AudioEngine extends EventBase
 				v = 1
 			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilterEnabled", [v])
 		else
-			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilter", [JSON.stringify(filterParams)])
+			fp = ""
+			try
+				fp = JSON.stringify(filterParams)
+			catch e
+				console.log "getAsJSON error in setMasterFilter"
+				console.log @tracks
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterFilter", [fp])
 	
 	setMasterVerb: (params) ->
+		p = ""
+		try
+			p = JSON.stringify(params)
+		catch e
+			console.log "getAsJSON error in setMasterVerb"
+			console.log @tracks
 		#console.log "MPD: JS: AudioEngine:setMasterFilter"
-		Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterVerb", [JSON.stringify(params)])
+		Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterVerb", [p])
 
 	setMasterCrusher: (params) ->
 		#console.log "MPD: JS: AudioEngine:setMasterCrusher: #{params}"
@@ -172,7 +184,13 @@ class AudioEngine extends EventBase
 				v = 1
 			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusherEnabled", [v])
 		else
-			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [JSON.stringify(params)])
+			p = ""
+			try
+				p = JSON.stringify(params)
+			catch e
+				console.log "getAsJSON error in setMasterCrusher"
+				console.log @tracks
+			Cordova?.exec(@nop, @nop, "AudioEngine", "setMasterCrusher", [p])
 	
 	setShakeCallback: (callbackFn) ->
 		Cordova?.exec(callbackFn, @nop, "audioEngine", "setShakeCallback", [])

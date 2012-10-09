@@ -89,6 +89,8 @@ class BEATmatic.SoundBtn
 		"""
 		
 		@prevPoints = []
+		@btnGroup = []
+		
 		@color = color if color
 		#@div = div
 
@@ -166,6 +168,9 @@ class BEATmatic.SoundBtn
 			else
 				@clearCircle(true)
 			@playing = true
+			
+			for btn in @btnGroup
+				btn.stop()
 		
 		
 	playOne: (i) =>
