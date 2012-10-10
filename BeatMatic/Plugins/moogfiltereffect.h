@@ -25,14 +25,15 @@ public:
 	virtual void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     virtual void releaseResources();
     virtual void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
-	
+	virtual void setParams(float frequency, float resonance);
+
 //	const Parameters 
 	
 private:
 	
-	float f, p, q;             //filter coefficients
-	float b0, b1, b2, b3, b4;  //filter buffers (beware denormals!)
-	float t1, t2;              //temporary buffers
+	float cutoff;	// = cutoff freq in Hz
+	float fs;		// = sampling frequency //(e.g. 44100Hz)
+	float res;		// = resonance [0 - 1] //(minimum - maximum)
 
 };
 
