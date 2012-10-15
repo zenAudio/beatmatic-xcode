@@ -13,13 +13,7 @@ class play
 	
 	constructor: ->
 		
-		$("#snext").click =>
-			BEATmatic.ui.switch("dj")
-			false
 		
-		$("#sback").click =>
-			BEATmatic.ui.switch("main")
-			false
 		
 		
 		#$("#bars").click (e) =>
@@ -137,6 +131,36 @@ class play
 		
 		$("#playbars").html playbar
 		$("#scrollbars").html scrollbar
+		
+		unless @btnAreSetUp
+		
+			backBtn = new BEATmatic.Btn $("#synthNav"), "btn-back", "#CACACA", ->
+				BEATmatic.ui.switch("main")
+				false
+				
+			
+			backBtn.el.css "float", "left"
+			
+			fwdBtn = new BEATmatic.Btn $("#synthNav"), "btn-fwd", "#CACACA", ->
+				BEATmatic.ui.switch("dj")
+				false
+				
+			fwdBtn.el.css "float", "right"
+			@btnAreSetUp = true
+		###
+		$("#snext").click =>
+			BEATmatic.ui.switch("dj")
+			false
+		
+		$("#sback").click =>
+			BEATmatic.ui.switch("main")
+			false
+		###	
+			
+		fwdBtn.el.css "float", "right"
+		
+		#@addHeadline $("#dj-controls"), "Controls", "#CACACA"
+		
 		#@enableSwipe()
 		@setupScrollSpy()
 	

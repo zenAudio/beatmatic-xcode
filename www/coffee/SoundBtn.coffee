@@ -25,9 +25,10 @@ class BEATmatic.Btn
 		
 		@color = color if color
 		
-		$("#SB#{@instanceID}").data "btn", @
+		@el = $("#SB#{@instanceID}")
+		@el.data "btn", @
 		
-		$("#SBC#{@instanceID}").swipe
+		@el.swipe
 			threshold: 200
 			
 			click: (e, target) =>
@@ -107,13 +108,20 @@ class BEATmatic.SoundBtn
 		
 		@clearCircle()
 		
-		$("#SB#{@instanceID}").data "btn", @
+		@el = $("#SB#{@instanceID}")
+		@el.data "btn", @
 		#console.log 
 		
-		$("#SBC#{@instanceID}").swipe
+		@el.swipe
 			click: (e, target) =>
 				#BEATmatic.dj.clickHandler(e)
 				@btnFunction()
+			###	
+			longClick: (e, target) =>
+				#BEATmatic.dj.clickHandler(e)
+				#alert "long click"
+				console.log "long click"
+			###
 				
 		BEATmatic.audioEngine.bind "bpm", (bpm) =>
 			@ms = Math.floor 15000 / bpm
@@ -175,7 +183,7 @@ class BEATmatic.SoundBtn
 		
 	playOne: (i) =>
 		i++
-		@drawCircle @visData[i]
+		@drawCircle @visData[i], i / @length
 		unless i is (@length - 1)
 			@timeout = @delay @ms, =>
 				@playOne i
@@ -241,12 +249,12 @@ class BEATmatic.SoundBtn
 		@c.arc @CX, @CY, @radius - @RING_THICKNESS / 2, Math.PI / 2 * circumference, Math.PI * 2 * circumference + Math.PI / 2 * circumference, false
 		@c.stroke()	
 	###	
-	drawCircle: (points) ->
+	drawCircle: (points, progress) ->
 		@c.clearRect 0, 0, @WIDTH, @HEIGHT
 
 		# Outer shape
 		@c.fillStyle = @color#"#24A2E2"
-		#@c.globalCompositeOperation = "source-over"
+		@c.globalCompositeOperation = "source-over"
 		@c.beginPath()
 		j = 0
 		
@@ -322,3 +330,16 @@ class BEATmatic.SoundBtn
 			j++
 		@c.closePath()
 		@c.fill()
+		
+		## Status
+		circumference = 1 - progress
+		circumference = Math.min(1, circumference)
+		
+		# Draw line
+		@c.strokeStyle = @color
+		@c.lineWidth = @RING_THICKNESS + 2
+		@c.globalCompositeOperation = "source-over"
+		@c.beginPath()
+		@c.arc @CX, @CY, @radius - 1, Math.PI / 2 * circumference, Math.PI * 2 * circumference + Math.PI / 2 * circumference, false
+		#@c.arc @CX, @CY, @radius - 1, 0, Math.PI * 2 * circumference, false
+		@c.stroke()

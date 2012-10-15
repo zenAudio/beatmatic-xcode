@@ -7,7 +7,6 @@
 		<link rel="stylesheet" type="text/css" href="css/less/colours.css" />
 		<link rel="stylesheet" type="text/css" href="css/less/tiles.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
-		<link rel="stylesheet" type="text/css" href="css/jquery.metro.css" />
 		<link rel="stylesheet" type="text/css" href="css/retina.css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" />
 
 		<title>BEATmatic</title>
@@ -15,7 +14,7 @@
 	<body theme='light'>
 	<div id="ui" class="ui">
 		<!--<div id="main" class="uitab active">-->
-		<div id="main" class="uitab">
+		<div id="main" class="uitab active">
 			<div id="recordLevelCenter">
 				<div id="recordLevelBack">
 					<div id="recordLevel"></div>
@@ -35,17 +34,13 @@
 			</div>
 		</div>
 		<div id="synth" class="uitab ">
-			<div data-role="header" data-theme="b" data-position="inline" class="ui-header ui-bar-b" role="banner">
-				<h1 class="ui-title" role="heading" aria-level="1">correct &amp; enhance</h1>
-				<a href="#" id="sback" data-rel="back" data-icon="arrow-l" data-theme="b" class="ui-btn-left ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Back</span><span class="ui-ui-icon--l ui--shadow">&nbsp;</span></span></a>
-				<a href="#" id="snext" data-theme="b" class="ui-btn-right ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Next</span></span></a>
-			</div>
 			<div id="scrollbars" class="obars">
 			</div>
 			<div id="playbars" class="obars">
 			</div>
 			<div id="bars">
 			</div>
+			<div id="synthNav"></div>
 		</div>
 		
 		<div id="dj" class="uitab">
@@ -55,59 +50,6 @@
 		</div>
 		
 		<div id="dj2" class="uitab">
-		</div>
-
-		<div id="loopbrowser" class="uitab active">
-			<div class='metro-pivot'>
-				<div class='pivot-item'>
-					<h3>beats</h3> 
-					<ul class="looplist">
-						<li>Funky 8ths</li>
-						<li>Funky 16ths</li>
-						<li>Groovy trioles</li>
-						<li>Chicken lick</li>
-						<li>Chicken funk</li>
-					</ul>
-				</div>
-				<div class='pivot-item'>
-					<h3>bass</h3> 
-					<ul class="looplist">
-						<li>Aeolian shuffle</li>
-						<li>Lydian groove</li>
-						<li>Groovy trioles</li>
-						<li>Chicken lick</li>
-						<li>Blues funk</li>
-					</ul>
-				</div>
-				<div class='pivot-item'>
-					<h3>lead</h3> 
-					<ul class="looplist">
-						<li>aparde melo 1</li>
-						<li>aparde melo 2</li>
-						<li>aparde mood 2</li>
-						<li>Blues funk</li>
-					</ul>
-				</div>
-				<div class='pivot-item'>
-					<h3>pads</h3> 
-					<ul class="looplist">
-						<li>dark mood</li>
-						<li>sub engine room</li>
-						<li>vangelis</li>
-						<li>melancholy</li>
-						<li>jinja</li>
-					</ul>
-				</div>
-				<div class='pivot-item'>
-					<h3>ear candy</h3> 
-					<ul class="looplist">
-						<li>dark mood</li>
-						<li>sub engine room</li>
-						<li>vangelis</li>
-						<li>melancholy</li>
-					</ul>
-				</div>
-			</div>
 		</div>
 		
 		<div id="share" class="uitab">
@@ -129,9 +71,7 @@
 	<script type="text/javascript" src="cordova-2.1.0.js"></script>
 	<script type="text/javascript" src="js/jquery-1.8.0.js"></script>
 	<script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
-	<script type="text/javascript" src="js/jquery-scrollspy.js"></script>
-	<script type="text/javascript" src="js/jquery.metro.js"></script>
-	
+	<script type="text/javascript" src="js/jquery-scrollspy.js"></script>	
    
 	<script type="text/javascript" src="coffee/ui.js"></script>
 	<script type="text/javascript" src="coffee/drumPattern.js"></script>
@@ -143,24 +83,6 @@
 	<script type="text/javascript" src="coffee/play.js"></script>
 	<script type="text/javascript" src="coffee/dj.js"></script>
 	<script type="text/javascript" src="js/waveformdata.js"></script>
-
-	<script type="text/javascript">
-		$(function () {
-				$("div.metro-pivot").metroPivot();
-				$("span.accent-box").click(accent_Changed);
-
-				$('.jush').jush();
-
-				// restore state
-				if($.cookie("jquery.metro.theme") != null) $(document.body).attr("theme", $.cookie("jquery.metro.theme"));
-				if ($.cookie("jquery.metro.accent") != null) $(document.body).attr("accent", $.cookie("jquery.metro.accent"));
-		});
-
-		function pivot_previous() { $("div.metro-pivot").data("controller").goToPrevious(); }
-		function pivot_next() { $("div.metro-pivot").data("controller").goToNext(); }
-		function pivot_goTo(header) { $("div.metro-pivot").data("controller").goToItemByName(header); }
-		function pivot_goToIndex(index) { $("div.metro-pivot").data("controller").goToItemByIndex(index); }
-</script>
 
 	</script>
 	
