@@ -239,7 +239,7 @@ canvas {
   background-image: url(../img/tutor4.png);
 }
 .btn {
-  border: 1px solid #339933;
+  border: 1px solid #AD9574;
   text-decoration: none;
   padding: 10px 25px;
   margin-bottom: 0;
@@ -249,7 +249,7 @@ canvas {
   cursor: pointer;
   border-radius: 10px;
   text-align: center;
-  color: #339933;
+  color: #AD9574;
 }
 #demoBtn {
   float: right;
@@ -282,7 +282,7 @@ canvas {
   margin-left: -61px;
   bottom: 20px;
   padding: 25px;
-  background: #339933;
+  background: #AD9574;
   color: white;
 }
 #micHome {
