@@ -124,6 +124,8 @@
 		swipeDown: null, 	// Function - A handler that is triggered for "down" swipes. Accepts 3 arguments, the original event object, the direction of the swipe : "left", "right", "up", "down", the distance of the swipe, and the finger count.
 		swipeStatus: null, 	// Function - A handler triggered for every phase of the swipe. Handler is passed 4 arguments: event : The original event object, phase:The current swipe face, either "start?, "move?, "end? or "cancel?. direction : The swipe direction, either "up?, "down?, "left " or "right?.distance : The distance of the swipe : The finger count.
 		click: null, 		// Function	- A handler triggered when a user just clicks on the item, rather than swipes it. If they do not move, click is triggered, if they do move, it is not.
+		
+		longClick: null, 		// LongClick
 
 		triggerOnTouchEnd: true, // Boolean, if true, the swipe events are triggered when the touch end event is received (user releases finger).  If false, it will be triggered on reaching the threshold, and then cancel the touch event automatically.
 		allowPageScroll: "auto", 	/* How the browser handles page scrolls when the user is swiping on a touchSwipe object. 
@@ -267,6 +269,8 @@
 		catch (e) {
 			$.error('events not supported ' + START_EV + ',' + CANCEL_EV + ' on jQuery.swipe');
 		}
+		
+		var longClickTimer = false; 		// Long Click Timer.
 
 		//Public methods
 		/**
@@ -304,6 +308,18 @@
 		function touchStart(event) {
 			//As we use Jquery bind for events, we need to target the original event object
 			event = event.originalEvent;
+			
+			
+			if (options.longClick && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance < 5)) {
+				longClickTimer = setTimeout(function() {
+					if (options.longClick && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance < 5)) {
+						ret = options.longClick.call($element, event, event.target);
+					}
+				}, 800);
+				$element.bind(END_EV, function() {
+					clearTimeout(longClickTimer);
+				});
+			}
 
 			var ret,
 				evt = SUPPORTS_TOUCH ? event.touches[0] : event;
@@ -426,7 +442,7 @@
 			event.preventDefault();
 
 			endTime = getTimeStamp();
-
+			
 			distance = calculateDistance();
 			direction = calculateDirection();
 			duration = calculateDuration();
@@ -496,7 +512,8 @@
 			}
 
 			if (phase === PHASE_CANCEL) {
-				if (options.click && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance === 0)) {
+				//console.log(distance)
+				if (options.click && (fingerCount === 1 || !SUPPORTS_TOUCH) && (isNaN(distance) || distance < 5)) {
 					ret = options.click.call($element, event, event.target);
 				}
 			}
