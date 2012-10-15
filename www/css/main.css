@@ -80,8 +80,8 @@ canvas {
 }
 .obars {
   position: absolute;
-  top: 43px;
-  bottom: 0;
+  top: 0px;
+  bottom: 45px;
 }
 #scrollbars {
   width: 10px;
@@ -107,7 +107,8 @@ canvas {
   -webkit-overflow-scrolling: touch;
   position: absolute;
   top: 0px;
-  bottom: 0px;
+  bottom: 45px;
+  border-bottom: 1px solid #B2B2B2;
   left: 0px;
   right: 0px;
 }
@@ -117,6 +118,22 @@ canvas {
   left: 0px;
   right: 0px;
   height: 55px;
+}
+#djNav {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 55px;
+}
+#djNavLine {
+  position: absolute;
+  background-color: white;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 45px;
+  border-top: 1px solid #B2B2B2;
 }
 .wrapper {
   position: relative;

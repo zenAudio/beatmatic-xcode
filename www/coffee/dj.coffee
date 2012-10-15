@@ -7,6 +7,29 @@ class dj
 	
 	constructor: ->
 		""
+		backBtn = new BEATmatic.Btn $("#djNav"), "btn-back", "#CACACA", ->
+			BEATmatic.ui.switch("synth")
+			false
+			
+		
+		backBtn.el.css "float", "left"
+		
+		more = new BEATmatic.Btn $("#djNav"), "btn-more", "#CACACA", ->
+			alert "todo: preset switch"
+		more.el.css "float", "left"
+				
+		fwdBtn = new BEATmatic.Btn $("#djNav"), "btn-fwd", "#CACACA", ->
+			#BEATmatic.ui.switch("dj")
+			alert "todo: share"
+			false
+			
+		fwdBtn.el.css "float", "right"
+		
+		help = new BEATmatic.Btn $("#djNav"), "btn-help", "#CACACA", ->
+			BEATmatic.ui.showDJTutorial()
+		help.el.css "float", "right"
+		@btnAreSetUp = true
+		
 		#@setup()
 	
 	generateDemoSoundVis: ->
@@ -185,7 +208,7 @@ class dj
 					filter.toggle()
 				if crusher.playing
 					crusher.toggle()
-			
+			###
 			@addGroup "dj-controls", 385, 10, 4
 			#back
 			X = new BEATmatic.Btn $("#dj-controls"), "btn-back", "#CACACA", ->
@@ -199,7 +222,7 @@ class dj
 			X = new BEATmatic.Btn $("#dj-controls"), "btn-fwd", "#CACACA", ->
 				alert "todo: sharing your song"
 			@addHeadline $("#dj-controls"), "Controls", "#CACACA"
-			
+			###
 			###
 			for x in [1..10]
 				@btns.push new BEATmatic.SoundBtn $("#music2"), "btn-drum", "#24A2E2"
@@ -325,6 +348,8 @@ class dj
 						offset = offset * -1
 					
 					@originalbpm = BEATmatic.audioEngine.getBpm() unless @originalbpm
+					
+					return if @originalbpm + offset < 50 or 250 < @originalbpm + offset
 					
 					$("#swipeDJVolumeLayover").html "#{@originalbpm + offset} BPM"
 

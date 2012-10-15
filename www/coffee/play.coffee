@@ -112,8 +112,8 @@ class play
 		for score1, index in BEATmatic.drumPattern.tracks[0].score
 			score2 = BEATmatic.drumPattern.tracks[1].score[index]
 			score3 = BEATmatic.drumPattern.tracks[2].score[index]
-			
-			bars = """#{bars}#{if (index % 4) is 0 and index != 0 then @headline "Beat#{(index)/4+1}" else ""}<div id="tick#{index+1}"class="wrapper">
+			#and index != 0
+			bars = """#{bars}#{if (index % 4) is 0  then @headline "Beat#{(index)/4+1}" else ""}<div id="tick#{index+1}"class="wrapper">
 			     <div class="left1 #{if score1 then "hit" else ""}">
 			     </div>
 			     <div class="left2 #{if score2 then "hit" else ""}">
@@ -127,7 +127,7 @@ class play
 			#@scoresMax = index + 1
 
 		
-		$("#bars").html bars
+		$("#bars").html bars #+ """<div id="spacer" class="wrapper"><br><br><br></div>"""
 		
 		$("#playbars").html playbar
 		$("#scrollbars").html scrollbar
