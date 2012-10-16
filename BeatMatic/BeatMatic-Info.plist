@@ -12,8 +12,8 @@
 	<string>ico_electro2.png</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>ico_rap4.png</string>
-		<string>ico_rap4@2x.png</string>
+		<string>ico_rap6.png</string>
+		<string>ico_rap6@2x.png</string>
 		<string>icon-72.png</string>
 		<string>icon-72@2x.png</string>
 		<string>Default.png</string>
@@ -26,8 +26,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>ico_rap4.png</string>
-				<string>ico_rap4@2x.png</string>
+				<string>ico_rap6.png</string>
+				<string>ico_rap6@2x.png</string>
 				<string>icon-72.png</string>
 				<string>icon-72@2x.png</string>
 				<string>Default.png</string>

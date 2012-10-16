@@ -346,10 +346,15 @@ class dj
 					
 					if direction is "down"
 						offset = offset * -1
+						
+					console.log "BEATmatic.audioEngine.getBpm()"
+					console.log BEATmatic.audioEngine.getBpm()
 					
 					@originalbpm = BEATmatic.audioEngine.getBpm() unless @originalbpm
 					
-					return if @originalbpm + offset < 50 or 250 < @originalbpm + offset
+					newBPM = @originalbpm + offset
+					
+					return if newBPM < 50 or 250 < newBPM or isNaN newBPM
 					
 					$("#swipeDJVolumeLayover").html "#{@originalbpm + offset} BPM"
 

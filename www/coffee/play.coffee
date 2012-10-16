@@ -141,11 +141,15 @@ class play
 			
 			backBtn.el.css "float", "left"
 			
+			$("#synthNav").append """<div style="float: left;" class="navLabel">Start again</div>"""
+			
 			fwdBtn = new BEATmatic.Btn $("#synthNav"), "btn-fwd", "#CACACA", ->
 				BEATmatic.ui.switch("dj")
 				false
 				
 			fwdBtn.el.css "float", "right"
+			$("#synthNav").append """<div style="float: right;" class="navLabel">Perform	</div>"""
+			
 			@btnAreSetUp = true
 		###
 		$("#snext").click =>

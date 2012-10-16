@@ -31,7 +31,7 @@ class ui
 				
 	
 	showDJTutorial: ->
-		$(".DJTutor").show()
+		$("#tutor4").show()
 		$("#tutor4").swipe			
 			click: (e, target) =>
 				$(".DJTutor").hide()
